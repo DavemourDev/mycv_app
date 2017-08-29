@@ -16,16 +16,26 @@
     <body>
         <%
             //String view = request.getAttribute("view").toString();
-            List<User> users = User.findAll();
+            //List<User> users = User.findAll();
             
-            String u1 = users.get(1).getEmail();
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            if(email != null && password != null)
+            {
+                User u1 = new User();
+                u1.setEmail(email);
+                u1.setPassword(password);
+                %>
+                    
+                    <p>Existe? <%= u1.exists() %></p>
+                    <p>Autentificado? <%= u1.authentication()%></p>
+        
+                <%
+            }
         %>
         
-        
-        <%= u1 %>
         <h1>Login</h1>
-        <form action ="MainServlet" method="post">
-            <input type="text" name="vista" placeholder="vista"/>
+        <form>
             <input type="email" name="email" placeholder="email"/>
             <input type="password" name="password" placeholder="password"/>
             <input type="submit" value="Login"/>

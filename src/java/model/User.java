@@ -5,12 +5,13 @@ import core.Entity;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author DAVID
  */
-public class User implements Entity
+public class User //implements Entity
 {
     private String email, password;
 
@@ -41,9 +42,18 @@ public class User implements Entity
     }
 
     @Override
-    public boolean compare(Entity e) 
+    public boolean equals(Object e) 
     {
-        return this.getEmail().equals(((User)e).getEmail()) && this.getPassword().equals(((User)e).getPassword());
+        //return this.getEmail().equals(((User)e).getEmail()) && this.getPassword().equals(((User)e).getPassword());
+        return this.hashCode() == e.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 13 * hash + Objects.hashCode(this.email);
+        hash = 13 * hash + Objects.hashCode(this.password);
+        return hash;
     }
 
     public static List<User> findAll() 
@@ -62,14 +72,42 @@ public class User implements Entity
                 user.setPassword(rs.getString("password"));
                 list.add(user);
             }
-        } catch (Exception ex) {
-            
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
         }
         
         return list;
     }
     
+    /**
+     * Comprueba si existe un usuario con el email de la instancia y su contraseña en la base de datos.
+     * 
+     * Se recomienda su uso para el login de usuario.
+     * 
+     * @return true si en la tabla `user` existe un registro con el mismo email y contraseña que el objeto que llama. De lo contrario, false.
+     */
+    public boolean authentication()
+    {
+        return User.findAll().stream().anyMatch( //Si una llamada da true el resultado devuelto es true.
+            user -> this.equals(user) //Para cada usuario, la instancia llama a equals pasándolo como parámetro
+        );
+    }
     
+    /**
+     * Comprueba si existe un usuario con el email de la instancia en la base de datos.
+     * 
+     * Se recomienda su uso para el registro de usuario.
+     * 
+     * @return true si en la tabla `user` existe un registro con el mismo email y contraseña que el objeto que llama. De lo contrario, false.
+     */
+    public boolean exists()
+    {
+        return User.findAll().stream().anyMatch( //Si una llamada da true el resultado devuelto es true.
+            user -> this.getEmail().equals(user.getEmail()) //Para cada usuario, se compara el email de la instancia con él.
+        );
+    }
     
     
 }
