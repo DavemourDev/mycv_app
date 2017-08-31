@@ -95,6 +95,23 @@ public class User //implements Entity
         );
     }
     
+    public boolean register()
+    {
+        int affected;
+           
+        try {
+           
+           affected = Database.getInstance().queryUpdate("insert into `user`(`email`, `password`) values (`"+ this.getEmail() +"`,`"+ this.getPassword() +"`)"); 
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+            affected = 0;
+        }
+        
+        return affected > 0;
+    }
+    
     /**
      * Comprueba si existe un usuario con el email de la instancia en la base de datos.
      * 
