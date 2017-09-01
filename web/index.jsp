@@ -34,13 +34,17 @@
 
             .alert{
                 position:absolute;
+                width: 100%;
+                top: 50px;
+                z-index: 35;
+                display: block;
             }
 
         </style>
     </head>
     <body>
 
-        <nav class="navbar navbar-default navbar-static-top navigation-color">
+        <nav class="navbar navbar-default navigation-color">
 
             <div class="container">
                 <div class="navbar-header navbar-left">
@@ -66,7 +70,7 @@
         </nav>
 
         <% if (request.getAttribute("notification") != null) {%>
-        <div class="alert alert-danger" role="alert"><%= request.getAttribute("notification")%></div>
+        <div class="alert alert-danger text-center" role="alert"><%= request.getAttribute("notification")%></div>
         <%}%>
 
 
@@ -106,7 +110,6 @@
                                 <div class="radio-group">
                                     <label class="radio-inline"><input type="radio" name="genero" value="h">Hombre</label>
                                     <label class="radio-inline"><input type="radio" name="genero" value="m">Mujer</label>
-                                    <label class="radio-inline"><input type="radio" name="genero" value="x">Otro</label>
                                 </div>
                             </div>
                             <div class="button-group">    

@@ -1,7 +1,6 @@
 package model;
 
 import core.Database;
-import core.Entity;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +10,9 @@ import java.util.Objects;
  *
  * @author DAVID
  */
-public class User //implements Entity
+public class User
 {
+    private int id;
     private String email, password;
 
     public User() {
@@ -44,7 +44,6 @@ public class User //implements Entity
     @Override
     public boolean equals(Object e) 
     {
-        //return this.getEmail().equals(((User)e).getEmail()) && this.getPassword().equals(((User)e).getPassword());
         return this.hashCode() == e.hashCode();
     }
 
@@ -62,8 +61,6 @@ public class User //implements Entity
         
         try {
             ResultSet rs = Database.getInstance().query("select `email`, `password` from `user`");
-            
-           // rs.next();
             
             while(rs.next())
             {
@@ -90,8 +87,8 @@ public class User //implements Entity
      */
     public boolean authentication()
     {
-        return User.findAll().stream().anyMatch( //Si una llamada da true el resultado devuelto es true.
-            user -> this.equals(user) //Para cada usuario, la instancia llama a equals pasándolo como parámetro
+        return User.findAll().stream().anyMatch(
+            user -> this.equals(user)
         );
     }
     
@@ -126,5 +123,17 @@ public class User //implements Entity
         );
     }
     
-    
+    public void fetchIdWithDatabase() throws Exception
+    {
+        try
+        {
+            ResultSet rs = Database.getInstance().query("select `id` from `user` where `email`='"+ this.getEmail()+"' and `password`='"+ this.getPassword()+"';");
+            rs.next();
+            this.id = rs.getInt("id");
+        }
+        catch(Exception ex)
+        {
+            this.id = 0;
+        }
+    }
 }

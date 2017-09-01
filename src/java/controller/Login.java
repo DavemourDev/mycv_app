@@ -30,6 +30,9 @@ public class Login extends HttpServlet {
             if(user.authentication())
             {
                 request.setAttribute("notification", "User successfully logged in");
+                
+                //SESION
+                
                 rd = request.getRequestDispatcher("control-panel.jsp");
             }
             else
