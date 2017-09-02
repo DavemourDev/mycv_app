@@ -5,6 +5,8 @@
  */
 package model;
 
+import core.Database;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import model.enums.Gender;
@@ -29,7 +31,34 @@ public class Personal
     
     public Personal(int userId)
     {
-        //Consultar base de datos para rellenar?
+        
+    }
+    
+    public static Personal findById(int id)
+    {
+        Personal personal = null;        
+                
+        try {
+            ResultSet rs = Database.getInstance().query("select * from `personal` where `user_id`='" + id + "'");
+            
+            if(rs.next())
+            {
+                personal = new Personal();
+                personal.setName(rs.getString("name"));
+                personal.setLastname(rs.getString("lastname"));
+                personal.setBirthdate(rs.getString("birthdate"));
+                personal.setGender(Gender.findById(rs.getInt("gender_id")));
+                personal.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
+                
+                
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return personal;
     }
     
     public String getName() {

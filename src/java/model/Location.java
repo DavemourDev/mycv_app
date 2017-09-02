@@ -11,7 +11,8 @@ import model.enums.Country;
  *
  * @author mati
  */
-class Location {
+class Location 
+{
     private Country country;
     private String city;
 
@@ -31,5 +32,12 @@ class Location {
         this.city = city;
     }
     
-    
+    public static Location create(int country_id, String city)
+    {
+        Location location = new Location();
+        location.setCountry(Country.findById(country_id));
+        location.setCity(city);
+        
+        return location;
+    }
 }
