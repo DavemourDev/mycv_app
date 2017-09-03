@@ -1,7 +1,9 @@
 package model;
 
 import core.Database;
+import helpers.DatabaseUtils;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,21 @@ import java.util.List;
  *
  * @author mati
  */
-class Email {
+class Email 
+{
     String email, description;
 
+    public Email()
+    {
+        //--
+    }
+    
+    public Email(String email, String description)
+    {
+        this.setEmail(email);
+        this.setDescription(description);
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -33,15 +47,13 @@ class Email {
     {
         List<Email> list = new ArrayList<>();
         
-        try {
-            ResultSet rs = Database.getInstance().query("select * from `email`");
-            
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectAll("email");
+       
             while(rs.next())
             {
-                Email email = new Email();
-                email.setEmail(rs.getString("email"));
-                email.setDescription(rs.getString("description"));
-                list.add(email);
+                list.add(instantiateFromCurrentResult(rs));
             }
         } 
         catch (Exception ex) 
@@ -52,4 +64,49 @@ class Email {
         return list;
     }
     
+    
+    public static List<Email> findBy(String attr, String value) 
+    {
+        List<Email> list = new ArrayList<>();
+        
+        try {
+            
+            ResultSet rs = DatabaseUtils.selectAllWhere("email", attr, value);
+       
+            while(rs.next())
+            {
+                list.add(instantiateFromCurrentResult(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+
+    public static Email findById(int id) 
+    {
+        Email email = null;
+
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectById("email", id);
+       
+            if (rs.next()) {
+                email = instantiateFromCurrentResult(rs);
+            }
+        } catch (Exception ex) {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+
+        return email;
+    }
+
+    public static Email instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    {
+        return new Email(rs.getString("email"), rs.getString("description"));
+        
+    }
 }

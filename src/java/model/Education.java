@@ -5,6 +5,12 @@
  */
 package model;
 
+import core.Database;
+import helpers.DatabaseUtils;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.enums.EducationLevel;
 
 /**
@@ -99,5 +105,83 @@ public class Education
         this.level = level;
     }
     
+    
+    public static Education findById(int id) 
+    {
+        Education education = null;
+
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectById("education",id);
+       
+            if (rs.next()) 
+            {
+                education = instantiateFromCurrentResult(rs);
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+
+        return education;
+    }
+
+    public static List<Education> findAll() 
+    {
+        List<Education> list = new ArrayList<>();
+        
+        try 
+        {
+            
+            ResultSet rs = DatabaseUtils.selectAll("education");
+       
+            while(rs.next())
+            {
+                list.add(instantiateFromCurrentResult(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+
+    public static List<Education> findBy(String attr, String value) 
+    {
+        List<Education> list = new ArrayList<>();
+        
+        try {
+            
+            ResultSet rs = DatabaseUtils.selectAllWhere("education", attr, value);
+       
+            while(rs.next())
+            {
+                list.add(instantiateFromCurrentResult(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+
+    public static Education instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    {
+        Education education = new Education();
+        education.setCenter(rs.getString("center"));
+        education.setDescription(rs.getString("description"));
+        education.setStartdate(rs.getString("startdate"));
+        education.setEnddate(rs.getString("enddate"));
+        education.setLevel(EducationLevel.findById(rs.getInt("education_level_id")));
+        education.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
+        education.setSector(Sector.findById(rs.getInt("sector_id")));
+        education.setHours(rs.getInt("hours"));
+        return education;
+    }
 
 }

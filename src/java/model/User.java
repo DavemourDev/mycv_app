@@ -1,10 +1,12 @@
 package model;
 
+import config.Config;
 import core.Database;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import model.enums.Gender;
 
 /**
  *
@@ -55,6 +57,23 @@ public class User
         return hash;
     }
 
+    public static User findById(int id) 
+    {
+        User user = null;
+
+        try {
+            ResultSet rs = Database.getInstance().query("select * from `email` where `id`='" + id + "'");
+
+            if (rs.next()) {
+                user = new User(rs.getString("email"), rs.getString("password"));
+            }
+        } catch (Exception ex) {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+
+        return user;
+    }
+
     public static List<User> findAll() 
     {
         List<User> list = new ArrayList<>();
@@ -77,6 +96,31 @@ public class User
         
         return list;
     }
+
+    public static List<User> findBy(String attr, String value) 
+    {
+        List<User> list = new ArrayList<>();
+        
+        try {
+            ResultSet rs = Database.getInstance().query("select `email`, `password` from `user` where `" + attr + "`=" + value);
+            
+            while(rs.next())
+            {
+                User user = new User();
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                list.add(user);
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+
+
     
     /**
      * Comprueba si existe un usuario con el email de la instancia y su contraseña en la base de datos.

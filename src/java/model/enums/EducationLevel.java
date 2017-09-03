@@ -6,6 +6,10 @@ package model.enums;
  */
 public class EducationLevel implements Comparable<EducationLevel> 
 {
+
+    public static EducationLevel findById(int aInt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     private int id, value;
     private String name;
 

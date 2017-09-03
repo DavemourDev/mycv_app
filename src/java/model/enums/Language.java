@@ -47,20 +47,20 @@ public class Language
         return list;
     }
 
-    public static Gender findById(int id) {
-        Gender gender = null;
-
+    public static Language findById(int id) {
+        Language language = null;
+//ARREGLAR
         try {
             ResultSet rs = Database.getInstance().query("select * from `country` where `id`='" + id + "'");
 
             if (rs.next()) {
-                gender = new Gender(rs.getInt("id"), rs.getString(String.format("name_%s", Config.LANGUAGE)));
+                language = new Language(rs.getInt("id"), rs.getString(String.format("name_%s", Config.LANGUAGE)));
             }
         } catch (Exception ex) {
             System.err.println("Error de conexión con la base de datos.");
         }
 
-        return gender;
+        return language;
     }
 
     public int getId() {
