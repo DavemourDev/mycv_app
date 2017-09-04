@@ -22,8 +22,7 @@ public class DatabaseUtils
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "`"); 
-        
+            rs = Database.getInstance().query("select * from `" + table + "`;"); 
         }
         catch(Exception ex)
         {
@@ -31,16 +30,30 @@ public class DatabaseUtils
         }
         
         return rs;
-        
+    }
+  
+    public static ResultSet selectAllWhere(String table, String attr, int value)
+    {
+        return selectAllWhere(table, attr, String.valueOf(value));
     }
     
+    public static ResultSet selectAllWhere(String table, String attr, double value)
+    {
+        return selectAllWhere(table, attr, String.valueOf(value));
+    }
+    
+    public static ResultSet selectAllWhere(String table, String attr, boolean value)
+    {
+        return selectAllWhere(table, attr, String.valueOf(value));
+    }
+            
     public static ResultSet selectAllWhere(String table, String attr, String value)
     {
         ResultSet rs = null;
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "` where `" + attr + "`=" + value); 
+            rs = Database.getInstance().query("select * from `" + table + "` where `" + attr + "`='" + value + "';"); 
         
         }
         catch(Exception ex)
@@ -58,8 +71,7 @@ public class DatabaseUtils
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "` where `id`=" + String.valueOf(id)); 
-        
+            rs = Database.getInstance().query("select * from `" + table + "` where `id`=" + String.valueOf(id) +";"); 
         }
         catch(Exception ex)
         {

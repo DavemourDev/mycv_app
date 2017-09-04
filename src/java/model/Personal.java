@@ -5,8 +5,9 @@
  */
 package model;
 
-import core.Database;
+import helpers.DatabaseUtils;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.enums.Gender;
@@ -39,18 +40,11 @@ public class Personal
         Personal personal = null;        
                 
         try {
-            ResultSet rs = Database.getInstance().query("select * from `personal` where `user_id`='" + id + "'");
+            ResultSet rs = DatabaseUtils.selectAllWhere("personal", "user_id", id);
             
             if(rs.next())
             {
-                personal = new Personal();
-                personal.setName(rs.getString("name"));
-                personal.setLastname(rs.getString("lastname"));
-                personal.setBirthdate(rs.getString("birthdate"));
-                personal.setGender(Gender.findById(rs.getInt("gender_id")));
-                personal.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
-                
-                
+                personal = instantiateFromCurrentResult(rs);
             }
         } 
         catch (Exception ex) 
@@ -59,6 +53,17 @@ public class Personal
         }
         
         return personal;
+    }
+    
+    public static Personal instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    {
+        Personal personal = new Personal();
+        personal.setName(rs.getString("name"));
+        personal.setLastname(rs.getString("lastname"));
+        personal.setBirthdate(rs.getString("birthdate"));
+        personal.setGender(Gender.findById(rs.getInt("gender_id")));
+        personal.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
+        return personal;       
     }
     
     public String getName() {

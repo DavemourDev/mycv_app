@@ -1,5 +1,7 @@
 package controller;
 
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
+import helpers.RedirectUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -7,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
@@ -30,25 +33,34 @@ public class Login extends HttpServlet {
             if(user.authentication())
             {
                 request.setAttribute("notification", "User successfully logged in");
+                 
+                user = User.findBy("email", email).get(0);
                 
                 //SESION
-                
-                rd = request.getRequestDispatcher("control-panel.jsp");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
+
+                //rd = request.getRequestDispatcher("control-panel.jsp");
             }
             else
             {
                 request.setAttribute("notification", "Invalid credentials");
-                throw new Exception();
+                //rd = request.getRequestDispatcher("index.jsp");
             }
+            
+            RedirectUtils.redirect(request, response, "control-panel");
+            
         }
         catch(Exception ex)
         {
-            rd = request.getRequestDispatcher("index.jsp");
+            RedirectUtils.redirectToNotLogged(request, response);
+            //rd = request.getRequestDispatcher("index.jsp");
         }
         
-        rd.forward(request, response);
+        //rd.forward(request, response);
     }
 
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
