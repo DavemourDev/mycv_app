@@ -1,15 +1,10 @@
-<%-- 
-    Document   : index
-    Created on : 28-ago-2017, 19:22:11
-    Author     : David
---%>
-
+<%@page import="config.Config"%>
 <%@page import="java.util.List"%>
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="<%=Config.LANGUAGE%>">
     <head>
         <title>Título de la página</title>
         <meta charset="UTF-8">
