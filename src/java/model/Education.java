@@ -5,7 +5,6 @@
  */
 package model;
 
-import core.Database;
 import helpers.DatabaseUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +18,7 @@ import model.enums.EducationLevel;
  */
 public class Education 
 {
-    private int id, hours;
+    private int id, hours, user_id;
     private String titlename, center, startdate, enddate, description;
     private Sector sector;
     private Location location;
@@ -104,7 +103,14 @@ public class Education
     public void setLevel(EducationLevel level) {
         this.level = level;
     }
-    
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
     
     public static Education findById(int id) 
     {
@@ -173,6 +179,8 @@ public class Education
     public static Education instantiateFromCurrentResult(ResultSet rs) throws SQLException
     {
         Education education = new Education();
+        education.setId(rs.getInt("id"));
+        education.setUser_id(rs.getInt("user_id"));
         education.setCenter(rs.getString("center"));
         education.setDescription(rs.getString("description"));
         education.setStartdate(rs.getString("startdate"));

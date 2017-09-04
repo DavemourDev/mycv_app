@@ -1,5 +1,12 @@
 package model.enums;
 
+import config.Config;
+import helpers.DatabaseUtils;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author mati
@@ -7,9 +14,6 @@ package model.enums;
 public class EducationLevel implements Comparable<EducationLevel> 
 {
 
-    public static EducationLevel findById(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     private int id, value;
     private String name;
 
@@ -60,5 +64,76 @@ public class EducationLevel implements Comparable<EducationLevel>
         this.name = name;
     }
     
+       public static List<EducationLevel> findAll()
+    {
+        List<EducationLevel> list = new ArrayList<>();
+        
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectAll("el");
+            
+            while(rs.next())
+            {
+                list.add(instantiateFromResultSet(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
     
+    public static List<EducationLevel> findBy(String attr, String value)
+    {
+        List<EducationLevel> list = new ArrayList<>();
+        
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectAllWhere("education_level", attr, value);
+            
+            while(rs.next())
+            {
+                list.add(instantiateFromResultSet(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+    
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public static EducationLevel findById(int id)
+    {
+        EducationLevel el = null;
+        
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectById("education_level", id);
+            
+            if(rs.next())
+            {
+                el = instantiateFromResultSet(rs);
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return el;
+    }
+    
+    public static EducationLevel instantiateFromResultSet(ResultSet rs) throws SQLException
+    {
+        return new EducationLevel(rs.getInt("id"), rs.getString(String.format("name_%s", Config.LANGUAGE)));
+    }
 }

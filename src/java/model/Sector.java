@@ -5,6 +5,7 @@
  */
 package model;
 
+import config.Config;
 import helpers.DatabaseUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,21 +18,29 @@ import java.util.List;
  */
 class Sector 
 {
-    public static Sector findById(int id)
+    
+    private int id;
+    private String name;
+    
+    public Sector()
     {
-        Sector sector = new Sector();
-        //Completar con db como los demás
-        return sector;
+        //--
     }
     
-    public static List<OtherInfoItem> findAll() 
+    public Sector(int id, String name)
     {
-        List<OtherInfoItem> list = new ArrayList<>();
+        this.setId(id);
+        this.setName(name);
+    }
+    
+    public static List<Sector> findAll() 
+    {
+        List<Sector> list = new ArrayList<>();
         
         try 
         {
             
-            ResultSet rs = DatabaseUtils.selectAll("otherinfo");
+            ResultSet rs = DatabaseUtils.selectAll("sector");
        
             while(rs.next())
             {
@@ -46,13 +55,13 @@ class Sector
         return list;
     }
 
-    public static List<OtherInfoItem> findBy(String attr, String value) 
+    public static List<Sector> findBy(String attr, String value) 
     {
-        List<OtherInfoItem> list = new ArrayList<>();
+        List<Sector> list = new ArrayList<>();
         
         try {
             
-            ResultSet rs = DatabaseUtils.selectAllWhere("otherinfo", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere("sector", attr, value);
        
             while(rs.next())
             {
@@ -67,13 +76,48 @@ class Sector
         return list;
     }
 
-    public static OtherInfoItem instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    public static Sector findById(int id) 
     {
-        OtherInfoItem info = new OtherInfoItem();
-        info.setCategory(rs.getString("category"));
-        info.setTitle(rs.getString("title"));
-        info.setDescription(rs.getString("description"));
-        return info;
+        Sector sector = null;
+        
+        try {
+            
+            ResultSet rs = DatabaseUtils.selectById("sector", id);
+       
+            if(rs.next())
+            {
+                sector = instantiateFromCurrentResult(rs);
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return sector;
     }
+
+    public static Sector instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    {
+        return new Sector(rs.getInt("id"), rs.getString(String.format("name_%s", Config.LANGUAGE)));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
 }
 

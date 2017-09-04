@@ -1,7 +1,8 @@
 package model;
 
-import core.Database;
+import helpers.DatabaseUtils;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,16 @@ import java.util.List;
  */
 class Telephone 
 {
-    String number, description;
+    private int id;
+    private String number, description;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNumber() {
         return number;
@@ -34,15 +44,14 @@ class Telephone
     {
         List<Telephone> list = new ArrayList<>();
         
-        try {
-            ResultSet rs = Database.getInstance().query("select * from `email`");
+        try 
+        {
             
+            ResultSet rs = DatabaseUtils.selectAll("telephone");
+       
             while(rs.next())
             {
-                Telephone tel = new Telephone();
-                tel.setNumber(rs.getString("number"));
-                tel.setDescription(rs.getString("description"));
-                list.add(tel);
+                list.add(instantiateFromCurrentResult(rs));
             }
         } 
         catch (Exception ex) 
@@ -51,5 +60,59 @@ class Telephone
         }
         
         return list;
-    }   
+    }
+
+    public static List<Telephone> findBy(String attr, String value) 
+    {
+        List<Telephone> list = new ArrayList<>();
+        
+        try {
+            
+            ResultSet rs = DatabaseUtils.selectAllWhere("telephone", attr, value);
+       
+            while(rs.next())
+            {
+                list.add(instantiateFromCurrentResult(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+
+    public static Telephone findById(int id) 
+    {
+        Telephone telephone = null;
+        
+        try {
+            
+            ResultSet rs = DatabaseUtils.selectById("telephone", id);
+       
+            if(rs.next())
+            {
+                telephone = instantiateFromCurrentResult(rs);
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return telephone;
+    }
+
+    public static Telephone instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    {
+        Telephone telephone = new Telephone();
+        telephone.setId(rs.getInt("id"));
+        telephone.setNumber(rs.getString("number"));
+        telephone.setDescription(rs.getString("description"));
+        return telephone;
+    }
+
+    
+    
 }

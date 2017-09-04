@@ -17,7 +17,7 @@ class Picture
 
     public Picture()
     {
-        
+        //--
     }
     
     public Picture(String url, String caption)

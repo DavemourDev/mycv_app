@@ -5,8 +5,11 @@
  */
 package model.enums;
 
+import config.Config;
 import core.Database;
+import helpers.DatabaseUtils;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +19,14 @@ import java.util.List;
  */
 public class Country 
 {
+    private int id;
     private String name;
     
     public Country(){};
     
-    public Country(String name)
+    public Country(int id, String name)
     {
+        this.setId(id);
         this.setName(name);
     }
     
@@ -31,12 +36,32 @@ public class Country
         
         try 
         {
-            ResultSet rs = Database.getInstance().query("select * from `country`");
+            ResultSet rs = DatabaseUtils.selectAll("country");
             
             while(rs.next())
             {
-                Country country = new Country(rs.getString("name"));
-                list.add(country);
+                list.add(instantiateFromResultSet(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
+        }
+        
+        return list;
+    }
+    
+    public static List<Country> findBy(String attr, String value)
+    {
+        List<Country> list = new ArrayList<>();
+        
+        try 
+        {
+            ResultSet rs = DatabaseUtils.selectAllWhere("country", attr, value);
+            
+            while(rs.next())
+            {
+                list.add(instantiateFromResultSet(rs));
             }
         } 
         catch (Exception ex) 
@@ -53,11 +78,11 @@ public class Country
         
         try 
         {
-            ResultSet rs = Database.getInstance().query("select * from `country` where `id`='" + id + "'");
+            ResultSet rs = DatabaseUtils.selectById("country", id);
             
             if(rs.next())
             {
-                country = new Country(rs.getString("name"));
+                country = instantiateFromResultSet(rs);
             }
         } 
         catch (Exception ex) 
@@ -68,6 +93,10 @@ public class Country
         return country;
     }
     
+    public static Country instantiateFromResultSet(ResultSet rs) throws SQLException
+    {
+        return new Country(rs.getInt("id"), rs.getString(String.format("name_%s", Config.LANGUAGE)));
+    }
     
     public String getName() {
         return name;
@@ -76,6 +105,15 @@ public class Country
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
     
 }

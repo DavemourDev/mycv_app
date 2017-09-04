@@ -13,6 +13,7 @@ import java.util.List;
  */
 class Email 
 {
+    int id, user_id;
     String email, description;
 
     public Email()
@@ -30,7 +31,8 @@ class Email
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) 
+    {
         this.email = email;
     }
 
@@ -41,6 +43,24 @@ class Email
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+    
+    
     
     
     public static List<Email> findAll() 
@@ -97,7 +117,9 @@ class Email
             if (rs.next()) {
                 email = instantiateFromCurrentResult(rs);
             }
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) 
+        {
             System.err.println("Error de conexión con la base de datos.");
         }
 
@@ -106,7 +128,9 @@ class Email
 
     public static Email instantiateFromCurrentResult(ResultSet rs) throws SQLException
     {
-        return new Email(rs.getString("email"), rs.getString("description"));
-        
+        Email email = new Email(rs.getString("email"), rs.getString("description"));
+        email.setId(rs.getInt("id"));
+        email.setUser_id(rs.getInt("user_id"));
+        return email;
     }
 }

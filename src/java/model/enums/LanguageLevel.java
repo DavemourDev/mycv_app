@@ -9,9 +9,11 @@ package model.enums;
  *
  * @author mati
  */
-public enum LanguageLevel {
-    A1, A2, B1, B2, C1, C2;
-
+public class LanguageLevel {
+    
+    private int id;
+    private String name; 
+    
     public static LanguageLevel findById(int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

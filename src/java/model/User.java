@@ -1,12 +1,12 @@
 package model;
 
-import config.Config;
 import core.Database;
+import helpers.DatabaseUtils;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import model.enums.Gender;
 
 /**
  *
@@ -25,6 +25,14 @@ public class User
     {
         this.setEmail(email);
         this.setPassword(password);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -62,10 +70,10 @@ public class User
         User user = null;
 
         try {
-            ResultSet rs = Database.getInstance().query("select * from `email` where `id`='" + id + "'");
+            ResultSet rs = DatabaseUtils.selectById("user", id);
 
             if (rs.next()) {
-                user = new User(rs.getString("email"), rs.getString("password"));
+                user = instantiateFromCurrentResult(rs);
             }
         } catch (Exception ex) {
             System.err.println("Error de conexión con la base de datos.");
@@ -79,14 +87,11 @@ public class User
         List<User> list = new ArrayList<>();
         
         try {
-            ResultSet rs = Database.getInstance().query("select `email`, `password` from `user`");
+            ResultSet rs = DatabaseUtils.selectAll("user");
             
             while(rs.next())
             {
-                User user = new User();
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                list.add(user);
+                list.add(instantiateFromCurrentResult(rs));
             }
         } 
         catch (Exception ex) 
@@ -102,14 +107,11 @@ public class User
         List<User> list = new ArrayList<>();
         
         try {
-            ResultSet rs = Database.getInstance().query("select `email`, `password` from `user` where `" + attr + "`=" + value);
+            ResultSet rs = DatabaseUtils.selectAllWhere("user", attr, value);
             
             while(rs.next())
             {
-                User user = new User();
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                list.add(user);
+                list.add(instantiateFromCurrentResult(rs));
             }
         } 
         catch (Exception ex) 
@@ -120,7 +122,14 @@ public class User
         return list;
     }
 
-
+    public static User instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    {
+        User user = new User();
+        user.setId(rs.getInt("id"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        return user;
+    }
     
     /**
      * Comprueba si existe un usuario con el email de la instancia y su contraseña en la base de datos.
@@ -167,6 +176,9 @@ public class User
         );
     }
     
+    /**
+     * En vías de extinción 
+     * */
     public void fetchIdWithDatabase() throws Exception
     {
         try
