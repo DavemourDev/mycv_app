@@ -1,7 +1,14 @@
+<%@page import="model.enums.Country"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="config.Config"%>
 <%@page import="java.util.List"%>
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    List<Country> countryList = Country.findAll();
+%>
+
 
 <!DOCTYPE html>
 <html lang="<%=Config.LANGUAGE%>">
@@ -43,7 +50,7 @@
 
             <div class="container">
                 <div class="navbar-header navbar-left">
-                    <a class="navbar-brand" href="#">My website</a>
+                    <a class="navbar-brand" href="index.jsp">My website</a>
                 </div>
                 <form action="Login" method="POST" class="navbar-form navbar-right">
                     <!--<div class="form-group">
@@ -64,8 +71,12 @@
             </div>
         </nav>
 
-        <% if (request.getAttribute("notification") != null) {%>
-        <div class="alert alert-danger text-center" role="alert"><%= request.getAttribute("notification")%></div>
+        <% if (request.getAttribute("notification-error") != null) {%>
+        <div class="alert alert-danger text-center" role="alert"><%= request.getAttribute("notification-error")%></div>
+        <%}%>
+
+        <% if (request.getAttribute("notification-success") != null) {%>
+        <div class="alert alert-danger text-success" role="alert"><%= request.getAttribute("notification-success")%></div>
         <%}%>
 
 
@@ -94,18 +105,34 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Nombre</label>
-                                <input class="form-control" name="nombre"  placeholder="nombre">
+                                <input class="form-control" name="name"  placeholder="nombre">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Apellidos</label>
-                                <input class="form-control" name="apellidos"  placeholder="apellidos">
+                                <input class="form-control" name="lastname"  placeholder="apellidos">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Género</label>
                                 <div class="radio-group">
-                                    <label class="radio-inline"><input type="radio" name="genero" value="h">Hombre</label>
-                                    <label class="radio-inline"><input type="radio" name="genero" value="m">Mujer</label>
+                                    <label class="radio-inline"><input type="radio" name="gender" value="1">Hombre</label>
+                                    <label class="radio-inline"><input type="radio" name="gender" value="2">Mujer</label>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Fecha de nacimiento</label>
+                                <input class="form-control" type="date" name="birthdate" placeholder="Fecha de nacimiento">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">País</label>
+                                <select class="form-control" name="country">
+                                    <%for(Country c : countryList){%>
+                                        <option value="<%=c.getId()%>"><%=c.getName()%></option>
+                                    <%}%>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Ciudad</label>
+                                <input class="form-control" name="city"  placeholder="Ciudad">
                             </div>
                             <div class="button-group">    
                                 <input type="submit" name="register" value="Register" class="btn btn-success">

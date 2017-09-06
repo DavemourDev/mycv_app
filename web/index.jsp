@@ -1,2 +1,2 @@
-<%@page import="helpers.RedirectUtils"%>
-<% RedirectUtils.redirect(request, response, "control-panel");%>
+<%@page import="helpers.RequestUtils"%>
+<% RequestUtils.redirect(request, response, "control-panel");%>

@@ -1,5 +1,6 @@
 package model;
 
+import config.Config;
 import core.Database;
 import helpers.DatabaseUtils;
 import java.sql.ResultSet;
@@ -138,11 +139,10 @@ public class User
      * 
      * @return true si en la tabla `user` existe un registro con el mismo email y contraseña que el objeto que llama. De lo contrario, false.
      */
-    public boolean authentication()
+    public boolean authentication() throws Exception
     {
-        return User.findAll().stream().anyMatch(
-            user -> this.equals(user)
-        );
+        String query = String.format("select * from `user` where `email`='%s' and `password`=%s('%s');", this.getEmail(), Config.PASSWORD_ENCRYPT_FUNCTION, this.getPassword());
+        return Database.getInstance().query(query).next();
     }
     
     public boolean register()
@@ -150,12 +150,13 @@ public class User
         int affected;
            
         try {
-           
-           affected = Database.getInstance().queryUpdate("insert into `user`(`email`, `password`) values (`"+ this.getEmail() +"`,`"+ this.getPassword() +"`)"); 
+            String query = String.format("insert into `user`(`email`, `password`) values ('%s', %s('%s'));", this.getEmail(), Config.PASSWORD_ENCRYPT_FUNCTION, this.getPassword());
+            System.out.println(query);
+            affected = Database.getInstance().queryUpdate(query); 
         } 
         catch (Exception ex) 
         {
-            System.err.println("Error de conexión con la base de datos.");
+            System.err.println("Error de conexión con la base de datos (registrar usuario).");
             affected = 0;
         }
         

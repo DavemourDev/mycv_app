@@ -5,20 +5,22 @@
  */
 package helpers;
 
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.User;
 
 /**
  *
  * @author mati
  */
-public class RedirectUtils {
+public class RequestUtils {
 
     private static final String NOT_LOGGED_URL = "welcome";
     
-    private RedirectUtils(){}
+    private RequestUtils(){}
     
     /**
      * Redirige a una página si existe una sesión, de lo contrario, a la establecida...
@@ -39,5 +41,10 @@ public class RedirectUtils {
     public static void redirectToNotLogged(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         request.getRequestDispatcher(String.format("%s.jsp", NOT_LOGGED_URL)).forward(request, response);
+    }
+    
+    public static User getSessionUser(HttpServletRequest request)
+    {
+        return (User) request.getSession().getAttribute("user");
     }
 }

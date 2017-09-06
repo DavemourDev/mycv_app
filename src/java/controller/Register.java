@@ -5,21 +5,24 @@
  */
 package controller;
 
+import helpers.RequestUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Personal;
 import model.User;
+import model.Location;
+import model.enums.Gender;
 
 /**
  *
  * @author mati
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/RegisterServlet"})
+@WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet 
 {
 
@@ -53,23 +56,49 @@ public class Register extends HttpServlet
             {
                 if(user.register())
                 {
-                    request.setAttribute("notification", "Success in user register!!!");    
+                    try{
+                        int id = User.findBy("email", email).get(0).getId();
+                        //Personal personal = Personal.findBy("user_id", id).get(0);
+                        
+                        boolean valid= true;
+                        
+                        Personal personal = new Personal();
+                        personal.setUser_id(id);
+
+                        
+                        personal.setName(request.getParameter("name"));
+
+                        personal.setLastname(request.getParameter("lastname"));
+
+                        personal.setBirthdate(request.getParameter("birthdate"));
+
+                        personal.setGender(Gender.findById(Integer.parseInt(request.getParameter("gender"))));
+
+                        personal.setLocation(Location.create(Integer.parseInt(request.getParameter("country")), request.getParameter("city")));
+
+                        personal.insert();
+                        
+                        request.setAttribute("notification-success", "Success in user register!!!");
+                    }    
+                    catch(Exception ex)
+                    {
+                        request.setAttribute("notification-error", "Error in user registering...");
+                
+                    }
                 }
-                    
-                rd = request.getRequestDispatcher("index.jsp");
+                
+                RequestUtils.redirect(request, response, "welcome");
             }
             else
             {
-                request.setAttribute("notification", "User already exists...");
-                throw new Exception();
+                request.setAttribute("notification-error", "User already exists...");
+                RequestUtils.redirect(request, response, "welcome");
             }
         }
         catch(Exception ex)
         {
-            rd = request.getRequestDispatcher("index.jsp");
+            RequestUtils.redirect(request, response, "welcome");
         }
-        
-        rd.forward(request, response);
         
     }
 

@@ -4,10 +4,11 @@
     Author     : mati
 --%>
 
+<%@page import="helpers.RequestUtils"%>
 <%@page import="model.User"%>
 
 <%
-    User user = (User) request.getSession().getAttribute("user");
+    User user = RequestUtils.getSessionUser(request);
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -19,9 +20,11 @@
     </head>
     <body>
         <h1>Control panel</h1>
-        <p>User id: <%= user.getId()%></p>
-        <p>User email: <%= user.getEmail()%></p>
-        <p>User password: <%= user.getPassword()%></p>
+        <p>User id: ${user.id}</p>
+        <p>User email: ${user.email}</p>
+        <p>User password: ${user.password}</p>
           
+        <p><a href="personal-edit.jsp">Personal edit</a></p>
+        
     </body>
 </html>

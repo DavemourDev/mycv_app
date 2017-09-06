@@ -1,7 +1,7 @@
 package controller;
 
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
-import helpers.RedirectUtils;
+import helpers.RequestUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,8 +19,6 @@ public class Login extends HttpServlet {
     {
         response.setContentType("text/html;charset=UTF-8");
         
-        RequestDispatcher rd;
-        
         try
         {
             String email = request.getParameter("email");
@@ -32,30 +30,33 @@ public class Login extends HttpServlet {
             
             if(user.authentication())
             {
-                request.setAttribute("notification", "User successfully logged in");
+                request.setAttribute("notification-success", "User successfully logged in");
                  
                 user = User.findBy("email", email).get(0);
                 
                 //SESION
                 HttpSession session = request.getSession(true);
+                session.setMaxInactiveInterval(0); //No caduca mientras la sesión del cliente está activa
                 session.setAttribute("user", user);
 
                 //rd = request.getRequestDispatcher("control-panel.jsp");
             }
             else
             {
-                request.setAttribute("notification", "Invalid credentials");
+                request.setAttribute("notification-error", "Invalid credentials");
                 //rd = request.getRequestDispatcher("index.jsp");
             }
             
-            RedirectUtils.redirect(request, response, "control-panel");
+            RequestUtils.redirect(request, response, "control-panel");
             
         }
         catch(Exception ex)
         {
-            RedirectUtils.redirectToNotLogged(request, response);
+            RequestUtils.redirectToNotLogged(request, response);
             //rd = request.getRequestDispatcher("index.jsp");
         }
+        
+        //rd.forward(request, response);
         
         //rd.forward(request, response);
     }

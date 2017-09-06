@@ -11,7 +11,7 @@ import model.enums.Country;
  *
  * @author mati
  */
-class Location 
+public class Location 
 {
     private Country country;
     private String city;
