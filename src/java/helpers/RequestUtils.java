@@ -28,7 +28,7 @@ public class RequestUtils {
      */
     public static void redirect(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException
     {
-        if(request.getSession().getAttribute("user") != null)
+        if(userSessionExists(request))
         {
             request.getRequestDispatcher(String.format("%s.jsp", url)).forward(request, response);
         }
@@ -46,5 +46,15 @@ public class RequestUtils {
     public static User getSessionUser(HttpServletRequest request)
     {
         return (User) request.getSession().getAttribute("user");
+    }
+    
+    public static boolean userSessionExists(HttpServletRequest request)
+    {
+        return request.getSession().getAttribute("user") != null;
+    }
+    
+    public static void quitUserSession(HttpServletRequest request)
+    {
+        request.getSession().removeAttribute("user");
     }
 }

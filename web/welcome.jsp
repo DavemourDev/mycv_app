@@ -28,21 +28,9 @@
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <style>
-            nav.navigation-color
-            {
-                background: #eee;
-            }
-
-            .alert{
-                position:absolute;
-                width: 100%;
-                top: 50px;
-                z-index: 35;
-                display: block;
-            }
-
-        </style>
+        
+        <link rel="stylesheet" type="text/css" href="/java_servlet/assets/css/base-layout.css"/>
+        
     </head>
     <body>
 
@@ -58,11 +46,11 @@
                     </div>-->
                     <div class="form-group">
                         <label class="text-info">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Log in with your email">
+                        <input type="email" class="form-control" name="email" placeholder="Log in with your email" required>
                     </div>
                     <div class="form-group">
                         <label class="text-info">Password</label>
-                        <input type="password" class="form-control" name="password" placeholder="Insert your password">
+                        <input type="password" class="form-control" name="password" placeholder="Insert your password" required>
                     </div>
                     <div class="form-group">
                         <input type="submit" name="login" value="Login" class="btn btn-success">
@@ -76,7 +64,7 @@
         <%}%>
 
         <% if (request.getAttribute("notification-success") != null) {%>
-        <div class="alert alert-danger text-success" role="alert"><%= request.getAttribute("notification-success")%></div>
+        <div class="alert alert-success text-center" role="alert"><%= request.getAttribute("notification-success")%></div>
         <%}%>
 
 
@@ -97,30 +85,30 @@
                         <form action="Register" method="POST">
                             <div class="form-group">
                                 <label class="control-label">Email</label>
-                                <input type="email" class="form-control"  name="email"  placeholder="email">
+                                <input type="email" class="form-control"  name="email"  placeholder="email" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Password</label>
-                                <input type="password" class="form-control" name="password"  placeholder="password">
+                                <input type="password" class="form-control" name="password"  placeholder="password" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Nombre</label>
-                                <input class="form-control" name="name"  placeholder="nombre">
+                                <input class="form-control" name="name"  placeholder="nombre" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Apellidos</label>
-                                <input class="form-control" name="lastname"  placeholder="apellidos">
+                                <input class="form-control" name="lastname"  placeholder="apellidos" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Género</label>
                                 <div class="radio-group">
-                                    <label class="radio-inline"><input type="radio" name="gender" value="1">Hombre</label>
+                                    <label class="radio-inline"><input type="radio" name="gender" value="1" checked="true">Hombre</label>
                                     <label class="radio-inline"><input type="radio" name="gender" value="2">Mujer</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Fecha de nacimiento</label>
-                                <input class="form-control" type="date" name="birthdate" placeholder="Fecha de nacimiento">
+                                <input class="form-control" type="date" name="birthdate" placeholder="Fecha de nacimiento" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">País</label>
@@ -132,7 +120,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Ciudad</label>
-                                <input class="form-control" name="city"  placeholder="Ciudad">
+                                <input class="form-control" name="city"  placeholder="Ciudad" required>
                             </div>
                             <div class="button-group">    
                                 <input type="submit" name="register" value="Register" class="btn btn-success">
@@ -170,9 +158,14 @@
         </div>
         <script>
             $(function(){
-                $(document).on("click", ".alert", function(){
-                    $(this).fadeOut();
-                });
+                
+                var fadeOutAlert = function(){
+                    $(".alert").fadeOut();
+                };
+                
+                $(document).on("click", ".alert", fadeOutAlert);
+                setInterval(fadeOutAlert, 10000);
+                
             });
         </script>
     </body>

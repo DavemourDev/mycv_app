@@ -5,6 +5,7 @@
  */
 package controller;
 
+import helpers.DatabaseUtils;
 import helpers.RequestUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -54,6 +55,8 @@ public class Register extends HttpServlet
             
             if(!user.exists())
             {
+                DatabaseUtils.startTransaction();
+                
                 if(user.register())
                 {
                     try{
@@ -63,9 +66,9 @@ public class Register extends HttpServlet
                         boolean valid= true;
                         
                         Personal personal = new Personal();
+                        
                         personal.setUser_id(id);
 
-                        
                         personal.setName(request.getParameter("name"));
 
                         personal.setLastname(request.getParameter("lastname"));
@@ -75,15 +78,20 @@ public class Register extends HttpServlet
                         personal.setGender(Gender.findById(Integer.parseInt(request.getParameter("gender"))));
 
                         personal.setLocation(Location.create(Integer.parseInt(request.getParameter("country")), request.getParameter("city")));
-
+                        
+                        //Comprobar si los datos son correctos y si no, lanzar una excepción.
+                        
                         personal.insert();
+                        
+                        DatabaseUtils.commitTransaction();
                         
                         request.setAttribute("notification-success", "Success in user register!!!");
                     }    
                     catch(Exception ex)
                     {
+                        DatabaseUtils.cancelTransaction();
                         request.setAttribute("notification-error", "Error in user registering...");
-                
+                        
                     }
                 }
                 

@@ -24,7 +24,8 @@
         <p>User email: ${user.email}</p>
         <p>User password: ${user.password}</p>
           
-        <p><a href="personal-edit.jsp">Personal edit</a></p>
+        <p><a href="Logout">Logout</a></p>
+        <p><a href="PersonalUpdate">Personal edit</a></p>
         
     </body>
 </html>

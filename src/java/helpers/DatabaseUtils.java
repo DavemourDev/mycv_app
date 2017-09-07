@@ -81,4 +81,43 @@ public class DatabaseUtils
         return rs;
         
     }
+    
+    public static void startTransaction()
+    {
+        try
+        {
+            Database.getInstance().query("start transaction;");
+    
+        }
+        catch(Exception ex)
+        {
+            System.err.println("Error con la base de datos.... (start transaction)");
+        }
+    }
+    
+    public static void commitTransaction()
+    {
+        try
+        {
+            Database.getInstance().query("commit;");
+    
+        }
+        catch(Exception ex)
+        {
+            System.err.println("Error con la base de datos.... (commit)");
+        }
+    }
+    
+    public static void cancelTransaction()
+    {
+        try
+        {
+            Database.getInstance().query("rollback;");
+    
+        }
+        catch(Exception ex)
+        {
+            System.err.println("Error con la base de datos.... (rollback)");
+        }
+    }
 }

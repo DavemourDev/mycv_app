@@ -1,0 +1,16 @@
+nav.navigation-color
+{
+    background: #eee;
+}
+
+.alert{
+    position:absolute;
+    width: 100%;
+    top: 50px;
+    z-index: 35;
+    display: block;
+}
+
+.alert:hover{
+    cursor: pointer;
+}
