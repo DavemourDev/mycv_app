@@ -1,10 +1,3 @@
-<%@page import="helpers.RequestUtils"%>
-<%@page import="model.User"%>
-
-<%
-    User user = RequestUtils.getSessionUser(request);
-%>
-
 <!DOCTYPE html>
 <html lang="es-ES">
 
@@ -29,55 +22,100 @@
                 display: block;
                 margin-bottom: 10px;
                 font-size: 300%;
+                color: #FFF;
                 text-align: center;
-                color: #2980B9;
-                padding-top: 30px;
-            }
-
-            h2 {
-                display: block;
-                font-size: 280%;
-                text-align: center;
-                color: #5DADE2;
+                color: white;
                 padding-top: 42px;
-                font-weight: lighter;
             }
 
-            .box-principal {
+            div.box-principal {
                 padding: 30px 30px 30px 30px;
                 /*border: 1px solid grey;*/
                 width: 800px;
                 margin: auto;
-                margin-top: 20px;
                 /*--Este centra todo el bloque del formulario horizontalmente--*/
-                background-color: #BFC9CA;
+                background-color: #AED6F1;
                 border-radius: 10px;
                 box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
                 -webkit-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
                 -moz-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
             }
 
-            .box-principal button {
+            .box-principal2 {
+                padding: 30px 30px 0px 30px;
+                width: 800px;
+                margin: auto;
+                /*--Este centra todo el bloque del formulario horizontalmente--*/
+                background-color: none;
+                /*box-shadow: 6px 6px 4px rgba(0, 0, 0, .1); -webkit-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1); -moz-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);  
+                */
+            }
+
+            div.box-principal button {
+                padding: 5px;
                 text-transform: uppercase;
                 font-weight: bold;
                 width: 100%;
             }
 
+            ul {
+                list-style-type: none;
+                padding-left: 15px;
+            }
+
+            li {
+                float: left;
+                width: 229px;
+                background-color: black;
+                border-radius: 14px 16px 0 0;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-right: 1px solid #000;
+                border-bottom: none;
+            }
+
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            li a:hover {
+                background-color: #111;
+                border-radius: 15px 15px 0 0;
+                border-top: 1px solid #000;
+                border-left: 1px solid #000;
+                border-right: 1px solid #000;
+                border-bottom: none;
+                text-decoration: none;
+            }
+
+            li.datos a:hover {
+                background-color: transparent;
+                border: none;
+            }
+
+            li.datos {
+                background-color: #AED6F1;
+                border: 1px solid #000;
+                border-bottom: none;
+                color: #85C1E9;
+            }
+
             button.botones {
-                margin-bottom: 20px;
+                padding-top: 42px;
                 width: 100%;
-                height: 38px;
-                border: none; border-radius: 2px;
+                margin-bottom: 15px;
+                border: none;
+                border-radius: 7px;
                 color: #FFF;
                 font-family: 'Roboto', sans-serif;
                 font-weight: 500;
                 transition: 0.2s ease;
-                position: relative;
                 cursor: pointer;
-            }
-
-            button a{
-                color:white;
+                background: #DD4B39;
             }
 
             button.botones:hover,
@@ -91,31 +129,37 @@
                 transition: 0.2s ease;
             }
 
-            button.botones.datos {
-                background: #32508E;
-            }
-
-            button.botones.plantillas {
-                background: #55ACEE;
-            }
-
-            button.botones.cvs {
-                background: #DD4B39;
-            }
-
         </style>
 
     </head>
 
     <body>
 
-        <div class="box-principal">
+
+
+        <div class="box-principal2">
+
             <div class="container">
                 <div class="row caixes">
                     <div class="col-lg-12">
-                        <h1 class="titulo"> BIENVENIDO AL GESTOR </h1>
-                        <hr>
-                        <h2>QUE DECEAS HACER?</h2>
+                        <ul class="box">
+                            <li><a class="curriculums" href="#home">Ver mis curriculums</a></li>
+                            <li class="datos"><a href="">Editar mis datos</a></li>
+                            <li><a href="plantilla">Modificar plantilla</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="box-principal">
+
+
+            <div class="container">
+                <div class="row caixes">
+                    <div class="col-lg-12">
+                        <h1 class="titulo"> QUE DECEAS HACER ? </h1>
                     </div>
                 </div>
 
@@ -124,22 +168,18 @@
                 <div class="row caixes">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-6">
-
-
-                        <button class="botones datos  "> <a href="MisDatos.html">MIS DATOS</a></button>
-
-                        <button class="botones plantillas"><a href="#">MIS PLANTILLAS</a></button>
-
-                        <button class="botones cvs"><a href="#">MIS CVs</a></button>
-
+                        <button class="botones   ">DATOS PERSONALES</button><br>
+                        <button class="botones ">EXPERIENCIA PROFECIONAL</button><br>
+                        <button class="botones ">EDUCACIÓN</button><br>
+                        <button class="botones ">LENGUAS</button><br>
+                        <button class="botones ">AÑADE UN NUEVO APARTADO</button>
                     </div>
 
                     <div class="col-lg-3"></div>
                 </div>
                 <br>
-                <br>
-                <br>
             </div>
+
         </div>
 
 

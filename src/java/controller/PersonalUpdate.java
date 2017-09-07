@@ -5,13 +5,15 @@
  */
 package controller;
 
+import helpers.RequestUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Personal;
+import model.User;
 
 /**
  *
@@ -31,7 +33,28 @@ public class PersonalUpdate extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         
+        try
+        {
+            User user = RequestUtils.getSessionUser(request);
+            //Comprobar si el formulario se ha enviado (coger token y comparar)
+            if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
+            {
+                Personal personal = Personal.findBy("user_id", String.valueOf(user.getId())).get(0);
+                    //-Actualizar registro de personal en la BD utilizando la id de sesión.
+                    //-Atribuir a request un parámetro de notificación exitosa "Personal information successfully updated".
+             
+            }
+           //Coger datos de personal de la bd con id de sesión
+            //Renderizar atributos como valor por defecto
+            
+        }
+        catch(Exception ex)
+        {
+            RequestUtils.redirectToNotLogged(request, response);
+            //rd = request.getRequestDispatcher("index.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

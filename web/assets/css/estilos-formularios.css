@@ -1,0 +1,73 @@
+/*GENERAL PARA TODO EL BLOQUE DEL FORMULARIO*/
+body { 
+    padding:60px;
+    background-color: #F8F8FF;
+    font-family: 'Helvetica';}
+
+
+.container {
+    padding: 30px;
+    width: 60%;
+    margin: auto; /*--Este centra todo el bloque del formulario horizontalmente--*/
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 6px 6px 4px rgba(0, 0, 0, .1); 
+        -webkit-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1); 
+        -moz-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);}
+
+
+/*BOTON ANADIR NUEVO ITEM*/
+.nuevaExper > div > button {
+    padding: 5px;
+    text-transform: uppercase;
+    width: 100%;}
+
+.nuevaExper > div > button > a {
+    text-decoration: none;
+    color: initial;
+    text-transform: uppercase;}
+
+
+/*FORMULARIO*/
+form {
+    display: none;}
+
+
+/*EXPERIENCIA YA INTRODUCIDA*/
+div.campoyaintroducido{
+    border: 1px solid grey;
+    background-color: lightgoldenrodyellow;
+    padding: 5px;}
+
+
+/*BOTONES EDITAR Y ELIMINAR EXPERIENCIA*/
+div.botonesedel.row > div > button > a {
+    text-decoration: none;
+    color: initial;}
+
+div.botonesedel.row {
+    height: 100%;}
+
+div.botonesedel.row > div {
+    height: 50%;}
+
+div.botonesedel.row div button {
+    height: 100%;
+    background-color: #F8F8FF;
+    border-radius: 5px;
+    width: 100%;}
+
+div.botonesedel.row div button:hover {
+    cursor:pointer;}
+
+
+/*HERRAMIENTA SEPARADOR*/
+div.espaciador {
+    margin-bottom: 15px;}
+
+
+@media (max-width:700px){
+    .container {
+        width: 100%;
+    }
+}

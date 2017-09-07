@@ -4,6 +4,7 @@
 <%@page import="model.Personal"%>
 <%
     Personal personal = Personal.findById(RequestUtils.getSessionUser(request).getId());
+    User user = RequestUtils.getSessionUser(request);
 %>
 
 <!DOCTYPE html>
@@ -134,7 +135,7 @@
                     </div>
                 </div>
                 <br><br>
-                <input type="hidden" name="token" value="<%=personal.hashCode()%>"/>
+                <input type="hidden" name="u-token" value="<%=user.hashCode()%>"/>
                 <div class="row caixes text-center">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3">
