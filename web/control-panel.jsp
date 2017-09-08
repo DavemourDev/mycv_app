@@ -126,9 +126,9 @@
                     <div class="col-lg-6">
 
 
-                        <button class="botones datos  "> <a href="MisDatos.html">MIS DATOS</a></button>
+                        <button class="botones datos  "> <a href="UserData">MIS DATOS</a></button>
 
-                        <button class="botones plantillas"><a href="#">MIS PLANTILLAS</a></button>
+                        <button class="botones plantillas"><a href="Profiles">MIS PLANTILLAS</a></button>
 
                         <button class="botones cvs"><a href="#">MIS CVs</a></button>
 

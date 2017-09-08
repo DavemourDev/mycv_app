@@ -17,8 +17,8 @@ public class Database {
 
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
     private static final String DB_NAME = "cv_db";
-    private static final String DB_USER = "root";
-    private static final String DB_PASS = "root";
+    private static final String DB_USER = "mycv_user";
+    private static final String DB_PASS = "12345";
     private static final String DB_HOST = "localhost:3306";
     private static Database instance;
     private Connection conn;
@@ -73,7 +73,7 @@ public class Database {
     }
     
     /**
-     * Abre la conexión a la base de datos para realizar una consulta y después la cierra.
+     * Abre la conexión a la base de datos para realizar una consulta.
      * 
      * Se usa cuando se quieren insertar datos en la base de datos.
      * No usar para sentencias de obtención de datos.

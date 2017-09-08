@@ -31,7 +31,7 @@
                 </div>
             </div><br>
             
-            <form>
+            <form action="OtherInfo" method="POST">
                 <div class="row espaciador">
                     <div class="col-lg-3 ">
                         <label>Título</label>

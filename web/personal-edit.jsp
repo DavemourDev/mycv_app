@@ -74,7 +74,7 @@
     
     <body>
         
-        <form class="miformulario" action="http://vcms.vadesan.com/inputs" method="get">
+        <form class="miformulario" action="Personal" method="POST">
             <div class="container">
                 <div class="row caixes">
                     <div class="col-lg-12">
@@ -136,6 +136,7 @@
                 </div>
                 <br><br>
                 <input type="hidden" name="u-token" value="<%=user.hashCode()%>"/>
+                <input type="hidden" name="_action" value="insert"/>
                 <div class="row caixes text-center">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3">

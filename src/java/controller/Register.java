@@ -7,6 +7,7 @@ package controller;
 
 import helpers.DatabaseUtils;
 import helpers.RequestUtils;
+import helpers.ValidationUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,7 +53,16 @@ public class Register extends HttpServlet
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
+                
+            if(!ValidationUtils.isEmail(email))
+            {
+                throw new Exception("Formato de email erróneo.");
+            }
             
+            if(!ValidationUtils.stringLength(password, 6, 20))
+            {
+                throw new Exception("Longitud errónea de contraseña (debe tener entre 6 y 20 caracteres).");
+            }
             if(!user.exists())
             {
                 DatabaseUtils.startTransaction();
@@ -63,18 +73,30 @@ public class Register extends HttpServlet
                         int id = User.findBy("email", email).get(0).getId();
                         //Personal personal = Personal.findBy("user_id", id).get(0);
                         
-                        boolean valid= true;
-                        
                         Personal personal = new Personal();
                         
                         personal.setUser_id(id);
 
                         personal.setName(request.getParameter("name"));
 
+                        if(!ValidationUtils.stringLength(personal.getName(), 3, 255))
+                        {
+                            throw new Exception("Longitud errónea de nombre (debe tener entre 3 y 255 caracteres).");
+                        }
+                        
                         personal.setLastname(request.getParameter("lastname"));
-
+                        if(!ValidationUtils.stringLength(personal.getLastname(), 3, 255))
+                        {
+                            throw new Exception("Longitud errónea de apellidos (debe tener entre 3 y 255 caracteres).");
+                        }
+                        
                         personal.setBirthdate(request.getParameter("birthdate"));
 
+                        if(!ValidationUtils.isValidDate(personal.getBirthdate()))
+                        {
+                            throw new Exception("Fecha no válida.");
+                        }
+                        
                         personal.setGender(Gender.findById(Integer.parseInt(request.getParameter("gender"))));
 
                         personal.setLocation(Location.create(Integer.parseInt(request.getParameter("country")), request.getParameter("city")));
@@ -91,7 +113,6 @@ public class Register extends HttpServlet
                     {
                         DatabaseUtils.cancelTransaction();
                         request.setAttribute("notification-error", "Error in user registering...");
-                        
                     }
                 }
                 

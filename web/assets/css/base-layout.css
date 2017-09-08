@@ -14,3 +14,12 @@ nav.navigation-color
 .alert:hover{
     cursor: pointer;
 }
+
+footer{
+    position: fixed;
+    bottom: 0em;
+    text-align: center;
+    background: #eee;
+    padding: 1em;
+    width: 100%;
+}
