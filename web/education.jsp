@@ -12,9 +12,7 @@
         <link rel="stylesheet" type="text/css" href="<%ViewUtils.CSS_ROOT;%>estilos-formulario.css">
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function(){$(".nuevaExper").children("div").click(function(){$("form").slideToggle();});});
-        </script>
+        
         
     </head>
     
@@ -22,7 +20,7 @@
             
         <div class="container">
             
-            <div class="row nuevaExper">
+            <div class="row nuevoItem">
                 <div class="col-lg-12">
                     <button><a href="#">Añade una nueva formación</a></button>
                 </div>
@@ -150,7 +148,6 @@
             </div>
             
             <br><hr><br>
- 
         </div>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>       

@@ -98,19 +98,4 @@
         </div>
                                     
 <%@include file="layout/lower.jsp" %>
-                                <!--
-        <script>
-            $(function(){
-                
-                var fadeOutAlert = function(){
-                    $(".alert").fadeOut();
-                };
-                
-                $(document).on("click", ".alert", fadeOutAlert);
-                setInterval(fadeOutAlert, 10000);
-                
-            });
-        </script>
-    </body>
-</html>
--->
+   

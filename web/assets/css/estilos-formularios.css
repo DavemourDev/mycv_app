@@ -17,12 +17,12 @@ body {
 
 
 /*BOTON ANADIR NUEVO ITEM*/
-.nuevaExper > div > button {
+.nuevoItem > div > button {
     padding: 5px;
     text-transform: uppercase;
     width: 100%;}
 
-.nuevaExper > div > button > a {
+.nuevoItem > div > button > a {
     text-decoration: none;
     color: initial;
     text-transform: uppercase;}

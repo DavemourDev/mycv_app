@@ -26,7 +26,7 @@
 
         <div class="container">
 
-            <div class="row nuevaExper">
+            <div class="row nuevoItem">
                 <div class="col-lg-12">
                     <button><a href="#">Añade un nuevo idioma</a></button>
                 </div>

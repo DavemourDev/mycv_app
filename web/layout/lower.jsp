@@ -11,7 +11,11 @@
                 $(document).on("click", ".alert", fadeOutAlert);
                 setInterval(fadeOutAlert, 10000);
                 
-                
+                var newItemFormToggle = function(){
+                    $(".nuevoItem").children("div").click(function(){
+                        $("form").slideToggle();
+                    });
+                };
                 
             });
         </script>
