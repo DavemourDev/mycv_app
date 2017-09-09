@@ -8,6 +8,7 @@ package controller;
 import helpers.DatabaseUtils;
 import helpers.RequestUtils;
 import helpers.ValidationUtils;
+import helpers.ViewUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Personal;
 import model.User;
 import model.Location;
-import model.enums.Gender;
+import model.Gender;
 
 /**
  *
@@ -107,27 +108,30 @@ public class Register extends HttpServlet
                         
                         DatabaseUtils.commitTransaction();
                         
-                        request.setAttribute("notification-success", "Success in user register!!!");
+                        ViewUtils.setNotificationSuccess(request, "Success in user registering!!!");
+                        
+                        
                     }    
                     catch(Exception ex)
                     {
                         DatabaseUtils.cancelTransaction();
-                        request.setAttribute("notification-error", "Error in user registering...");
+           
+                        throw ex; //Lanza la exception hacia abajo. Este catch es para cancelar la transacción.
                     }
                 }
-                
-                RequestUtils.redirect(request, response, "welcome");
             }
             else
             {
-                request.setAttribute("notification-error", "User already exists...");
-                RequestUtils.redirect(request, response, "welcome");
+                throw new Exception("User email already exists");
             }
         }
         catch(Exception ex)
         {
-            RequestUtils.redirect(request, response, "welcome");
+            ViewUtils.setNotificationError(request, "Error in user registering: " + ex.getMessage());
         }
+
+        RequestUtils.redirect(request, response, "welcome");
+
         
     }
 

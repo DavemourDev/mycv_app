@@ -1,17 +1,26 @@
-<%-- 
-    Document   : nav-unsigned
-    Created on : 07-sep-2017, 20:17:05
-    Author     : mati
---%>
+<!--Aparece si el usuario no está logueado-->
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<nav class="navbar navbar-default navigation-color">
+
+    <div class="container">
+        <div class="navbar-header navbar-left">
+            <a class="navbar-brand" href="index.jsp">My website</a>
+        </div>
+        <form action="Login" method="POST" class="navbar-form navbar-right">
+            <!--<div class="form-group">
+                <h4>Login</h4>
+            </div>-->
+            <div class="form-group">
+                <label class="text-info">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="Log in with your email" required>
+            </div>
+            <div class="form-group">
+                <label class="text-info">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="Insert your password" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="login" value="Login" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+</nav>

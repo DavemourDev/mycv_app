@@ -1,0 +1,80 @@
+ 
+/**
+David: 
+    C O R R E C C I O N E S:
+        -Los elementos h(n) por defecto son elementos de bloque
+        -Los .container con bootstrap se adaptan a la pantalla.
+            Por ello, añadir dimensiones fijas al ancho de un contenedor
+            puede no ser adecuado en ciertos casos.
+        -La clase de bootstrap .page-header nos quita la necesidad de usar la etiqueta <hr> como subrayador de título.
+        -Las clases de css deben tener un nombre intuitivo. Y debe evitarse la redundancia entre normas.
+        -Mantén los selectores simples y ordenados por especificidad.
+        
+*/
+
+ .titulo {
+     font-size: 2.5em;
+     color: #2980B9;
+ }
+
+ .titulo-seccion {
+     font-size: 2em;
+     text-align: center;
+     color: #5DADE2;
+     padding-top: 42px;
+     font-weight: lighter;
+ }
+
+ .box-principal 
+ {
+     background-color: #BFC9CA;
+     border-radius: 10px;
+     box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
+        -webkit-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
+        -moz-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
+ }
+
+
+ .boton-menu {
+     display: block;
+     text-align: center;
+     width: auto;
+     padding: 0.5em;
+     border-radius: 5px;
+     color: #FFF;
+     font-family: 'Roboto', sans-serif;
+     letter-spacing: 0.1em;
+     font-weight: bold;
+     font-variant: small-caps;
+     transition: 0.2s ease;
+     cursor: pointer;
+     text-shadow: 1px 1px #aaa;
+     opacity: 0.9;
+ }
+
+.boton-menu:hover, .boton-menu:focus, .boton-menu:active {
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+     transition: 0.2s ease;
+     opacity: 1;
+ }
+ 
+ /*Espacio entre botones*/
+ .boton-menu + .boton-menu{
+     margin-top: 1em;
+ }
+
+ .bg-btn-1
+ {
+    background: #32508E;
+ }
+ 
+ .bg-btn-2
+ {
+    background: #55ACEE;
+ }
+
+ .bg-btn-3
+ {
+    background: #DD4B39; 
+ }
+

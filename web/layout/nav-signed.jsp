@@ -1,17 +1,17 @@
-<%-- 
-    Document   : nav-logged
-    Created on : 07-sep-2017, 20:16:52
-    Author     : mati
---%>
+<%@page import="model.User"%>
+<%@page import="helpers.RequestUtils"%>
+<!--Aparece si el usuario está logueado-->
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
+<nav class="navbar navbar-default navigation-color">
+
+    <div class="container">
+        <div class="navbar-header navbar-left">
+            <a class="navbar-brand" href="index.jsp">My website</a>
+        </div>
+        <div class="navbar-header navbar-right">
+            <span class="well"><%=user.getEmail()%></span>
+            <a class="btn btn-info" href="Logout">Desconectar</a>
+        </div>
+    </div>
+</nav>

@@ -2,6 +2,7 @@ package controller;
 
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import helpers.RequestUtils;
+import helpers.ViewUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,27 +39,23 @@ public class Login extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 session.setMaxInactiveInterval(0); //No caduca mientras la sesión del cliente está activa
                 session.setAttribute("user", user);
-
+                
                 //rd = request.getRequestDispatcher("control-panel.jsp");
             }
             else
             {
-                request.setAttribute("notification-error", "Invalid credentials");
+                throw new Exception("Invalid credentials");
                 //rd = request.getRequestDispatcher("index.jsp");
             }
             
-            RequestUtils.redirect(request, response, "control-panel");
+            
             
         }
         catch(Exception ex)
         {
-            RequestUtils.redirectToNotLogged(request, response);
-            //rd = request.getRequestDispatcher("index.jsp");
+            ViewUtils.setNotificationError(request, ex.getMessage());
         }
-        
-        //rd.forward(request, response);
-        
-        //rd.forward(request, response);
+        RequestUtils.redirect(request, response, "index");
     }
 
     

@@ -1,4 +1,4 @@
-package model.enums;
+package model;
 
 import config.Config;
 import helpers.DatabaseUtils;
