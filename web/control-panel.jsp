@@ -1,19 +1,14 @@
 <%@page import="helpers.RequestUtils"%>
 <%@page import="model.User"%>
 <%@page import="helpers.ViewUtils"%>
+<%@page import="config.Config"%>
 
 <%ViewUtils.setStylesheets(request, "estilos-panel-principal");%>
 <%ViewUtils.setScripts(request, "panel-de-control");%>
 
 <%@include file="layout/upper.jsp"%>
 
-
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header titulo text-center">BIENVENIDO AL GESTOR DE CV COMOSELLAME</h1>
-    </div>
-</div>
-
+<h1 class="page-header titulo text-center">Panel de control <%=Config.APP_NAME%></h1>
 
 <div class="row">
     <div class="col-lg-12">

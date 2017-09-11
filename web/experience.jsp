@@ -5,6 +5,10 @@
 
 <%@include file="layout/upper.jsp" %>
 
+
+<h1 class="page-header titulo text-center">Experiencia profesional</h1>
+
+
 <!--Es innecesario añadir una fila con una columna aquí...-->
 <a href="#new-item" class="btn btn-info new-item-btn">Añade una nueva experiencia laboral</a>
 

@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Location;
 import model.Personal;
+import model.User;
 
 /**
  *
@@ -39,21 +41,20 @@ public class PersonalData extends HttpServlet {
         {
             //Comprobar si el formulario se ha enviado (coger token y comparar)
             
-            //if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
-            //{
-            //    System.out.println("User token verified success");
-            //}
-            //if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
-            //{
-                //Personal personal = Personal.findBy("user_id", String.valueOf(user.getId())).get(0);
-                    //-Actualizar registro de personal en la BD utilizando la id de sesión.
-                    //-Atribuir a request un parámetro de notificación exitosa "Personal information successfully updated".
-             
-            //}
-           //Coger datos de personal de la bd con id de sesión
-            //Renderizar atributos como valor por defecto
-            
-            
+            if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
+            {
+                System.out.println("Enviado");
+                
+                if(this.personalUpdate(request))
+                {
+                    ViewUtils.setNotificationSuccess(request, "Datos de usuario actualizados!");
+                }
+            }
+            else
+            {
+                System.out.println("No enviado");
+            }
+
             Personal personal = Personal.findById(RequestUtils.getSessionUser(request).getId());
      
             RequestUtils.redirect(request, response, "personal-edit");
@@ -105,5 +106,26 @@ public class PersonalData extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private boolean personalUpdate(HttpServletRequest request) throws Exception 
+    {
+        try
+        {
+            User user = RequestUtils.getSessionUser(request);
+            Personal p = user.getPersonal();
+            p.setName(request.getParameter("name"));
+            p.setLastname(request.getParameter("lastname"));
+            p.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
+            p.setBirthdate(request.getParameter("birthdate"));
+            p.setTelephone1(request.getParameter("telephone1"));
+            p.setTelephone2(request.getParameter("telephone2"));
+
+            return p.insert();
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Error al actualizar los datos personales de usuario...");
+        }
+    }
 
 }

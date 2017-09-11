@@ -35,7 +35,7 @@ public class Personal
     
     public Personal(int userId)
     {
-        
+        this.setUser_id(user_id);
     }
     
     public static Personal findById(int id)
@@ -92,7 +92,7 @@ public class Personal
     
     public boolean exists()
     {
-        return !findBy("user_id", String.valueOf(this.getUser_id())).isEmpty();
+        return findById(this.getUser_id()) != null;
     }
     
     public boolean insert() throws Exception
@@ -103,7 +103,7 @@ public class Personal
         try{
             if(this.exists())
             {
-                query = String.format("update `personal` set `name`='%s', `lastname`='%s', `birthdate`='%s', `gender_id`='%d' `country_id`='%d', `city`='%s', `telephone1`='%s', `telephone2`='%s' where `user_id`=%d';", this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2(), this.getUser_id());
+                query = String.format("update `personal` set `name`='%s', `lastname`='%s', `birthdate`='%s', `gender_id`='%d', `country_id`='%d', `city`='%s', `telephone1`='%s', `telephone2`='%s' where `user_id`='%d';", this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2(), this.getUser_id());
             }
             else
             {

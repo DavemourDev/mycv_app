@@ -1,10 +1,11 @@
+<%@page import="config.Config"%>
 <!--Aparece si el usuario no está logueado-->
 
 <nav class="navbar navbar-default navigation-color">
 
     <div class="container">
         <div class="navbar-header navbar-left">
-            <a class="navbar-brand" href="index.jsp">My website</a>
+            <a class="navbar-brand" href="index.jsp"><%=Config.APP_NAME%></a>
         </div>
         <form action="Login" method="POST" class="navbar-form navbar-right">
             <!--<div class="form-group">

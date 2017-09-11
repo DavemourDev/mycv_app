@@ -52,6 +52,13 @@ public class User
         this.password = password;
     }
 
+    public Personal getPersonal()
+    {
+        Personal personal = Personal.findById(this.getId());
+        personal.setUser_id(this.getId());
+        return personal;
+    }
+    
     @Override
     public boolean equals(Object e) 
     {

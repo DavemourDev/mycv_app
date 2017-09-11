@@ -13,18 +13,6 @@ David:
         
 */
 
- .titulo {
-     font-size: 2.5em;
-     color: #2980B9;
- }
-
- .titulo-seccion {
-     font-size: 2em;
-     text-align: center;
-     color: #5DADE2;
-     font-weight: lighter;
- }
-
  .box-principal 
  {
      /*background: #BFC9CA;*/

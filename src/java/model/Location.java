@@ -30,6 +30,11 @@ public class Location
         this.city = city;
     }
     
+    public static Location create(String country_id, String city)
+    {
+        return create(Integer.parseInt(country_id), city);
+    }
+    
     public static Location create(int country_id, String city)
     {
         Location location = new Location();

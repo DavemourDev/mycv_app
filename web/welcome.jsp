@@ -16,7 +16,8 @@
                         <div class="jumbotron text-center">
                             <h1 class="page-header layout-color-main">Haz tu propio CV fácilmente</h1>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                                ¡Deja de perder el tiempo en gestionar tus diferentes CV para diferentes perfiles!
+                                Con nuestra aplicación podrás mantener actualizada tu información y tus perfiles en pocos minutos.
                             </p>
 
                         </div>
@@ -54,6 +55,7 @@
                             <div class="form-group">
                                 <label class="control-label">País</label>
                                 <select class="form-control" name="country">
+                                    <option value="">(seleccione una opción)</option>
                                     <%for(Country c : countryList){%>
                                         <option value="<%=c.getId()%>"><%=c.getName()%></option>
                                     <%}%>
@@ -78,20 +80,20 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="well text-center">
-                            <h3>Toda tu información en un único punto</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <h3>¡Actualiza tu información una única vez!</h3>
+                            <p>Tienes disponible toda tu información en un único punto. ¿Para qué invertir tiempo de más actualizando varios archivos para introducir lo mismo una y otra vez?</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="well text-center">
-                            <h3>Plantillas personalizables para tu puesto ideal</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <h3>¡Perfiles personalizables para tu puesto ideal en dos pasos!</h3>
+                            <p>Puedes adaptar el formato para cada perfil, controlar la información que aparece, cómo lo hace y todo esto sin tener que editarla directamente del lugar donde la tienes almacenada.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="well text-center">
-                            <h3>¡Gestionar tus perfiles nunca fue tan fácil!</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <h3>¡Descarga tu perfil desde donde quieras!</h3>
+                            <p>Ya no necesitas buscar tus CV para diferentes perfiles. Los tienes todos aquí y puedes descargarlos en formato PDF cuando los necesites desde cualquier dispositivo.</p>
                         </div>
                     </div>
                 </div>

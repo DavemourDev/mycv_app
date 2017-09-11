@@ -1,10 +1,13 @@
+<%@page import="model.Country"%>
 <%@page import="helpers.RequestUtils"%>
 <%@page import="model.User"%>
 <%@page import="model.Personal"%>
 <%
-    
-    Personal personal = Personal.findBy("user_id", String.valueOf(RequestUtils.getSessionUser(request).getId())).get(0);
+    User user = RequestUtils.getSessionUser(request);
+    Personal personal = user.getPersonal();
             
+    List<Country> countryList = Country.findAll();
+    
     ViewUtils.setStylesheets(request, "estilos-formularios", "personal-edit-form");
     ViewUtils.setScripts(request, "form-confirm-cancel");
 
@@ -12,7 +15,7 @@
 <%@include file="layout/upper.jsp"%>
         
         <!--Este es el bueno-->
-          <form action="Personal" method="POST">
+          <form action="PersonalData" method="POST">
             
             <div class="container form-box">
                 <div class="row">
@@ -46,15 +49,16 @@
                 <div class="row espaciador">
                     <div class="col-lg-6">
                         <label>País</label>
-                        <select name="country" class="form-control">
-                            <option value="" disabled selected>(seleccionar)</option>
-                            <option value="1">España</option>
-                            <option value="2">Francia</option>
+                        <select name="country" class="form-control" required>
+                            <option value="" disabled>(seleccione una opción)</option>
+                            <%for(Country c : countryList){%>
+                                <option value="<%=c.getId()%>"<%=personal.getLocation().getCountry().getId() == c.getId()?" selected":""%>><%=c.getName()%></option>
+                            <%}%>
                         </select>
                     </div>
                     <div class="col-lg-6">
                         <label>Ciudad</label>
-                        <input name="city" type="text" placeholder="Tu pais..." class="form-control">
+                        <input name="city" type="text" placeholder="Tu ciudad..." value="<%=personal.getLocation().getCity()%>" class="form-control">
                     </div>
                 </div>
                 
@@ -79,7 +83,7 @@
             
             
                 <input type="hidden" name="u-token" value="<%=user.hashCode()%>"/>
-                <input type="hidden" name="_action" value="update"/>
+                <input type="hidden" name="_action" value="edit"/>
                 <div class="row text-center">
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3">

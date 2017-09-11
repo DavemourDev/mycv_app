@@ -37,7 +37,7 @@ public class ValidationUtils
         try
         {
             int day = Integer.parseInt(subject.substring(0,2));
-            int month = Integer.parseInt(subject.substring(3,4));
+            int month = Integer.parseInt(subject.substring(3,5));
             int year = Integer.parseInt(subject.substring(6,10));
             
             if((year < 1900 || year > Calendar.getInstance().get(Calendar.YEAR)) || (month >12 || month < 1))
