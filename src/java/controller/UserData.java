@@ -5,13 +5,14 @@
  */
 package controller;
 
+import helpers.RequestUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Personal;
 
 /**
  *
@@ -30,8 +31,13 @@ public class UserData extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         
+        Personal personal = Personal.findById(RequestUtils.getSessionUser(request).getId());
+     
+        
+        RequestUtils.redirect(request, response, "data-panel");
         
     }
 

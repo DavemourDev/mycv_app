@@ -10,7 +10,7 @@
             <a class="navbar-brand" href="index.jsp">My website</a>
         </div>
         <div class="navbar-header navbar-right">
-            <span class="well"><%=user.getEmail()%></span>
+            <span class="well"><%=RequestUtils.getSessionUser(request).getEmail()%></span>
             <a class="btn btn-info" href="Logout">Desconectar</a>
         </div>
     </div>

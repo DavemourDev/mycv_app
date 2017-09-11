@@ -9,6 +9,7 @@ David:
         -La clase de bootstrap .page-header nos quita la necesidad de usar la etiqueta <hr> como subrayador de título.
         -Las clases de css deben tener un nombre intuitivo. Y debe evitarse la redundancia entre normas.
         -Mantén los selectores simples y ordenados por especificidad.
+
         
 */
 
@@ -21,19 +22,21 @@ David:
      font-size: 2em;
      text-align: center;
      color: #5DADE2;
-     padding-top: 42px;
      font-weight: lighter;
  }
 
  .box-principal 
  {
-     background-color: #BFC9CA;
-     border-radius: 10px;
+     /*background: #BFC9CA;*/
+     background: #fff;
+     border-radius: 0 0 10px 10px;
      box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
         -webkit-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
         -moz-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #ddd;
  }
-
 
  .boton-menu {
      display: block;
@@ -78,3 +81,85 @@ David:
     background: #DD4B39; 
  }
 
+ #control-panel
+ {
+     
+ }
+ 
+ #control-panel>li
+ {
+    border-radius: 10px 10px 0 0;
+ }
+ 
+ #control-panel>li.active
+ {
+    background: #BFC9CA;
+ }
+ 
+ .panel-section
+ {
+     display: none;
+ }
+/*PESTAÑAS DE MENU*/
+/*
+
+ul {
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+li {
+    float: left;
+    width: 229px;
+    background-color: black;
+    border-radius: 14px 16px 0 0;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: none;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+    border-radius: 15px 15px 0 0;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: none;
+    text-decoration: none;
+}
+
+li.datos a:hover {
+    background-color: transparent;
+    border: none;
+}
+
+li.datos {
+    background-color: #AED6F1;
+    border: 1px solid #000;
+    border-bottom: none;
+    color: #85C1E9;
+}
+
+button.boton-menu {
+    padding-top: 42px;
+    width: 100%;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 7px;
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    transition: 0.2s ease;
+    cursor: pointer;
+    background: #DD4B39;
+}
+*/

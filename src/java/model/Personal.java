@@ -21,9 +21,9 @@ import java.util.Objects;
 public class Personal 
 {
     private int user_id;
-    private String name, lastname, birthdate;
+    private String name, lastname, birthdate, telephone1, telephone2;
     private Gender gender;
-    private List<Telephone> telephones = new ArrayList<>();
+    //private List<Telephone> telephones = new ArrayList<>();
     private List<Email> emails = new ArrayList<>();
     private List<Picture> pictures = new ArrayList<>();
     private Location location;
@@ -103,11 +103,11 @@ public class Personal
         try{
             if(this.exists())
             {
-                query = String.format("update `personal` set `name`='%s', `lastname`='%s', `birthdate`='%s', `gender_id`='%d' `country_id`='%d', `city`='%s' where `user_id`=%d';", this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getUser_id());
+                query = String.format("update `personal` set `name`='%s', `lastname`='%s', `birthdate`='%s', `gender_id`='%d' `country_id`='%d', `city`='%s', `telephone1`='%s', `telephone2`='%s' where `user_id`=%d';", this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2(), this.getUser_id());
             }
             else
             {
-                query = String.format("insert into `personal`(`user_id`, `name`, `lastname`, `birthdate`, `gender_id`, `country_id`, `city`) values (%d, '%s','%s','%s', %d, %d,'%s')", this.getUser_id(), this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity());
+                query = String.format("insert into `personal`(`user_id`, `name`, `lastname`, `birthdate`, `gender_id`, `country_id`, `city`, `telephone1`, `telephone2`) values (%d, '%s','%s','%s', %d, %d,'%s','%s','%s')", this.getUser_id(), this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2());
                 
             }
             System.out.println("Consulta: "+query);
@@ -162,6 +162,25 @@ public class Personal
         this.gender = gender;
     }
 
+    public String getTelephone1() {
+        return telephone1;
+    }
+
+    public void setTelephone1(String telephone1) {
+        this.telephone1 = telephone1;
+    }
+
+    public String getTelephone2() {
+        return telephone2;
+    }
+
+    public void setTelephone2(String telephone2) {
+        this.telephone2 = telephone2;
+    }
+    
+    
+    
+/*
     public List<Telephone> getTelephones() {
         return telephones;
     }
@@ -173,7 +192,7 @@ public class Personal
     public void addTelephone(Telephone telephone) {
         this.telephones.add(telephone);
     }
-
+*/
     public List<Email> getEmails() {
         return emails;
     }

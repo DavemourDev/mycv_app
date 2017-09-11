@@ -18,7 +18,7 @@ import java.util.List;
 public class Experience 
 {
     private int id, hours;
-    private String job, enterprise, startdate, enddate, description;
+    private String job, enterprise, startdate, enddate, description, tags;
     private Sector sector;
     private Location location;
 
@@ -92,6 +92,14 @@ public class Experience
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
     
     public static Experience findById(int id) 
@@ -167,6 +175,7 @@ public class Experience
         experience.setSector(Sector.findById(rs.getInt("sector_id")));
         experience.setHours(rs.getInt("hours"));
         experience.setJob(rs.getString("job"));
+        experience.setTags(rs.getString("tags"));
         return experience;
     }
     

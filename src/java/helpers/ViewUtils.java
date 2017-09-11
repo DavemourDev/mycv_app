@@ -56,6 +56,44 @@ public class ViewUtils
         return sb.toString();
     }
     
+    /**
+     * Devuelve una etiqueta script que carga un archivo javascripy con el nombre indicado.
+     * El directorio base donde buscará es determinado por la constante JS_ROOT.
+     * Para acceder a un subdirectorio, pasar: subdirectorio/nombredelarchivo
+     * @param stylesheet Nombre del archivo js a cargar
+     * @return Etiqueta script. Imprimir en la vista deseada.
+     */
+    public static String createScriptTag(String script)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<script type=\"text/javascript\" src=\"")
+                .append(JS_ROOT)
+                .append(script)
+                .append(".js\"></script>");
+        
+        return sb.toString();
+    }
+    
+    public static void setScripts(HttpServletRequest request, String... scripts)
+    {
+        request.setAttribute("_scripts", scripts);
+    }
+    
+    /**
+     * Devuelve una cadena de links con todas las hojas de estilos guardadas en una request.
+     */
+    public static String embedScripts(HttpServletRequest request)
+    {
+        StringBuilder sb = new StringBuilder();
+        if(request.getAttribute("_scripts") != null)
+        {
+            for(String script: (String[]) request.getAttribute("_scripts")){
+                sb.append(createScriptTag(script));
+            }
+        }
+        return sb.toString();
+    }
+    
     public static void setNotificationError(HttpServletRequest request, String message)
     {
         request.setAttribute("notification-error", message);

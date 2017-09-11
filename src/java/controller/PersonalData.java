@@ -6,6 +6,7 @@
 package controller;
 
 import helpers.RequestUtils;
+import helpers.ViewUtils;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +14,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Personal;
-import model.User;
 
 /**
  *
  * @author mati
  */
-@WebServlet(name = "Personal", urlPatterns = {"/Personal"})
-public class PersonalUpdate extends HttpServlet {
+@WebServlet(name = "PersonalData", urlPatterns = {"/PersonalData"})
+public class PersonalData extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,22 +37,32 @@ public class PersonalUpdate extends HttpServlet {
         
         try
         {
-            User user = RequestUtils.getSessionUser(request);
             //Comprobar si el formulario se ha enviado (coger token y comparar)
-            if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
-            {
-                Personal personal = Personal.findBy("user_id", String.valueOf(user.getId())).get(0);
+            
+            //if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
+            //{
+            //    System.out.println("User token verified success");
+            //}
+            //if(RequestUtils.getUserToken(request) == RequestUtils.getSessionUser(request).hashCode())
+            //{
+                //Personal personal = Personal.findBy("user_id", String.valueOf(user.getId())).get(0);
                     //-Actualizar registro de personal en la BD utilizando la id de sesión.
                     //-Atribuir a request un parámetro de notificación exitosa "Personal information successfully updated".
              
-            }
+            //}
            //Coger datos de personal de la bd con id de sesión
             //Renderizar atributos como valor por defecto
+            
+            
+            Personal personal = Personal.findById(RequestUtils.getSessionUser(request).getId());
+     
+            RequestUtils.redirect(request, response, "personal-edit");
             
         }
         catch(Exception ex)
         {
-            RequestUtils.redirectToNotLogged(request, response);
+            ViewUtils.setNotificationError(request, "Ha habido un error: " + ex.getMessage());
+            RequestUtils.redirect(request, response, "index");
             //rd = request.getRequestDispatcher("index.jsp");
         }
     }

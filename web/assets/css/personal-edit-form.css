@@ -1,0 +1,13 @@
+/*FORMULARIO DATOS PERSONALES*/
+  h1.titulo {
+      color:black;
+      text-align: center;
+      margin-bottom: 5px;}
+
+  #buttoncancel {
+      background-color: #F8F8FF;
+      border-radius: 5px;}
+
+  a.cancel {
+      text-decoration: none;
+      color: initial;}

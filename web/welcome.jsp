@@ -3,6 +3,7 @@
 
 <%
     List<Country> countryList = Country.findAll();
+    
 %>
 
 

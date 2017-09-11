@@ -5,8 +5,9 @@
  */
 package controller;
 
+import helpers.RequestUtils;
+import helpers.ViewUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mati
  */
-@WebServlet(name = "AddEducation", urlPatterns = {"/AddEducation"})
-public class AddEducation extends HttpServlet {
+@WebServlet(name = "Experience", urlPatterns = {"/Experience"})
+public class Experience extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,20 +31,35 @@ public class AddEducation extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddEducation</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddEducation at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            throws ServletException, IOException 
+    {
+        //Procesar atributos si hay form enviado
+        String action = request.getParameter("_action");
+        
+        if(action != null)
+        {
+            switch(action)
+            {
+                case "insert":
+                    //insertar
+                    this.insert(request);
+                    
+                    ViewUtils.setNotificationSuccess(request, "Insertar");
+                    break;
+                case "edit":
+                    //editar
+                    ViewUtils.setNotificationSuccess(request, "Editar");
+                    break;
+                case "delete":
+                    //Borrar
+                    ViewUtils.setNotificationSuccess(request, "Borrar: "+ request.getParameter("id"));
+                default:
+                    //La acción no existe
+            }
         }
+        
+        
+        RequestUtils.redirect(request, response, "experience");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,5 +100,13 @@ public class AddEducation extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    /**
+     * Inserta un nuevo item de experiencia a la bd si los datos son correctos...
+     */
+    private boolean insert(HttpServletRequest request)
+    {
+        return true;
+    }
 
 }
