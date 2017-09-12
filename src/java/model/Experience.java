@@ -5,11 +5,14 @@
  */
 package model;
 
+import helpers.DataUtils;
 import helpers.DatabaseUtils;
+import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -18,7 +21,8 @@ import java.util.List;
 public class Experience 
 {
     private int id, hours;
-    private String job, enterprise, startdate, enddate, description, tags;
+    private String job, enterprise, startdate, enddate, description;
+    private List<String> tags = new ArrayList<String>();
     private Sector sector;
     private Location location;
 
@@ -94,12 +98,17 @@ public class Experience
         this.location = location;
     }
 
-    public String getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTags(List<String> tags)
+    {
+        this.tags=tags;
+    }
+    
+    public void addTag(String tag) {
+        this.tags.add(tag);
     }
     
     public static Experience findById(int id) 
@@ -175,10 +184,30 @@ public class Experience
         experience.setSector(Sector.findById(rs.getInt("sector_id")));
         experience.setHours(rs.getInt("hours"));
         experience.setJob(rs.getString("job"));
-        experience.setTags(rs.getString("tags"));
+        experience.setTags(DataUtils.splitBySpaces(rs.getString("tags")));
         return experience;
     }
     
-    
+    public static Experience instantiateFromRequest(HttpServletRequest request)
+    {
+        Experience experience = new Experience();
+        experience.setId(RequestUtils.getInt(request, "id"));
+        experience.setEnterprise(request.getParameter("enterprise"));
+        experience.setDescription(request.getParameter("description"));
+        experience.setStartdate(request.getParameter("startdate"));
+        experience.setEnddate(request.getParameter("enddate"));
+        experience.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
+        experience.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
+        experience.setHours(RequestUtils.getInt(request, "hours"));
+        experience.setJob(request.getParameter("job"));
+        experience.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        
+        return experience;
+    }
+
+    public void insert()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

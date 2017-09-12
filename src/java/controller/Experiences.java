@@ -13,13 +13,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Experience;
 
 /**
  *
  * @author mati
  */
-@WebServlet(name = "Experience", urlPatterns = {"/Experience"})
-public class Experience extends HttpServlet {
+@WebServlet(name = "Experiences", urlPatterns = {"/Experiences"})
+public class Experiences extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,9 +43,10 @@ public class Experience extends HttpServlet {
             {
                 case "insert":
                     //insertar
-                    this.insert(request);
-                    
-                    ViewUtils.setNotificationSuccess(request, "Insertar");
+                    if(this.insert(request))
+                    {
+                        ViewUtils.setNotificationSuccess(request, "Experiencia añadida con éxito");
+                    }
                     break;
                 case "edit":
                     //editar
@@ -106,6 +108,9 @@ public class Experience extends HttpServlet {
      */
     private boolean insert(HttpServletRequest request)
     {
+        Experience experience = Experience.instantiateFromRequest(request);
+        experience.insert();
+        
         return true;
     }
 

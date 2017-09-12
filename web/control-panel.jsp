@@ -51,7 +51,7 @@
                 <h2 class="titulo-seccion">DATOS DE USUARIO</h2>
                 <div class="well well-lg">
                     <a href="PersonalData" class="boton-menu bg-btn-3">Datos personales</a>
-                    <a href="Experience" class="boton-menu bg-btn-3">Experiencia profesional</a>
+                    <a href="Experiences" class="boton-menu bg-btn-3">Experiencia profesional</a>
                     <a class="boton-menu bg-btn-3">Formación y educación</a>
                     <a class="boton-menu bg-btn-3">Lenguas</a>
                     <a class="boton-menu bg-btn-3">Otros datos de interés</a>

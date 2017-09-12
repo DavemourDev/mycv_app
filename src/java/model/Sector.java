@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author mati
  */
-class Sector 
+public class Sector 
 {
     
     private int id;

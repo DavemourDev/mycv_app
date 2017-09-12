@@ -5,8 +5,9 @@
  */
 package helpers;
 
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,5 +110,23 @@ public class RequestUtils {
         }
         
         return utoken;
+    }
+    
+    public static int getInt(HttpServletRequest request, String param)
+    {
+        return Integer.parseInt(getString(request, param));
+    }
+    
+    public static String getString(HttpServletRequest request, String param)
+    {
+        return request.getParameter(param);
+    }
+    
+    
+    public static List<String> getExpTags(HttpServletRequest request)
+    {
+        List<String> list = new ArrayList<String>();
+        
+        return list;
     }
 }

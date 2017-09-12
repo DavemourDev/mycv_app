@@ -1,3 +1,8 @@
+<%@page import="helpers.DatabaseUtils"%>
+<%@page import="model.Country"%>
+<%@page import="model.Sector"%>
+
+
 <%
     ViewUtils.setStylesheets(request, "estilos-formularios");
     ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
@@ -12,109 +17,105 @@
 <!--Es innecesario añadir una fila con una columna aquí...-->
 <a href="#new-item" class="btn btn-info new-item-btn">Añade una nueva experiencia laboral</a>
 
-<form class="form-hidden form-box" id="new-item" action="Experience" method="POST">
+<form class="form-hidden form-box" id="new-item" action="Experiences" method="POST">
     <h2 class="text-center">Nueva experiencia</h2>
-    <div class="row">
-        <div class="col-lg-12 espaciador">
-            <label>Nombre de la empresa</label>
-            <input class="form-control" name="nombreEmpresa" type="text" placeholder="Nombre de la empresa..." required>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-4 form-field">
+                <label>Nombre de la empresa</label>
+                <input class="form-control" name="enterprise" type="text" placeholder="Nombre de la empresa..." required>
+            </div>
+
+            <div class="col-lg-4 form-field">
+                <label>Puesto</label>
+                <input name="job" type="text" placeholder="Puesto..." class="form-control">
+            </div>
+            <div class="col-lg-4">
+                <label>Sector</label>
+                <select class="form-control" name="sector">
+                    <option value="" disabled selected>(seleccionar)</option>
+                    <%for(Sector s : Sector.findAll()){%>
+                        <option value="<%=s.getId()%>"><%=s.getName()%></option>
+                    <%}%>
+                </select>
+            </div>
+
         </div>
     </div>
-
-    <div class="row">   
-        <div class="col-lg-6 espaciador">
-            <div class="row">
-                <div class="col-lg-12">
-                    <label>País</label>
-                    <select class="form-control" name="idioma">
-                        <option value="" disabled selected>(seleccionar)</option>
-                        <option value="espanol">Español</option>
-                        <option value="ingles">Inglés</option>
-                        <option value="frances">Francés</option>
-                        <option value="aleman">Alemán</option>
-                        <option value="itaiano">Italiano</option>
-                    </select>
+    <div class="form-group">
+        <div class="row">   
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label>País</label>
+                        <select class="form-control" name="country" required>
+                            <option value="" disabled>(seleccionar)</option>
+                            <%for(Country c : Country.findAll()){%>
+                                <option value="<%=c.getId()%>"<%=c.getId() == RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId()?" selected":""%>><%=c.getName()%></option>
+                            <%}%>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 espaciador">
-            <div class="row">
-                <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="form-field">
                     <label>Ciudad</label>
                     <input class="form-control" name="ciudadEmpresa" type="text" placeholder="Ciudad...">
+                 
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-12 espaciador">
-            <label>Sector</label>
-            <select class="form-control" name="idioma">
-                <option value="" disabled selected>(seleccionar)</option>
-                <option value="ingenieria">Ingenieria</option>
-                <option value="sanidad">Sanidad</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row">   
-        <div class="col-lg-6 espaciador">
-            <div class="row">
-                <div class="col-lg-12">
-                    <label>Fecha inicio</label>
-                    <input name="fechainicio" type="date" placeholder="Fecha inicio..." class="form-control">
-                </div>
+    <div class="form-group">
+        <div class="row">   
+            <div class="col-lg-6">
+                <label>Fecha inicio</label>
+                <input name="startdate" type="date" placeholder="Fecha inicio..." class="form-control">
             </div>
-        </div>
-        <div class="col-lg-6 espaciador">
-            <div class="row">
-                <div class="col-lg-12">
-                    <label>Fecha final</label>
-                    <input name="fechafinal" type="date" placeholder="Fecha final..." class="form-control">
-                </div>
+            <div class="col-lg-6">
+                <label>Fecha final</label>
+                <input name="enddate" type="date" placeholder="Fecha final..." class="form-control">  
             </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-12 espaciador">
-            <label>Puesto</label>
-            <input name="puesto" type="text" placeholder="Puesto..." class="form-control">
+    
+    <div class="form-group">  
+        <div class="row">
+            <div class="col-lg-12">
+                <label>Descripción de la experiencia</label>
+                <textarea name="description" style="width: 100%; height: 80px" placeholder="Breve descripción..." class="form-control"></textarea>
+            </div>
         </div>
     </div>
+        
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-1 ">
+                <label>Tags</label>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-field"><!--Inicio-->
+                    <input list="datalistExp" id="current-tagExp">
+                    <datalist id="datalistExp">
+                        <%
+                            for(String tag: RequestUtils.getExpTags(request)){
 
-    <div class="row">
-        <div class="col-lg-12 espaciador">
-            <label>Descripción</label>
-            <textarea name="descripcion" style="width: 100%; height: 80px" placeholder="Breve descripción..." class="form-control"></textarea>
-        </div>
-    </div>
-
-    <div class="row espaciador">
-        <div class="col-lg-3 ">
-            <label>Tags</label>
-        </div>
-        <div class="form-field"><!--Inicio-->
-                <div id="tag-listExp" >
+                            }
+                        %>
+                    </datalist>
+                    <input id="tagsExp" type="hidden" name="tags"/>
+                    <button id="add-tag-btnExp" type="button">AddTag</button>
                 </div>
             </div>
-            <div class="form-field">
-                <input list="datalistExp" id="current-tagExp">
-                <datalist id="datalistExp">
-                    <option>hosteleria</option>
-                    <option>programacion</option>
-                    <option>base-de-datos</option>
-                    <option>bar</option>
-                </datalist>
-                <input id="tagsExp" type="hidden" name="tags"/>
-                <button id="add-tag-btnExp">AddTag</button>
-            </div><!--fin/-->
+            <div class="col-lg-8">
+                <div id="tag-listExp" class="well well"></div>
+            </div>
+        </div>
     </div>
     <input type="hidden" name="_action" value="insert">
     <div class="row text-center espaciador">
         <div class="col-lg-12">
-            <button type="submit">GUARDAR</button>
+            <input class="btn btn-success btn-block" type="submit" value="Guardar"/>
         </div>
     </div>
 </form>

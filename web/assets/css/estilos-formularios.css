@@ -64,6 +64,26 @@ div.espaciador {
     margin-bottom: 15px;}
 
 
+
+.tag
+{
+    display: inline-block;
+    background: #eee;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    padding: 0.5em;
+    margin: 0 0.5em;
+}
+
+
+.remove-tag
+{
+    background: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+
 @media (max-width:700px){
     .container {
         width: 100%;
