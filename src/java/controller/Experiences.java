@@ -34,33 +34,38 @@ public class Experiences extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        //Procesar atributos si hay form enviado
-        String action = request.getParameter("_action");
-        
-        if(action != null)
+        try
         {
-            switch(action)
+            //Procesar atributos si hay form enviado
+            String action = request.getParameter("_action");
+
+            if(action != null)
             {
-                case "insert":
-                    //insertar
-                    if(this.insert(request))
-                    {
-                        ViewUtils.setNotificationSuccess(request, "Experiencia añadida con éxito");
-                    }
-                    break;
-                case "edit":
-                    //editar
-                    ViewUtils.setNotificationSuccess(request, "Editar");
-                    break;
-                case "delete":
-                    //Borrar
-                    ViewUtils.setNotificationSuccess(request, "Borrar: "+ request.getParameter("id"));
-                default:
-                    //La acción no existe
+                switch(action)
+                {
+                    case "insert":
+                        //insertar
+                        if(this.insert(request))
+                        {
+                            ViewUtils.setNotificationSuccess(request, "Experiencia añadida con éxito");
+                        }
+                        break;
+                    case "edit":
+                        //editar
+                        ViewUtils.setNotificationSuccess(request, "Editar");
+                        break;
+                    case "delete":
+                        //Borrar
+                        ViewUtils.setNotificationSuccess(request, "Borrar: "+ request.getParameter("id"));
+                    default:
+                        //La acción no existe
+                }
             }
         }
-        
-        
+        catch(Exception ex)
+        {
+                ViewUtils.setNotificationError(request, "Ha ocurrido un error: "+ex.getMessage());
+        }
         RequestUtils.redirect(request, response, "experience");
     }
 
@@ -106,7 +111,7 @@ public class Experiences extends HttpServlet {
     /**
      * Inserta un nuevo item de experiencia a la bd si los datos son correctos...
      */
-    private boolean insert(HttpServletRequest request)
+    private boolean insert(HttpServletRequest request) throws Exception
     {
         Experience experience = Experience.instantiateFromRequest(request);
         experience.insert();

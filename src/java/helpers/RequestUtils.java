@@ -20,6 +20,11 @@ import model.User;
 public class RequestUtils {
 
     private static final String NOT_LOGGED_URL = "welcome";
+
+    public static int getSessionUserId(HttpServletRequest request)
+    {
+       return userSessionExists(request) ? getSessionUser(request).getId() : 0; 
+    }
     
     private RequestUtils(){}
     
@@ -112,9 +117,14 @@ public class RequestUtils {
         return utoken;
     }
     
+    public static boolean isNullParam(HttpServletRequest request, String param)
+    {
+        return request.getParameter(param) == null;
+    }
+    
     public static int getInt(HttpServletRequest request, String param)
     {
-        return Integer.parseInt(getString(request, param));
+        return isNullParam(request, param) ? 0 : Integer.parseInt(getString(request, param));
     }
     
     public static String getString(HttpServletRequest request, String param)

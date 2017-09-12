@@ -5,6 +5,7 @@
  */
 package model;
 
+import core.Database;
 import helpers.DataUtils;
 import helpers.DatabaseUtils;
 import helpers.RequestUtils;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Experience 
 {
-    private int id, hours;
+    private int id, hours, user_id;
     private String job, enterprise, startdate, enddate, description;
     private List<String> tags = new ArrayList<String>();
     private Sector sector;
@@ -110,6 +111,16 @@ public class Experience
     public void addTag(String tag) {
         this.tags.add(tag);
     }
+
+    public int getUser_id()
+    {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id)
+    {
+        this.user_id = user_id;
+    }
     
     public static Experience findById(int id) 
     {
@@ -191,6 +202,7 @@ public class Experience
     public static Experience instantiateFromRequest(HttpServletRequest request)
     {
         Experience experience = new Experience();
+        experience.setUser_id(RequestUtils.getSessionUserId(request));
         experience.setId(RequestUtils.getInt(request, "id"));
         experience.setEnterprise(request.getParameter("enterprise"));
         experience.setDescription(request.getParameter("description"));
@@ -205,9 +217,23 @@ public class Experience
         return experience;
     }
 
-    public void insert()
+    public boolean insert() throws Exception
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = String.format("insert into `experience`(`user_id`,`enterprise`, `description`, `startdate`, `enddate`, `country_id`, `city`, `sector_id`, `hours`, `job`, `tags`) values ('%d', %s', '%s','%s','%s', '%d', '%s', '%d','%d','%s','%s')",
+            this.getUser_id(),
+            this.getEnterprise(),    
+            this.getDescription(),    
+            this.getStartdate(),    
+            this.getEnddate(),    
+            this.getLocation().getCountry().getId(),    
+            this.getLocation().getCity(),
+            this.getSector().getId(),
+            this.getHours(),
+            this.getJob(),
+            DataUtils.joinBySpaces(this.getTags())
+                );
+            
+        return Database.getInstance().queryUpdate(query) > 0;
     }
     
 }

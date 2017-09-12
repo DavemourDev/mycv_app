@@ -108,7 +108,6 @@ public class Personal
             else
             {
                 query = String.format("insert into `personal`(`user_id`, `name`, `lastname`, `birthdate`, `gender_id`, `country_id`, `city`, `telephone1`, `telephone2`) values (%d, '%s','%s','%s', %d, %d,'%s','%s','%s')", this.getUser_id(), this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2());
-                
             }
             System.out.println("Consulta: "+query);
             affected = Database.getInstance().queryUpdate(query); 
