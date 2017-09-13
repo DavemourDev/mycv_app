@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author mati
  */
-public class Experience 
+public class Experience extends TaggableItem
 {
     private int id, hours, user_id;
     private String job, enterprise, startdate, enddate, description;

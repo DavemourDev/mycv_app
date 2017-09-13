@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author mati
  */
-public class Education 
+public class Education extends TaggableItem
 {
     private int id, hours, user_id;
     private String titlename, center, startdate, enddate, description;

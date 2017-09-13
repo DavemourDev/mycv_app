@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author mati
  */
-public class OtherInfoItem 
+public class OtherInfoItem extends TaggableItem
 {
     private String title, description, category;
 
