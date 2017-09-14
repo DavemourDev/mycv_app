@@ -89,3 +89,11 @@ div.espaciador {
         width: 100%;
     }
 }
+
+.botonesedel
+{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+}

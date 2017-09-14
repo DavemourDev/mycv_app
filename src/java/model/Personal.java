@@ -5,14 +5,15 @@
  */
 package model;
 
-import config.Config;
 import core.Database;
 import helpers.DatabaseUtils;
+import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -35,7 +36,7 @@ public class Personal
     
     public Personal(int userId)
     {
-        this.setUser_id(user_id);
+        this.setUser_id(userId);
     }
     
     public static Personal findById(int id)
@@ -90,6 +91,19 @@ public class Personal
         return personal;       
     }
     
+    public static Personal instantiateFromRequest(HttpServletRequest request, int id)
+    {
+        Personal p = new Personal(id);
+        p.setName(request.getParameter("name"));
+        p.setLastname(request.getParameter("lastname"));
+        p.setGender(Gender.findById(RequestUtils.getInt(request, "gender")));
+        p.setBirthdate(request.getParameter("birthdate"));
+        p.setLocation(Location.create(RequestUtils.getInt(request,"country"), request.getParameter("city")));
+        p.setTelephone1(request.getParameter("telephone1") == null? "" : request.getParameter("telephone1"));
+        p.setTelephone2(request.getParameter("telephone2") == null? "" : request.getParameter("telephone2"));
+        return p;
+    }
+    
     public boolean exists()
     {
         return findById(this.getUser_id()) != null;
@@ -109,7 +123,7 @@ public class Personal
             {
                 query = String.format("insert into `personal`(`user_id`, `name`, `lastname`, `birthdate`, `gender_id`, `country_id`, `city`, `telephone1`, `telephone2`) values (%d, '%s','%s','%s', %d, %d,'%s','%s','%s')", this.getUser_id(), this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2());
             }
-            System.out.println("Consulta: "+query);
+            
             affected = Database.getInstance().queryUpdate(query); 
             
         }
@@ -253,6 +267,6 @@ public class Personal
         return true;
     }
     
-
+    
     
 }

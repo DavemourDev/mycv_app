@@ -67,6 +67,7 @@ public class Database {
     public ResultSet query(String q) throws Exception
     {
         this.connect();
+        System.out.println("Consulta: " + q);
         ResultSet rs = this.stm.executeQuery(q);
         //this.close();
         return rs;
@@ -85,8 +86,7 @@ public class Database {
     public int queryUpdate(String q) throws Exception
     {
         this.connect();
-        //ResultSet rs = this.stm.executeQuery(q);
-        //this.close();
+        System.out.println("Consulta: " + q);
         return this.stm.executeUpdate(q);
     }
     

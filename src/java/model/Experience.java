@@ -187,6 +187,7 @@ public class Experience extends TaggableItem
     public static Experience instantiateFromCurrentResult(ResultSet rs) throws SQLException
     {
         Experience experience = new Experience();
+        experience.setId(rs.getInt("id"));
         experience.setEnterprise(rs.getString("enterprise"));
         experience.setDescription(rs.getString("description"));
         experience.setStartdate(rs.getString("startdate"));
@@ -219,7 +220,7 @@ public class Experience extends TaggableItem
 
     public boolean insert() throws Exception
     {
-        String query = String.format("insert into `experience`(`user_id`,`enterprise`, `description`, `startdate`, `enddate`, `country_id`, `city`, `sector_id`, `hours`, `job`, `tags`) values ('%d', %s', '%s','%s','%s', '%d', '%s', '%d','%d','%s','%s')",
+        String query = String.format("insert into `experience`(`user_id`,`enterprise`, `description`, `startdate`, `enddate`, `country_id`, `city`, `sector_id`, `hours`, `job`, `tags`) values ('%d', '%s', '%s','%s','%s', '%d', '%s', '%d','%d','%s','%s')",
             this.getUser_id(),
             this.getEnterprise(),    
             this.getDescription(),    

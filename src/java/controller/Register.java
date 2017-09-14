@@ -5,12 +5,10 @@
  */
 package controller;
 
-import helpers.DatabaseUtils;
 import helpers.RequestUtils;
 import helpers.ValidationUtils;
 import helpers.ViewUtils;
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Personal;
 import model.User;
-import model.Location;
-import model.Gender;
 
 /**
  *
@@ -30,10 +26,6 @@ public class Register extends HttpServlet
 {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        RequestDispatcher rd;
-        
         try
         {
             String email = request.getParameter("email");
@@ -42,29 +34,30 @@ public class Register extends HttpServlet
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
-                
-            if(!ValidationUtils.isEmail(email))
+            
+            if(ValidationUtils.validateUser(user))
             {
-                throw new Exception("Formato de email erróneo.");
+                if(!user.exists() && user.register())
+                {
+                    Personal personal = Personal.instantiateFromRequest(request, User.findBy("email", email).get(0).getId());
+
+                    if(ValidationUtils.validatePersonal(personal) && personal.insert())
+                    {
+                        System.out.println("Personal insertado");
+                        //Info personal actualizada
+                        ViewUtils.setNotificationSuccess(request, "Success in user registering!!!");
+                    }
+                    else
+                    {
+                        System.out.println("Personal NO insertado");
+                    }
+                }
+                else
+                {
+                    throw new Exception("El email introducido ya existe...");
+                } 
             }
             
-            if(!ValidationUtils.stringLength(password, 6, 20))
-            {
-                throw new Exception("Longitud errónea de contraseña (debe tener entre 6 y 20 caracteres).");
-            }
-            if(!user.exists())
-            {
-                DatabaseUtils.startTransaction();
-                
-                if(user.register())
-                {
-                    this.createPersonal(request, email);
-                }
-            }
-            else
-            {
-                throw new Exception("El email introducido ya existe...");
-            }
         }
         catch(Exception ex)
         {
@@ -72,58 +65,8 @@ public class Register extends HttpServlet
         }
 
         RequestUtils.redirect(request, response, "welcome");
-
-        
     }
 
-    private void createPersonal(HttpServletRequest request, String email) throws Exception
-    {
-        try
-        {
-            int id = User.findBy("email", email).get(0).getId();
-
-            Personal personal = new Personal();
-
-            personal.setUser_id(id);
-            personal.setName(request.getParameter("name"));
-
-            if(!ValidationUtils.stringLength(personal.getName(), 3, 255))
-            {
-                throw new Exception("Longitud errónea de nombre (debe tener entre 3 y 255 caracteres).");
-            }
-
-            personal.setLastname(request.getParameter("lastname"));
-            if(!ValidationUtils.stringLength(personal.getLastname(), 3, 255))
-            {
-                throw new Exception("Longitud errónea de apellidos (debe tener entre 3 y 255 caracteres).");
-            }
-
-            personal.setBirthdate(request.getParameter("birthdate"));
-
-            if(!ValidationUtils.isValidDate(personal.getBirthdate()))
-            {
-                throw new Exception("Fecha no válida.");
-            }
-
-            personal.setGender(Gender.findById(Integer.parseInt(request.getParameter("gender"))));
-
-            personal.setLocation(Location.create(Integer.parseInt(request.getParameter("country")), request.getParameter("city")));
-
-            //Comprobar si los datos son correctos y si no, lanzar una excepción.
-
-            personal.insert();
-
-            DatabaseUtils.commitTransaction();
-
-            ViewUtils.setNotificationSuccess(request, "Success in user registering!!!");
-
-        }    
-        catch(Exception ex)
-        {
-            DatabaseUtils.cancelTransaction();
-            throw ex; //Lanza la exception hacia abajo. Este catch es para cancelar la transacción.
-        }
-    }
             
             
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

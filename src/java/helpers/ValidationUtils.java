@@ -5,7 +5,11 @@
  */
 package helpers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import model.Personal;
+import model.User;
 
 /**
  *
@@ -13,6 +17,41 @@ import java.util.Calendar;
  */
 public class ValidationUtils 
 {
+
+    public static boolean validatePersonal(Personal personal) throws Exception
+    {
+        List<String> problems = new ArrayList<String>();
+        boolean isValid = true;
+        
+        
+        if(!ValidationUtils.stringLength(personal.getName(), 3, 255))
+        {
+            isValid = false;
+            problems.add("Longitud de nombre incorrecta");
+        }
+
+        if(!ValidationUtils.stringLength(personal.getLastname(), 3, 255))
+        {
+            isValid = false;
+            problems.add("Longitud de apellidos incorrecta");
+        }
+
+        if(!ValidationUtils.isValidDate(personal.getBirthdate()))
+        {
+            
+            System.out.println("Fecha incorrecta");
+            isValid = false;
+            problems.add("Fecha Incorrecta!");
+        }
+    
+        if(!isValid)
+        {
+            System.out.println("Personal no válido!!!!!!");
+        }
+        
+        return isValid;
+    }
+    
     private ValidationUtils(){}
     
     public static boolean stringLength(String subject, int minWidth, int maxWidth)
@@ -28,7 +67,7 @@ public class ValidationUtils
     
     public static boolean isValidDate(String subject)
     {
-        if(!subject.matches("(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})"))
+        if(!subject.matches("\\d{4}-\\d{2}-\\d{2}"))
         {
             System.out.println("Fecha no cumple el formato: " + subject);
             return false;
@@ -36,9 +75,9 @@ public class ValidationUtils
         
         try
         {
-            int day = Integer.parseInt(subject.substring(0,2));
-            int month = Integer.parseInt(subject.substring(3,5));
-            int year = Integer.parseInt(subject.substring(6,10));
+            int year= Integer.parseInt(subject.substring(0,4));
+            int month = Integer.parseInt(subject.substring(5,7));
+            int day = Integer.parseInt(subject.substring(8,10));
             
             if((year < 1900 || year > Calendar.getInstance().get(Calendar.YEAR)) || (month >12 || month < 1))
             {
@@ -73,4 +112,31 @@ public class ValidationUtils
         
         return true;
     }
+    
+    public static boolean validateUser(User user) throws Exception
+    {
+
+        boolean isValid = true;
+        List<String> problems = new ArrayList<>();
+        
+        if(!ValidationUtils.isEmail(user.getEmail()))
+        {
+            isValid=false;
+            problems.add("Formato de email no válido");
+        }
+
+        if(!ValidationUtils.stringLength(user.getPassword(), 6, 20))
+        {
+            isValid = false;
+            problems.add("La contraseña debe tener 6 caracteres como mínimo");
+        }
+
+        if(!isValid)
+        {
+           throw new Exception(problems.toString());
+        }
+        
+        return isValid;
+    }
+    
 }

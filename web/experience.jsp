@@ -1,3 +1,4 @@
+<%@page import="model.Experience"%>
 <%@page import="helpers.DatabaseUtils"%>
 <%@page import="model.Country"%>
 <%@page import="model.Sector"%>
@@ -61,7 +62,6 @@
                 <div class="form-field">
                     <label>Ciudad</label>
                     <input class="form-control" name="ciudadEmpresa" type="text" placeholder="Ciudad...">
-                 
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
     <div class="form-group">  
         <div class="row">
             <div class="col-lg-12">
-                <label>Descripción de la experiencia</label>
+                <label>Descripción</label>
                 <textarea name="description" style="width: 100%; height: 80px" placeholder="Breve descripción..." class="form-control"></textarea>
             </div>
         </div>
@@ -99,7 +99,8 @@
                     <datalist id="datalistExp">
                         <%
                             for(String tag: RequestUtils.getExpTags(request)){
-
+                                //Consulta vista de tags para obtener las opciones
+                                //Tag.
                             }
                         %>
                     </datalist>
@@ -108,7 +109,7 @@
                 </div>
             </div>
             <div class="col-lg-8">
-                <div id="tag-listExp" class="well well"></div>
+                <div id="tag-listExp" class="well"></div>
             </div>
         </div>
     </div>
@@ -122,59 +123,39 @@
 
 <!--Fin de formulario nuevo-->
 
-<hr><br>
-<h2 class="text-center">Experiencias introducidas</h2>
-<div class="row"><!--Un item-->
-    
-    <div class="col-lg-10">
-        <div class="campoyaintroducido">    
-            <h3>Ayudante en <small>Moke Architekten</small></h3>
-            <p>Febrero 2016 - Enero 2017</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="row botonesedel">
-            <div class="col-lg-12">
-                <a class="btn btn-warning edit-item-btn" href="#edit-item-1">EDITA</a></button>
-            </div>
-            <div class="col-lg-12">
-                <!--Este formulario solamente tiene un campo de enviar y un campo oculto que guarda la id... ideas raras mías-->
-                <form action="Experience" method="POST">
-                    <input type="hidden" name="_action" value="delete"/>
-                    <input type="hidden" name="id" value="1"/>
-                    <button class="btn btn-danger delete-item-btn" href="#delete-item-1">ELIMINA</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-</div>
-<div class="row">
-    <form class="form-hidden" id="edit-item-1">
-        <h3 class="text-center">Editar item 1</h3>
+<%
+    List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
+%>
 
-    </form>
+<%%>
+<h2 class="text-center">Experiencias introducidas</h2>
+<div class="container">
+    <%for(Experience exp : experienceList){%>
+    <!---->
+    <article class="cv-section-item">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="campoyaintroducido">    
+                    <h3><%=exp.getJob()%> en <small><%=exp.getEnterprise()%></small></h3>
+                    <p><%=exp.getStartdate()%> | <%=exp.getEnddate()%> </p>
+                    <p><%=exp.getDescription()%> </p>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="botonesedel">
+                    <button><a href="#edit-item-<%=exp.getId()%>">EDITA</a></button>
+                    <button><a href="Delete?_action=delete&id=<%=exp.getId()%>">ELIMINA</a></button>
+                </div>
+            </div>
+        </div>  
+        <form class="hidden" id="edit-item-<%=exp.getId()%>">
+            <h2>Form para experiencia "<%=exp.getId()%>"</h2>
+        </form>
+    </article>
+        <!--fin-->
+    <%}%>
 </div>
-<br><hr><br>
+
 <!--Fin del item-->
-<div class="row">
-    <div class="col-lg-10">
-        <div class="campoyaintroducido">    
-            <h3>Ayudante en <small>Moke Architekten</small></h3>
-            <p>Febrero 2016 - Enero 2017</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="row botonesedel">
-            <div class="col-lg-12">
-                <button><a href="#">EDITA</a></button>
-            </div>
-            <div class="col-lg-12">
-                <button><a href="#">ELIMINA</a></button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <%@include file="layout/lower.jsp" %>
