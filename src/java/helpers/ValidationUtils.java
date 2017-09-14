@@ -17,7 +17,11 @@ import model.User;
  */
 public class ValidationUtils 
 {
-
+    public static final String EMAIL_REGEXP = "(?:[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    public static final String DATE_REGEXP = "\\d{4}-\\d{2}-\\d{2}";
+    
+    private ValidationUtils(){}
+    
     public static boolean validatePersonal(Personal personal) throws Exception
     {
         List<String> problems = new ArrayList<String>();
@@ -52,8 +56,6 @@ public class ValidationUtils
         return isValid;
     }
     
-    private ValidationUtils(){}
-    
     public static boolean stringLength(String subject, int minWidth, int maxWidth)
     {
         int length = subject.length();
@@ -62,12 +64,12 @@ public class ValidationUtils
     
     public static boolean isEmail(String subject)
     {
-        return subject.matches("(?:[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+\\/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
+        return subject.matches(EMAIL_REGEXP);
     }
     
     public static boolean isValidDate(String subject)
     {
-        if(!subject.matches("\\d{4}-\\d{2}-\\d{2}"))
+        if(!subject.matches(DATE_REGEXP))
         {
             System.out.println("Fecha no cumple el formato: " + subject);
             return false;

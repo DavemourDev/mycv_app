@@ -14,56 +14,29 @@
         -moz-box-shadow: 6px 6px 4px rgba(0, 0, 0, .1);
 }
 
-
-/*BOTON ANADIR NUEVO ITEM*/
-.new-item-btn {
-    padding: 5px;
-    text-transform: uppercase;
-    width: 100%;
-    font-variant: small-caps;
-}
-
-.nuevoItem > div > button > a {
-    text-decoration: none;
-    color: initial;
-    text-transform: uppercase;}
-
-
 /*EXPERIENCIA YA INTRODUCIDA*/
-div.campoyaintroducido{
-    border: 1px solid grey;
+.campoyaintroducido
+{
+    border: 1px solid #777;
     background-color: lightgoldenrodyellow;
-    padding: 5px;}
+    padding: 1em;
+}
 
 
 /*BOTONES EDITAR Y ELIMINAR EXPERIENCIA*/
-div.botonesedel.row > div > button > a {
-    text-decoration: none;
-    color: initial;}
 
-div.botonesedel.row {
-    height: 100%;}
-
-div.botonesedel.row > div {
-    height: 50%;}
-
-
-
-.edit-item-btn, .delete-item-btn {
+.boton{
+    font-variant: small-caps;
+    padding: 0.5em;
     height: 100%;
     border-radius: 5px;
     width: 100%;}
 
-.btn:hover {
+.boton:hover 
+{
     cursor:pointer;
+    opacity: 1;
 }
-
-
-/*HERRAMIENTA SEPARADOR*/
-div.espaciador {
-    margin-bottom: 15px;}
-
-
 
 .tag
 {
@@ -74,7 +47,6 @@ div.espaciador {
     padding: 0.5em;
     margin: 0 0.5em;
 }
-
 
 .remove-tag
 {
@@ -96,4 +68,9 @@ div.espaciador {
     flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.description-field{
+    width: 100%; 
+    height: 80px;
 }

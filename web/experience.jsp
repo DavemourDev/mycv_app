@@ -1,12 +1,20 @@
+<%@page import="helpers.FormatUtils"%>
 <%@page import="model.Experience"%>
 <%@page import="helpers.DatabaseUtils"%>
 <%@page import="model.Country"%>
 <%@page import="model.Sector"%>
 
-
 <%
-    ViewUtils.setStylesheets(request, "estilos-formularios");
+    ViewUtils.setStylesheets(request, "estilos-formularios", "estilos-panel-principal");
     ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
+    
+    //Inicializar variables 
+    
+    List<Sector> sectors = Sector.findAll();
+    List<Country> countries = Country.findAll();
+    List<String> expTags = RequestUtils.getExpTags(request);
+    List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
+
 %>
 
 <%@include file="layout/upper.jsp" %>
@@ -31,13 +39,15 @@
                 <label>Puesto</label>
                 <input name="job" type="text" placeholder="Puesto..." class="form-control">
             </div>
+            
             <div class="col-lg-4">
                 <label>Sector</label>
                 <select class="form-control" name="sector">
                     <option value="" disabled selected>(seleccionar)</option>
-                    <%for(Sector s : Sector.findAll()){%>
+                    <%for(Sector s : sectors){%>
                         <option value="<%=s.getId()%>"><%=s.getName()%></option>
                     <%}%>
+                    
                 </select>
             </div>
 
@@ -51,7 +61,7 @@
                         <label>País</label>
                         <select class="form-control" name="country" required>
                             <option value="" disabled>(seleccionar)</option>
-                            <%for(Country c : Country.findAll()){%>
+                            <%for(Country c : countries){%>
                                 <option value="<%=c.getId()%>"<%=c.getId() == RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId()?" selected":""%>><%=c.getName()%></option>
                             <%}%>
                         </select>
@@ -83,7 +93,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <label>Descripción</label>
-                <textarea name="description" style="width: 100%; height: 80px" placeholder="Breve descripción..." class="form-control"></textarea>
+                <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"></textarea>
             </div>
         </div>
     </div>
@@ -95,10 +105,10 @@
             </div>
             <div class="col-lg-3">
                 <div class="form-field"><!--Inicio-->
-                    <input list="datalistExp" id="current-tagExp">
+                    <input list="datalistExp" id="current-tagExp" data-toggle="tooltip" title="Una tag debe empezar con una letra y puede contener letras, números, guiones y guiones bajos.">
                     <datalist id="datalistExp">
                         <%
-                            for(String tag: RequestUtils.getExpTags(request)){
+                            for(String tag: expTags){
                                 //Consulta vista de tags para obtener las opciones
                                 //Tag.
                             }
@@ -123,39 +133,42 @@
 
 <!--Fin de formulario nuevo-->
 
-<%
-    List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
-%>
-
-<%%>
-<h2 class="text-center">Experiencias introducidas</h2>
-<div class="container">
-    <%for(Experience exp : experienceList){%>
-    <!---->
-    <article class="cv-section-item">
-        <div class="row">
-            <div class="col-lg-10">
-                <div class="campoyaintroducido">    
-                    <h3><%=exp.getJob()%> en <small><%=exp.getEnterprise()%></small></h3>
-                    <p><%=exp.getStartdate()%> | <%=exp.getEnddate()%> </p>
-                    <p><%=exp.getDescription()%> </p>
+<%if(experienceList.isEmpty()){%>
+    <h2>No tienes experiencias guardadas</h2>
+<%}else{%>
+    <h2 class="text-center">Experiencias introducidas</h2>
+    <div class="container">
+        <%for(Experience exp : experienceList){%>
+        <!--Articulo-->
+        <article class="cv-section-item">
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="campoyaintroducido">    
+                        <h3><%=exp.getJob()%> en <small><%=exp.getEnterprise()%></small></h3>
+                        <p><%=FormatUtils.formatDate(exp.getStartdate())%> | <%=FormatUtils.formatDate(exp.getEnddate())%> </p>
+                        <p><%=exp.getDescription()%> </p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="botonesedel">
-                    <button><a href="#edit-item-<%=exp.getId()%>">EDITA</a></button>
-                    <button><a href="Delete?_action=delete&id=<%=exp.getId()%>">ELIMINA</a></button>
+                <div class="col-lg-2">
+                    <div class="botonesedel">
+                        <a class="boton-menu btn-edit-item btn btn-warning" href="#edit-item-<%=exp.getId()%>">EDITA</a>
+                        <a class="boton-menu btn btn-danger" href="Delete?_action=delete&id=<%=exp.getId()%>">ELIMINA</a>
+                    </div>
                 </div>
-            </div>
-        </div>  
-        <form class="hidden" id="edit-item-<%=exp.getId()%>">
-            <h2>Form para experiencia "<%=exp.getId()%>"</h2>
-        </form>
-    </article>
-        <!--fin-->
-    <%}%>
-</div>
-
+            </div>  
+            <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=exp.getId()%>">
+                <h2>Form para experiencia "<%=exp.getId()%>"</h2>
+            </form>
+        </article>
+            <!--fin-->
+        <%}%>
+    </div>
+<%}%>
 <!--Fin del item-->
 
 <%@include file="layout/lower.jsp" %>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+</script>

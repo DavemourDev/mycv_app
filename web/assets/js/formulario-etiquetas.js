@@ -9,8 +9,6 @@ $(function () {
             this.splice(indexOfItem, 1);
     };
 
-
-
     //inicialización de cosas
     var scopeTagInput;
 
@@ -48,18 +46,22 @@ $(function () {
         if (scopeTagInput.tagArray.length >= scopeTagInput.maxTags)
         {
             console.log("No se pueden añadir más etiquetas");
-        } else
+        } 
+        else
         {
             let textTag = scopeTagInput.tagEditField.val();
 
-            if (textTag)
+            if(textTag.match(/^[a-zA-Z][a-zA-Z\-\_\d]*$/) && scopeTagInput.tagArray.indexOf(textTag) < 0)
             {
                 scopeTagInput.tagList.append("<span class='tag tag" + scopeTagInput.namespace + "'><span class='tag-text'>" + textTag + "</span> <i class='fa fa-remove remove-tag'></i></span>");
                 scopeTagInput.tagEditField.val("");
                 scopeTagInput.tagArray.push(textTag);
                 scopeTagInput.updateTagList();
             }
-
+            else
+            {
+                alert("Una tag no puede contener espacios y debe comenzar por una letra.");
+            }
             console.log(this.namespace + ": Etiqueta creada: " + textTag);
         }
 

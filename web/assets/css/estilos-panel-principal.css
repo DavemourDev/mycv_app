@@ -68,11 +68,6 @@ David:
  {
     background: #DD4B39; 
  }
-
- #control-panel
- {
-     
- }
  
  #control-panel>li
  {
@@ -88,66 +83,3 @@ David:
  {
      display: none;
  }
-/*PESTAÑAS DE MENU*/
-/*
-
-ul {
-    list-style-type: none;
-    padding-left: 15px;
-}
-
-li {
-    float: left;
-    width: 229px;
-    background-color: black;
-    border-radius: 14px 16px 0 0;
-    border-top: 1px solid #000;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
-    border-bottom: none;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover {
-    background-color: #111;
-    border-radius: 15px 15px 0 0;
-    border-top: 1px solid #000;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
-    border-bottom: none;
-    text-decoration: none;
-}
-
-li.datos a:hover {
-    background-color: transparent;
-    border: none;
-}
-
-li.datos {
-    background-color: #AED6F1;
-    border: 1px solid #000;
-    border-bottom: none;
-    color: #85C1E9;
-}
-
-button.boton-menu {
-    padding-top: 42px;
-    width: 100%;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 7px;
-    color: #FFF;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    transition: 0.2s ease;
-    cursor: pointer;
-    background: #DD4B39;
-}
-*/

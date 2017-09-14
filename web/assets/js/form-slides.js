@@ -6,7 +6,7 @@
      
      $(document).on("click", ".btn-edit-item", function(){
          //Muestra form de edicion
-         let idEditedItem = $(this).attr("href");
+         let idEditedItem = $(this).first().attr("href");
          $(".form-hidden").slideUp();
          $(idEditedItem).slideDown();
      });

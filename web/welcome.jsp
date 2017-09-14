@@ -50,7 +50,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Fecha de nacimiento</label>
-                                <input class="form-control" type="date" pattern="\d{4}/\d{2}/\d{2}" name="birthdate" placeholder="Fecha de nacimiento(aaaa/mm/dd)" required>
+                                <input class="form-control" type="date" pattern="\d{4}-\d{2}-\d{2}" name="birthdate" placeholder="Fecha de nacimiento(aaaa-mm-dd)" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">País</label>
