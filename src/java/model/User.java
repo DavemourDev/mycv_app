@@ -200,4 +200,21 @@ public class User
             this.id = 0;
         }
     }
+    
+    public static boolean delete(int id)
+    {
+        int affected;
+           
+        try {
+            String query = String.format("delete from `user` where `id`('%d'));", id);
+            affected = Database.getInstance().queryUpdate(query); 
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos (borrar usuario).");
+            affected = 0;
+        }
+        
+        return affected > 0;
+    }
 }

@@ -3,7 +3,6 @@
 
 <%
     List<Country> countryList = Country.findAll();
-    
 %>
 
 
@@ -31,7 +30,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Password</label>
-                                <input type="password" class="form-control" name="password"  placeholder="password" required>
+                                <input pattern="\w{6,50}" type="password" class="form-control" name="password"  placeholder="password (mínimo: 6 caracteres)" required>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Nombre</label>

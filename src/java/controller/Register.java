@@ -28,6 +28,11 @@ public class Register extends HttpServlet
     {
         try
         {
+            if(RequestUtils.isNullParam(request, "email") || RequestUtils.isNullParam(request, "password"))
+            {
+                throw new Exception("Email y/o contraseña no introducidos.");
+            }
+
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             
@@ -37,25 +42,37 @@ public class Register extends HttpServlet
             
             if(ValidationUtils.validateUser(user))
             {
-                if(!user.exists() && user.register())
+                if(!user.exists())
                 {
-                    Personal personal = Personal.instantiateFromRequest(request, User.findBy("email", email).get(0).getId());
-
-                    if(ValidationUtils.validatePersonal(personal) && personal.insert())
+                    if(user.register())
                     {
-                        System.out.println("Personal insertado");
-                        //Info personal actualizada
-                        ViewUtils.setNotificationSuccess(request, "Success in user registering!!!");
+                        int userId = User.findBy("email", email).get(0).getId();
+                        Personal personal = Personal.instantiateFromRequest(request, userId);
+
+                        if(ValidationUtils.validatePersonal(personal) && personal.insert())
+                        {
+                            System.out.println("Personal insertado");
+                            //Info personal actualizada
+                            ViewUtils.setNotificationSuccess(request, "Success in user registering!!!");
+                        }
+                        else
+                        {
+                            User.delete(userId);
+                        }
                     }
                     else
                     {
-                        System.out.println("Personal NO insertado");
+                        throw new Exception("Error al validar los datos.");
                     }
                 }
                 else
                 {
-                    throw new Exception("El email introducido ya existe...");
+                    throw new Exception("El usuario introducido ya existe.");
                 } 
+            }
+            else
+            {
+                throw new Exception("Credenciales de usuario no válidas.");
             }
             
         }
