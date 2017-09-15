@@ -5,7 +5,7 @@
 <%@page import="model.Sector"%>
 
 <%
-    ViewUtils.setStylesheets(request, "estilos-formularios", "estilos-panel-principal");
+    ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
     ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
     
     //Inicializar variables 
@@ -141,21 +141,19 @@
         <%for(Experience exp : experienceList){%>
         <!--Articulo-->
         <article class="cv-section-item">
-            <div class="row">
-                <div class="col-lg-10">
-                    <div class="campoyaintroducido">    
-                        <h3><%=exp.getJob()%> en <small><%=exp.getEnterprise()%></small></h3>
-                        <p><%=FormatUtils.formatDate(exp.getStartdate())%> | <%=FormatUtils.formatDate(exp.getEnddate())%> </p>
-                        <p><%=exp.getDescription()%> </p>
-                    </div>
-                </div>
-                <div class="col-lg-2">
+            <div class="campoyaintroducido">    
+                <h3><%=exp.getJob()%> en <small><%=exp.getEnterprise()%></small></h3>
+                <p>Desde <%=FormatUtils.formatDate(exp.getStartdate())%> hasta <%=FormatUtils.formatDate(exp.getEnddate())%> </p>
+                <p><%=exp.getDescription()%> </p>
+                <div>
                     <div class="botonesedel">
-                        <a class="boton-menu btn-edit-item btn btn-warning" href="#edit-item-<%=exp.getId()%>">EDITA</a>
-                        <a class="boton-menu btn btn-danger" href="Delete?_action=delete&id=<%=exp.getId()%>">ELIMINA</a>
+                        <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=exp.getId()%>">EDITA</a>
+                        <a class="boton-menu bg-btn-1" href="Delete?_action=delete&id=<%=exp.getId()%>">ELIMINA</a>
                     </div>
                 </div>
-            </div>  
+            </div>
+                
+            
             <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=exp.getId()%>">
                 <h2>Form para experiencia "<%=exp.getId()%>"</h2>
             </form>

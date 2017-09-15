@@ -41,12 +41,17 @@ David:
      cursor: pointer;
      text-shadow: 1px 1px #aaa;
      opacity: 0.9;
+     border: 1px solid #000;
+     background: #777;
+     
  }
 
 .boton-menu:hover, .boton-menu:focus, .boton-menu:active {
      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
      transition: 0.2s ease;
      opacity: 1;
+     text-decoration: none;
+     color: #8f8;
  }
  
  /*Espacio entre botones*/

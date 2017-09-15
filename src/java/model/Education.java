@@ -5,11 +5,15 @@
  */
 package model;
 
+import core.Database;
+import helpers.DataUtils;
 import helpers.DatabaseUtils;
+import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -22,6 +26,7 @@ public class Education extends TaggableItem
     private Sector sector;
     private Location location;
     private EducationLevel level;
+    private List<String> tags;
 
     public int getId() {
         return id;
@@ -111,6 +116,21 @@ public class Education extends TaggableItem
         this.user_id = user_id;
     }
     
+    
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags)
+    {
+        this.tags=tags;
+    }
+    
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    
     public static Education findById(int id) 
     {
         Education education = null;
@@ -190,5 +210,46 @@ public class Education extends TaggableItem
         education.setHours(rs.getInt("hours"));
         return education;
     }
+    
+        
+    public static Education instantiateFromRequest(HttpServletRequest request)
+    {
+        Education education = new Education();
+        education.setUser_id(RequestUtils.getSessionUserId(request));
+        education.setId(RequestUtils.getInt(request, "id"));
+        education.setCenter(request.getParameter("center"));
+        education.setDescription(request.getParameter("description"));
+        education.setStartdate(request.getParameter("startdate"));
+        education.setEnddate(request.getParameter("enddate"));
+        education.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
+        education.setLevel(EducationLevel.findById(RequestUtils.getInt(request, "level")));
+        education.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
+        education.setHours(RequestUtils.getInt(request, "hours"));
+        education.setTitlename(request.getParameter("titlename"));
+        education.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        
+        return education;
+    }
+
+    public boolean insert() throws Exception
+    {
+        String query = String.format("insert into `education`(`user_id`,`center`, `description`, `startdate`, `enddate`, `country_id`, `city`, `sector_id`, `hours`, `titlename`, `level`,`tags`) values ('%d', '%s', '%s','%s','%s', '%d', '%s', '%d','%d','%s','%s')",
+            this.getUser_id(),
+            this.getCenter(),    
+            this.getDescription(),    
+            this.getStartdate(),    
+            this.getEnddate(),    
+            this.getLocation().getCountry().getId(),    
+            this.getLocation().getCity(),
+            this.getSector().getId(),
+            this.getHours(),
+            this.getTitlename(),
+            this.getLevel(),
+            DataUtils.joinBySpaces(this.getTags())
+                );
+            
+        return Database.getInstance().queryUpdate(query) > 0;
+    }
+ 
 
 }

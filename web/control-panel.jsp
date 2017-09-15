@@ -37,12 +37,12 @@
             </div>
         </div>
         <div id="curriculum" class="panel-section">
-            
-        <div class="row">
-            
-        </div>
-            
-            
+
+            <div class="row">
+
+            </div>
+
+
         </div>
         <div id="my-data" class="panel-section">
             <div class="col-lg-3"><!--Columna vacía--></div>
