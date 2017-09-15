@@ -11,14 +11,14 @@ $(function(){
         
     };
     
-    $(document).on("click", "#control-panel > li > a", function()
+    var panelSectionSwitch = function()
     {
         let section = $(this).attr("href");
         
-        console.log(section);
-        
         if(section !== activeControlPanelSection)
         {
+            $(".nav-tabs-hidden").fadeIn();
+            
             //Si no es la sección activa
             activeControlPanelSection = section;
             
@@ -28,7 +28,10 @@ $(function(){
             $("#control-panel>li>a[href='"+section+"']").parent().addClass("active");
             
         }
-    });
+    };
+    
+  //  $(document).on("click", "#control-panel > li > a", panelSectionSwitch);
+    $(document).on("click", ".panel-link", panelSectionSwitch);
     
     //Código a ejecutar
     showControlPanelSection(activeControlPanelSection);

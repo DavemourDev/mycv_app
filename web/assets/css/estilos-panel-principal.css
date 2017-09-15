@@ -83,3 +83,12 @@ David:
  {
      display: none;
  }
+
+ footer{
+    position: fixed;
+    bottom: 0em;
+ }
+ 
+ .nav-tabs-hidden {
+     display: none;
+ }

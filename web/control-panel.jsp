@@ -12,11 +12,11 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <ul class="nav nav-tabs" id="control-panel">
-            <li class="active"><a href="#home">Principal</a></li>
-            <li><a href="#curriculum">Ver mis curriculums</a></li>
-            <li><a href="#my-data">Mis datos</a></li>
-            <li><a href="#profiles">Perfiles</a></li>
+        <ul class="nav nav-tabs nav-tabs-hidden" id="control-panel">
+            <!--<li class="active"><a href="#home">Principal</a></li>-->
+            <li><a class="panel-link" href="#curriculum">Ver mis curriculums</a></li>
+            <li><a class="panel-link" href="#my-data">Mis datos</a></li>
+            <li><a class="panel-link" href="#profiles">Perfiles</a></li>
         </ul>
     </div>
 </div>
@@ -26,11 +26,10 @@
             <div class="row">
                 <div class="col-lg-3"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-6">
-                    <h2 class="titulo-seccion">Inicio</h2>
                     <div class="well well-lg">
-                        <a class="boton-menu bg-btn-1" href="UserData">Mis Datos</a>
-                        <a class="boton-menu bg-btn-2" href="Profiles">Mis Plantillas</a>
-                        <a class="boton-menu bg-btn-3" href="CV">Mis CV</a>
+                        <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis Datos</a>
+                        <a class="boton-menu panel-link bg-btn-2" href="#profiles">Mis Plantillas</a>
+                        <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis CV</a>
                     </div>
                 </div>
 
