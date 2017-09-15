@@ -26,11 +26,9 @@
             <div class="row">
                 <div class="col-lg-3"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-6">
-                    <div class="well well-lg">
                         <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis Datos</a>
                         <a class="boton-menu panel-link bg-btn-2" href="#profiles">Mis Plantillas</a>
                         <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis CV</a>
-                    </div>
                 </div>
 
                 <div class="col-lg-3"><!--COLUMNA vacia--></div>
