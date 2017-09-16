@@ -188,6 +188,7 @@ public class Experience extends TaggableItem
     {
         Experience experience = new Experience();
         experience.setId(rs.getInt("id"));
+        experience.setUser_id(rs.getInt("user_id"));
         experience.setEnterprise(rs.getString("enterprise"));
         experience.setDescription(rs.getString("description"));
         experience.setStartdate(rs.getString("startdate"));
@@ -203,8 +204,8 @@ public class Experience extends TaggableItem
     public static Experience instantiateFromRequest(HttpServletRequest request)
     {
         Experience experience = new Experience();
-        experience.setUser_id(RequestUtils.getSessionUserId(request));
         experience.setId(RequestUtils.getInt(request, "id"));
+        experience.setUser_id(RequestUtils.getSessionUserId(request));
         experience.setEnterprise(request.getParameter("enterprise"));
         experience.setDescription(request.getParameter("description"));
         experience.setStartdate(request.getParameter("startdate"));
@@ -233,6 +234,13 @@ public class Experience extends TaggableItem
             this.getJob(),
             DataUtils.joinBySpaces(this.getTags())
                 );
+            
+        return Database.getInstance().queryUpdate(query) > 0;
+    }
+
+    public boolean delete() throws Exception
+    {
+        String query = String.format("delete from `experience` where `id`='%s';", this.getId());
             
         return Database.getInstance().queryUpdate(query) > 0;
     }

@@ -45,3 +45,14 @@ footer{
 .layout-color-main{
     color: #32508E;
 }
+
+/*Preguntar*/
+@media screen and (max-height: 100%)
+{
+    /*Se aplica si el alto de la página no supera el tamaño de la ventana del navegador*/
+    
+    footer {
+        position: fixed;
+        bottom: 0em;
+    }
+}

@@ -56,7 +56,11 @@ public class Experiences extends HttpServlet {
                         break;
                     case "delete":
                         //Borrar
-                        ViewUtils.setNotificationSuccess(request, "Borrar: "+ request.getParameter("id"));
+                        if(this.delete(request))
+                        {
+                            ViewUtils.setNotificationSuccess(request, "Experiencia eliminada con éxito");
+                        }
+                        break;
                     default:
                         //La acción no existe
                 }
@@ -119,4 +123,25 @@ public class Experiences extends HttpServlet {
         return true;
     }
 
+    private boolean delete(HttpServletRequest request) throws Exception
+    {
+        try
+        {
+            Experience exp = Experience.findById(RequestUtils.getInt(request, "id"));
+            if(exp.getUser_id() != RequestUtils.getSessionUserId(request))
+            {
+                //Las ids de usuario no coinciden: esto pasa si el usuario es un "listillo". Abortar borrado.
+                System.out.println("Exp: "+exp.getUser_id()+", Usuario: "+RequestUtils.getSessionUserId(request));
+                throw new Exception("Operación no autorizada.");
+            }
+            else
+            {
+                return exp.delete();
+            }
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

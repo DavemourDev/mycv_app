@@ -14,7 +14,7 @@
     List<Country> countries = Country.findAll();
     List<String> expTags = RequestUtils.getExpTags(request);
     List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
-
+    int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
 %>
 
 <%@include file="layout/upper.jsp" %>
@@ -62,7 +62,7 @@
                         <select class="form-control" name="country" required>
                             <option value="" disabled>(seleccionar)</option>
                             <%for(Country c : countries){%>
-                                <option value="<%=c.getId()%>"<%=c.getId() == RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId()?" selected":""%>><%=c.getName()%></option>
+                                <option value="<%=c.getId()%>"<%=c.getId() == user_country_id?" selected='selected'":""%>><%=c.getName()%></option>
                             <%}%>
                         </select>
                     </div>
@@ -71,7 +71,7 @@
             <div class="col-lg-6">
                 <div class="form-field">
                     <label>Ciudad</label>
-                    <input class="form-control" name="ciudadEmpresa" type="text" placeholder="Ciudad...">
+                    <input class="form-control" name="city" type="text" placeholder="Ciudad...">
                 </div>
             </div>
         </div>
@@ -138,26 +138,13 @@
 <%}else{%>
     <h2 class="text-center">Experiencias introducidas</h2>
     <div class="container">
-        <%for(Experience exp : experienceList){%>
-        <!--Articulo-->
-        <article class="cv-section-item">
-            <div class="campoyaintroducido">    
-                <h3><%=exp.getJob()%> en <small><%=exp.getEnterprise()%></small></h3>
-                <p>Desde <%=FormatUtils.formatDate(exp.getStartdate())%> hasta <%=FormatUtils.formatDate(exp.getEnddate())%> </p>
-                <p><%=exp.getDescription()%> </p>
-                <div>
-                    <div class="botonesedel">
-                        <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=exp.getId()%>">EDITA</a>
-                        <a class="boton-menu bg-btn-1" href="Delete?_action=delete&id=<%=exp.getId()%>">ELIMINA</a>
-                    </div>
-                </div>
-            </div>
-                
-            
-            <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=exp.getId()%>">
-                <h2>Form para experiencia "<%=exp.getId()%>"</h2>
-            </form>
-        </article>
+        <%for(Experience exp : experienceList){
+            int exp_id = exp.getId();
+            String startdate = exp.getStartdate();
+            String enddate = exp.getEnddate();
+        %>
+        <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
+        <%@include file="templates/experience_item.jsp"%>
             <!--fin-->
         <%}%>
     </div>

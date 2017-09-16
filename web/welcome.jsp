@@ -2,7 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    List<Country> countryList = Country.findAll();
+    List<Country> countryList = RequestUtils.getCountries(request);
 %>
 
 

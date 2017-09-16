@@ -96,10 +96,12 @@ David:
      display: none;
  }
 
+ /* Regla anulada: En base-layout se ha establecido un media query que cumple mejor su función
  footer{
     position: fixed;
     bottom: 0em;
  }
+ */
  
  .nav-tabs-hidden {
      display: none;

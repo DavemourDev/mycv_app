@@ -11,6 +11,9 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Country;
+import model.Language;
+import model.Sector;
 import model.User;
 
 /**
@@ -138,5 +141,50 @@ public class RequestUtils {
         List<String> list = new ArrayList<String>();
         
         return list;
+    }
+    
+    /**
+     * Almacena en sesión la lista de países de la aplicación si no lo ha hecho y la devuelve.
+     * Esto presenta la ventaja de reducir notablemente el acceso a la base de datos por parte de la aplicación, haciéndola más eficiente.
+     * @param request
+     * @return Lista completa de países de la BD
+     */
+    public static List<Country> getCountries(HttpServletRequest request)
+    {
+        if(request.getSession().getAttribute("countries") == null)
+        {
+            request.getSession().setAttribute("countries", Country.findAll());
+        }
+        return (List<Country>) request.getSession().getAttribute("countries");
+    }
+    
+    /**
+     * Almacena en sesión la lista de idiomas de la aplicación si no lo ha hecho y la devuelve.
+     * Esto presenta la ventaja de reducir notablemente el acceso a la base de datos por parte de la aplicación, haciéndola más eficiente.
+     * @param request
+     * @return Lista completa de idiomas de la BD
+     */
+    public static List<Language> getLanguages(HttpServletRequest request)
+    {
+        if(request.getSession().getAttribute("languages") == null)
+        {
+            request.getSession().setAttribute("languages", Language.findAll());
+        }
+        return (List<Language>) request.getSession().getAttribute("languages");
+    }
+    
+    /**
+     * Almacena en sesión la lista de sectores de la aplicación si no lo ha hecho y la devuelve.
+     * Esto presenta la ventaja de reducir notablemente el acceso a la base de datos por parte de la aplicación, haciéndola más eficiente.
+     * @param request
+     * @return Lista completa de sectores de la BD
+     */
+    public static List<Sector> getSectors(HttpServletRequest request)
+    {
+        if(request.getSession().getAttribute("sectors") == null)
+        {
+            request.getSession().setAttribute("sectors", Sector.findAll());
+        }
+        return (List<Sector>) request.getSession().getAttribute("sectors");
     }
 }
