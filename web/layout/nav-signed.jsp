@@ -8,7 +8,9 @@
 
     <div class="container">
         <div class="navbar-header navbar-left">
-            <a class="navbar-brand" href="index.jsp"><%=Config.APP_NAME%></a>
+            <a class="navbar-brand" href="index.jsp">
+                <img width="90" src="/mycv_app/assets/img/logo.svg"/>
+            </a>
         </div>
         <div class="navbar-header navbar-right">
             <span class="well"><%=RequestUtils.getSessionUser(request).getEmail()%></span>

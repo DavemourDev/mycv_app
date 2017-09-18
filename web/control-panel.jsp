@@ -21,9 +21,9 @@
     <div class="col-lg-12">
         <ul class="nav nav-tabs nav-tabs-hidden" id="control-panel">
             <!--<li class="active"><a href="#home">Principal</a></li>-->
-            <li><a class="panel-link" href="#curriculum">Ver mis curriculums</a></li>
+            <li><a class="panel-link" href="#curriculum">Mis curriculums</a></li>
             <li><a class="panel-link" href="#my-data">Mis datos</a></li>
-            <li><a class="panel-link" href="#profiles">Perfiles</a></li>
+            <li><a class="panel-link" href="#profiles">Crea un nuevo perfil</a></li>
         </ul>
     </div>
 </div>
@@ -33,9 +33,9 @@
             <div class="row">
                 <div class="col-lg-3"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-6">
-                    <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis Datos</a>
-                    <a class="boton-menu panel-link bg-btn-2" href="#profiles">Mis Plantillas</a>
-                    <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis CV</a>
+                    <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis datos</a>
+                    <a class="boton-menu panel-link bg-btn-2" href="#profiles">Crea un nuevo perfil</a>
+                    <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis curriculums</a>
                 </div>
 
                 <div class="col-lg-3"><!--COLUMNA vacia--></div>
@@ -61,7 +61,6 @@
                     <a class="boton-menu bg-btn-3">Otros datos de interés</a>
                 </div>
             </div>
-
             <div class="col-lg-3"><!--Columna vacía--></div>
         </div>
         <div id="profiles" class="panel-section">
@@ -71,94 +70,121 @@
 
                     <br>
 
-                    <div class="row caixes">
-                        <div class="col-lg-6 campo">
-                            <label>DATOS PERSONALES</label>
-                            <select  name="orden">
-                                <option value="No">(No)</option>
-                                <option value="1"  disabled selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                        </div>
-                        <br>
-                    </div>
-                    <br>
-                    <div class="row caixes">
-                        <div class="col-lg-6 campo">
-                            <label>FOTOGRAFÍA</label>
-                            <select  name="orden">
-                                <option value="No" disabled selected>(No)</option>
-                                <option value="der" >Derecha</option>
-                                <option value="izq">Izquierda</option>
-                            </select>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <select  name="orden" class="form-control">
+                                    <option value="No">No</option>
+                                    <option selected value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>DATOS PERSONALES</label>
+                            </div>
                         </div>
                     </div>
-                    <br>
-                    <div class="row caixes">
-                        <div class="col-lg-6 campo">
-                            <label>EXPERIENCIA PROFESSIONAL</label>
-                            <select  name="orden">
-                                <option value="No" disabled selected>(No)</option>
-                                <option value="1" >1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
 
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <select  name="orden" class="form-control">
+                                    <option value="No">No</option>
+                                    <option selected value="der">Derecha</option>
+                                    <option value="izq">Izquierda</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>FOTOGRAFÍA</label>
+                            </div>
                         </div>
-                        <br>
                     </div>
-                    <br>
-                    <div class="row caixes">
-                        <div class="col-lg-6 campo">
-                            <select  name="orden">
-                                <option value="No">(No)</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            <label>EDUCACIÓN</label>
+                    
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <select  name="orden" class="form-control">
+                                    <option value="No">No</option>
+                                    <option value="1">1</option>
+                                    <option selected value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>EXPERIENCIA PROFESSIONAL</label>
+                            </div>
+                            <div class="col-md-8">
+                            <%@include file="templates/tag-input.jsp"%>
+                            </div>
                         </div>
-                        Aquí irían los tags
-                        <br>
                     </div>
-                    <br>
-                    <div class="row caixes">
-                        <div class="col-lg-6 campo">
-                            <label>LENGUAS</label>
-                            <select  name="orden">
-                                <option value="No" disabled selected>(No)</option>
-                                <option value="1" >1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-
+                    
+                    <div class="form-group">    
+                        <div class="row">
+                            <div class="col-md-1">
+                                <select  name="orden" class="form-control">
+                                    <option value="No">No</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option selected value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>EDUCACIÓN</label>
+                            </div>
+                            <div class="col-md-8">
+                            <%@include file="templates/tag-input.jsp"%>
+                            </div>
                         </div>
-                        <br>
                     </div>
-                    <br>
-                    <div class="row caixes">
-                        <div class="col-lg-6 campo">
-                            <label>OTROS</label>
-                            <select  name="orden">
-                                <option value="No" disabled selected>(No)</option>
-                                <option value="1" >1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
+                    
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <select  name="orden" class="form-control">
+                                    <option value="No">No</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option selected value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>LENGUAS</label>
+                            </div>
                         </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <select  name="orden" class="form-control">
+                                    <option value="No">No</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option selected value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>OTROS</label>
+                            </div>
+                            <div class="col-md-8">
+                            <%@include file="templates/tag-input.jsp"%>
+                            </div>
+                        </div>
+                    </div>
                         
-                        <%@include file="templates/tag-input.jsp"%>
-                        
-                        <br><br>
-                    </div>
                     <div class="col-lg-3"><button>Siguiente</button></div>
-
                 </div>
             </form>
         </div>
