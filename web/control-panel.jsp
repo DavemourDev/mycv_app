@@ -2,10 +2,17 @@
 <%@page import="model.User"%>
 <%@page import="helpers.ViewUtils"%>
 <%@page import="config.Config"%>
-
-<%ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");%>
-<%ViewUtils.setScripts(request, "panel-de-control");%>
-
+<%
+    ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formulario");
+    ViewUtils.setScripts(request, "panel-de-control");
+    
+    List<String> tagsDatalist = new ArrayList<String>();
+    List<String> tags = new ArrayList<String>();
+    String tagInputNS ="New-exp";
+    
+    int i = 0;
+    int n = tags.size();
+%>
 <%@include file="layout/upper.jsp"%>
 
 <h1 class="page-header titulo text-center">Panel de control <%=Config.APP_NAME%></h1>

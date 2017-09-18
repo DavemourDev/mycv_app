@@ -12,9 +12,15 @@
     
     List<Sector> sectors = RequestUtils.getSectors(request);
     List<Country> countries = RequestUtils.getCountries(request);
-    List<String> expTags = RequestUtils.getExpTags(request);
+    List<String> tagsDatalist = RequestUtils.getExpTags(request);
     List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
+    
+    List<String> tags = new ArrayList<String>();
+    String tagInputNS ="New-exp";
+    
+    int i = 0;
+    int n = 0;
 %>
 
 <%@include file="layout/upper.jsp" %>
@@ -44,7 +50,6 @@
                     <%for(Sector s : sectors){%>
                         <option value="<%=s.getId()%>"><%=s.getName()%></option>
                     <%}%>
-                    
                 </select>
             </div>
 
@@ -95,37 +100,8 @@
         </div>
     </div>
         
-    <div class="form-group">
-        <div class="row">
-            <div class="col-lg-1 ">
-                <label>Tags</label>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-field"><!--Inicio-->
-                    <input list="datalistExp" id="current-tagExp" data-toggle="tooltip" title="Una tag debe empezar con una letra y puede contener letras, números, guiones y guiones bajos.">
-                    <datalist id="datalistExp">
-                        <%
-                            for(String tag: expTags){
-                                //Consulta vista de tags para obtener las opciones
-                                //Tag.
-                            }
-                        %>
-                    </datalist>
-                    <input id="tagsExp" type="hidden" name="tags"/>
-                    <button id="add-tag-btnExp" type="button">AddTag</button>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div id="tag-listExp" class="well"></div>
-            </div>
-            <script>
-                $(document).ready(function(){
-                    tagInputs.push(new TagInput('Exp'));
-                });
-                   
-            </script>
-        </div>
-    </div>
+    <%@include file="templates/tag-input.jsp" %>
+                 
     <input type="hidden" name="_action" value="insert">
     <div class="row text-center espaciador">
         <div class="col-lg-12">
@@ -145,8 +121,11 @@
             int exp_id = exp.getId();
             String startdate = exp.getStartdate();
             String enddate = exp.getEnddate();
-            List<String> tags = exp.getTags();
-            String tagInputNS = "Edit-item-" + exp.getId();
+            
+            tags = exp.getTags();
+            tagInputNS = "Edit-item-" + exp.getId();
+            i = 0;
+            n = tags.size();
         %>
         <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
         <%@include file="templates/experience_item.jsp"%>
@@ -157,8 +136,31 @@
 <!--Fin del item-->
 
 <%@include file="layout/lower.jsp" %>
+
+    <script>
+        $(document).ready(function(){
+            tagInputs.push(new TagInput('<%=tagInputNS%>', [<%
+
+                i = 0;
+                n = tags.size();
+                while (true)
+                {
+            %>'<%=tags.get(i++)%>'<%
+                if (i == n)
+                {
+                    break;
+                }
+            %>, <%
+                }
+            %>
+            ]));
+        });
+
+    </script>
+
+
 <script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip(); 
-});
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
+    });
 </script>
