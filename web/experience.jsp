@@ -120,22 +120,7 @@
             </div>
             <script>
                 $(document).ready(function(){
-                    console.log("cargado");
-                    $("#formulario-etiquetas-script").ready(function(){
-                        tagInputs.push(new TagInput('<%="Exp"%>', [<%
-                            List<String> listaDePrueba = new ArrayList<String>();
-                            listaDePrueba.add("quimica");
-                            listaDePrueba.add("espectrometria-uv-vis");
-                            listaDePrueba.add("cromatografia-de-gases");
-                            int i = 0;
-                            while(true){
-                                %>'<%=listaDePrueba.get(i++)%>'<%
-                                if(i == listaDePrueba.size()) break;
-                                %>, <%
-                            }
-                            %>
-                        ]));
-                    });
+                    tagInputs.push(new TagInput('Exp'));
                 });
                    
             </script>
@@ -160,6 +145,8 @@
             int exp_id = exp.getId();
             String startdate = exp.getStartdate();
             String enddate = exp.getEnddate();
+            List<String> tags = exp.getTags();
+            String tagInputNS = "Edit-item-" + exp.getId();
         %>
         <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
         <%@include file="templates/experience_item.jsp"%>

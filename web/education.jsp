@@ -155,6 +155,8 @@
             int edu_id = edu.getId();
             String startdate = edu.getStartdate();
             String enddate = edu.getEnddate();
+            List<String> tags = edu.getTags();
+            String tagInputNS = "Edit-item-" + edu.getId();
         %>
         <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
         <%@include file="templates/education_item.jsp"%>

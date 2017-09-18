@@ -89,7 +89,51 @@
                 </div>
             </div>
         </div>
-        <%//aquí irán las tags si lo arreglamos...%>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-1 ">
+                    <label>Tags</label>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-field"><!--Inicio-->
+                        <input list="datalist<%=tagInputNS%>" id="current-tag<%=tagInputNS%>" data-toggle="tooltip" title="Una tag debe empezar con una letra y puede contener letras, números, guiones y guiones bajos.">
+                        <datalist id="datalist<%=tagInputNS%>">
+                            <%
+                                for(String tag: expTags){
+                                    //Consulta vista de tags para obtener las opciones
+                                    //Tag.
+                                }
+                            %>
+                        </datalist>
+                        <input id="tags<%=tagInputNS%>" type="hidden" name="tags"/>
+                        <button id="add-tag-btn<%=tagInputNS%>" type="button">AddTag</button>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div id="tag-list<%=tagInputNS%>" class="well"></div>
+                </div>
+                <script>
+                $(document).ready(function(){
+                    $("#formulario-etiquetas-script").ready(function(){
+                        tagInputs.push(new TagInput('<%=tagInputNS%>', [<%
+                            
+                            int i = 0;
+                            int n = tags.size();
+                            while(true){
+                                %>'<%=tags.get(i++)%>'<%
+                                if(i == n) break;
+                                %>, <%
+                            }
+                            %>
+                        ]));
+                    });
+                });
+                   
+                </script>
+            </div>
+        </div>        
+                
         <input type="hidden" name="_action" value="edit">
         <input type="hidden" name="id" value="<%=exp.getId()%>">
         <input type="hidden" name="user_id" value="<%=exp.getUser_id()%>">
@@ -98,7 +142,6 @@
                 <input class="btn btn-success btn-block" type="submit" value="Guardar"/>
             </div>
         </div>
-        <!--NOTA: Debido a un problema de diseño del sistema de etiquetas actual, por el momento no permitiremos la posibilidad de cambiar las etiquetas al editar un objeto, ya que deberíamos cambiar de raíz el javascript actual. Si alguien se atreve a hacerlo, adelante.-->
     </form>
 
 </article>

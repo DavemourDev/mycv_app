@@ -1,5 +1,4 @@
 //Incluir en todos los formularios que usen campos para etiquetas
-$(document).ready(function() {
 
     //Métodos extra para arrays:
     Array.prototype.removeString = function (str) {
@@ -142,4 +141,3 @@ $(document).ready(function() {
 //Esto debe hacerlo la página
   //  tagInputs.push(new TagInput("Exp", ['hosteleria', 'copas']));
   // tagInputs.push(new TagInput("Exp-1", ['quimica', 'analisis-inorganico', 'espectrometria-de-masas']));
-});
