@@ -14,14 +14,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Education;
 import model.Experience;
 
 /**
  *
  * @author mati
  */
-@WebServlet(name = "Experiences", urlPatterns = {"/Experiences"})
-public class Experiences extends HttpServlet {
+@WebServlet(name = "Educations", urlPatterns = {"/Educations"})
+public class Educations extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,21 +49,21 @@ public class Experiences extends HttpServlet {
                         //insertar
                         if(this.insert(request))
                         {
-                            ViewUtils.setNotificationSuccess(request, "Experiencia añadida con éxito.");
+                            ViewUtils.setNotificationSuccess(request, "Educación añadida con éxito.");
                         }
                         break;
                     case "edit":
                         //editar
                         if(this.update(request))
                         {
-                            ViewUtils.setNotificationSuccess(request, "Experiencia editada con éxito.");
+                            ViewUtils.setNotificationSuccess(request, "Educación editada con éxito.");
                         }
                         break;
                     case "delete":
                         //Borrar
                         if(this.delete(request))
                         {
-                            ViewUtils.setNotificationSuccess(request, "Experiencia eliminada con éxito.");
+                            ViewUtils.setNotificationSuccess(request, "Educación eliminada con éxito.");
                         }
                         break;
                     default:
@@ -74,7 +75,7 @@ public class Experiences extends HttpServlet {
         {
                 ViewUtils.setNotificationError(request, "Ha ocurrido un error: "+ex.getMessage());
         }
-        RequestUtils.redirect(request, response, "experience");
+        RequestUtils.redirect(request, response, "education");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -123,14 +124,14 @@ public class Experiences extends HttpServlet {
     {
         try
         {
-            Experience experience = Experience.instantiateFromRequest(request);
-            if(ValidationUtils.validateExperience(experience))
+            Education education = Education.instantiateFromRequest(request);
+            if(ValidationUtils.validateEducation(education))
             {
-                return experience.insert();
+                return education.insert();
             }
             else
             {
-                throw new Exception("Experiencia no válida");
+                throw new Exception("Educación no válida");
             }
         }
         catch(Exception ex)
@@ -144,14 +145,14 @@ public class Experiences extends HttpServlet {
     {
         try
         {
-            Experience exp = Experience.findById(RequestUtils.getInt(request, "id"));
-            if(exp.getUser_id() != RequestUtils.getSessionUserId(request))
+            Education education = Education.findById(RequestUtils.getInt(request, "id"));
+            if(education.getUser_id() != RequestUtils.getSessionUserId(request))
             {
                 throw new Exception("Operación no autorizada.");
             }
             else
             {
-                return exp.delete();
+                return education.delete();
             }
         }
         catch(Exception ex)
@@ -164,14 +165,14 @@ public class Experiences extends HttpServlet {
     {
         try
         {
-            Experience experience = Experience.instantiateFromRequest(request);
-            if(ValidationUtils.validateExperience(experience))
+            Education education = Education.instantiateFromRequest(request);
+            if(ValidationUtils.validateEducation(education))
             {
-                return experience.update();
+                return education.update();
             }
             else
             {
-                throw new Exception("Experiencia no válida.");
+                throw new Exception("Educación no válida.");
             }
         }
         catch(Exception ex)

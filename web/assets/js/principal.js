@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function(){
 
 //Este script se carga siempre
 

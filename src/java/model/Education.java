@@ -12,6 +12,7 @@ import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -231,25 +232,43 @@ public class Education extends TaggableItem
         return education;
     }
 
+    public HashMap toHashMap()
+    {
+        HashMap<String, String> params = new HashMap<>();
+        
+        if(this.getId()>0)
+        {
+            params.put("id", String.valueOf(this.getId()));
+        }
+        
+        params.put("user_id", String.valueOf(this.getUser_id()));
+        params.put("center", this.getCenter());
+        params.put("description", this.getDescription());
+        params.put("startdate", this.getStartdate());
+        params.put("enddate", this.getEnddate());
+        params.put("country_id", String.valueOf(this.getLocation().getCountry().getId()));
+        params.put("city", this.getLocation().getCity());
+        params.put("sector_id", String.valueOf(this.getSector().getId()));
+        //params.put("hours", String.valueOf(this.getHours()));
+        params.put("titlename", String.valueOf(this.getTitlename()));
+        params.put("education_level_id", String.valueOf(this.getLevel().getId()));
+        params.put("tags", DataUtils.joinBySpaces(this.tags));
+        System.out.println("HashMap creado");
+        return params;
+    }
+    
     public boolean insert() throws Exception
     {
-        String query = String.format("insert into `education`(`user_id`,`center`, `description`, `startdate`, `enddate`, `country_id`, `city`, `sector_id`, `hours`, `titlename`, `level`,`tags`) values ('%d', '%s', '%s','%s','%s', '%d', '%s', '%d','%d','%s','%s')",
-            this.getUser_id(),
-            this.getCenter(),    
-            this.getDescription(),    
-            this.getStartdate(),    
-            this.getEnddate(),    
-            this.getLocation().getCountry().getId(),    
-            this.getLocation().getCity(),
-            this.getSector().getId(),
-            this.getHours(),
-            this.getTitlename(),
-            this.getLevel(),
-            DataUtils.joinBySpaces(this.getTags())
-                );
-            
-        return Database.getInstance().queryUpdate(query) > 0;
+        return DatabaseUtils.insert("education", this.toHashMap());
     }
- 
 
+    public boolean update() throws Exception
+    {
+        return DatabaseUtils.update("education", this.toHashMap());
+    }
+    
+    public boolean delete() throws Exception
+    {
+        return DatabaseUtils.deleteById("experience", this.getId());
+    }
 }

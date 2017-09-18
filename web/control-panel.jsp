@@ -49,7 +49,7 @@
                 <div class="well well-lg">
                     <a href="PersonalData" class="boton-menu bg-btn-3">Datos personales</a>
                     <a href="Experiences" class="boton-menu bg-btn-3">Experiencia profesional</a>
-                    <a class="boton-menu bg-btn-3">Formación y educación</a>
+                    <a href="Educations" class="boton-menu bg-btn-3">Formación y educación</a>
                     <a class="boton-menu bg-btn-3">Lenguas</a>
                     <a class="boton-menu bg-btn-3">Otros datos de interés</a>
                 </div>

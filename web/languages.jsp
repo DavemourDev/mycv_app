@@ -1,3 +1,5 @@
+<%@page import="model.LanguageLevel"%>
+<%@page import="model.Language"%>
 <!DOCTYPE html>
 <html lang="es-ES">
     <head>
@@ -26,131 +28,152 @@
 
         <div class="container">
 
-            <div class="row nuevoItem">
-                <div class="col-lg-12">
-                    <button><a href="#">Añade un nuevo idioma</a></button>
-                </div>
-            </div><br>
 
-            <form>
-                <div class="row">
-                    <div class="col-lg-12 espaciador">
-                        <label>Idioma</label>
-                        <select name="idioma" class="form-control">
-                            <option value="" disabled selected>(seleccionar)</option>
-                            <option value="espanol">Español</option>
-                            <option value="ingles">Inglés</option>
-                            <option value="frances">Francés</option>
-                            <option value="aleman">Alemán</option>
-                            <option value="itaiano">Italiano</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-4">
-                        <label>Hablado</label>
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Escrito</label>
-                    </div>
-                    <div class="col-lg-4">
-                        <label>Leído</label>
-                    </div>
-                </div>
-
-                <div class="row espaciador">
-                    <div class="col-lg-4">
-                        <select name="nivelhablado" class="form-control">
-                            <option value="" disabled selected>(seleccionar)</option>
-                            <option value="1">Nulo</option>
-                            <option value="2">Básico</option>
-                            <option value="3">Intermedio</option>
-                            <option value="4">Avanzado</option>
-                            <option value="5">Excelente</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <select name="nivelescrito" class="form-control">
-                            <option value="" disabled selected>(seleccionar)</option>
-                            <option value="1">Nulo</option>
-                            <option value="2">Básico</option>
-                            <option value="3">Intermedio</option>
-                            <option value="4">Avanzado</option>
-                            <option value="5">Excelente</option>
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <select name="nivelleido" class="form-control">
-                            <option value="" disabled selected>(seleccionar)</option>
-                            <option value="1">Nulo</option>
-                            <option value="2">Básico</option>
-                            <option value="3">Intermedio</option>
-                            <option value="4">Avanzado</option>
-                            <option value="5">Excelente</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row text-center">
-                    <div class="col-lg-12">
-                        <button type="submit">GUARDAR</button>
-                    </div>
-                </div>
-
-            </form>
-
-            <hr><br>
-
-            <div class="row">
-                <div class="col-lg-10">
-                    <div class="campoyaintroducido">    
-                        <h3>Idioma <small>Español</small></h3>
-                        <p>Hablado:Nativo, Escrito:Nativo, Leído:Nativo</p>
-
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="row botonesedel">
-                        <div class="col-lg-12">
-                            <button><a href="#">EDITA</a></button>
-                        </div>
-                        <div class="col-lg-12">
-                            <button><a href="#">ELIMINA</a></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <br><hr><br>
-
-            <div class="row">
-                <div class="col-lg-10">
-                    <div class="campoyaintroducido">    
-                        <h3>Idioma <small>Inglés</small></h3>
-                        <p>Hablado:Nativo, Escrito:Nativo, Leído:Nativo</p>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="row botonesedel">
-                        <div class="col-lg-12">
-                            <button><a href="#">EDITA</a></button>
-                        </div>
-                        <div class="col-lg-12">
-                            <button><a href="#">ELIMINA</a></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <br><hr><br>
-
-        </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>       
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>       
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
     </body>
 </html>
+
+<%
+    ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
+    ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
+
+    //Inicializar variables 
+    List<Language> languages = RequestUtils.getLanguages(request);
+    List<LanguageLevel> languageLevels = RequestUtils.getLanguageLevels(request);
+    List<LanguageSkills> languageLevels = RequestUtils.getLanguageSkills(request);
+%>
+
+<%@include file="layout/upper.jsp" %>
+
+<h1 class="page-header titulo text-center">Idiomas</h1>
+<a href="#new-item" class="btn btn-info new-item-btn">Añade un nuevo idioma</a>
+
+
+<div class="row nuevoItem">
+    <div class="col-lg-12">
+        <button><a href="#">Añade un nuevo idioma</a></button>
+    </div>
+</div><br>
+
+<form>
+    <div class="row">
+        <div class="col-lg-12 espaciador">
+            <label>Idioma</label>
+            <select name="idioma" class="form-control">
+                <option value="" disabled selected>(seleccionar)</option>
+                <option value="espanol">Español</option>
+                <option value="ingles">Inglés</option>
+                <option value="frances">Francés</option>
+                <option value="aleman">Alemán</option>
+                <option value="itaiano">Italiano</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Hablado</label>
+        </div>
+        <div class="col-lg-4">
+            <label>Escrito</label>
+        </div>
+        <div class="col-lg-4">
+            <label>Leído</label>
+        </div>
+    </div>
+
+    <div class="row espaciador">
+        <div class="col-lg-4">
+            <select name="nivelhablado" class="form-control">
+                <option value="" disabled selected>(seleccionar)</option>
+                <option value="1">Nulo</option>
+                <option value="2">Básico</option>
+                <option value="3">Intermedio</option>
+                <option value="4">Avanzado</option>
+                <option value="5">Excelente</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4">
+            <select name="nivelescrito" class="form-control">
+                <option value="" disabled selected>(seleccionar)</option>
+                <option value="1">Nulo</option>
+                <option value="2">Básico</option>
+                <option value="3">Intermedio</option>
+                <option value="4">Avanzado</option>
+                <option value="5">Excelente</option>
+            </select>
+        </div>
+
+        <div class="col-lg-4">
+            <select name="nivelleido" class="form-control">
+                <option value="" disabled selected>(seleccionar)</option>
+                <option value="1">Nulo</option>
+                <option value="2">Básico</option>
+                <option value="3">Intermedio</option>
+                <option value="4">Avanzado</option>
+                <option value="5">Excelente</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-lg-12">
+            <button type="submit">GUARDAR</button>
+        </div>
+    </div>
+
+</form>
+
+<hr><br>
+
+<div class="row">
+    <div class="col-lg-10">
+        <div class="campoyaintroducido">    
+            <h3>Idioma <small>Español</small></h3>
+            <p>Hablado: Nativo, Escrito: Nativo, Leído: Nativo</p>
+
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="row botonesedel">
+            <div class="col-lg-12">
+                <button><a href="#">EDITA</a></button>
+            </div>
+            <div class="col-lg-12">
+                <button><a href="#">ELIMINA</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><hr><br>
+
+<div class="row">
+    <div class="col-lg-10">
+        <div class="campoyaintroducido">    
+            <h3>Idioma <small>Inglés</small></h3>
+            <p>Hablado:Nativo, Escrito:Nativo, Leído:Nativo</p>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="row botonesedel">
+            <div class="col-lg-12">
+                <button><a href="#">EDITA</a></button>
+            </div>
+            <div class="col-lg-12">
+                <button><a href="#">ELIMINA</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%@include file="layout/lower.jsp" %>
+<script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>

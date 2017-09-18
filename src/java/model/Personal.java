@@ -114,6 +114,8 @@ public class Personal
         int affected;
         String query;
         
+        //TODO utilizar métodos de HashMap para hacer estas operaciones.
+        
         try{
             if(this.exists())
             {
@@ -191,21 +193,6 @@ public class Personal
         this.telephone2 = telephone2;
     }
     
-    
-    
-/*
-    public List<Telephone> getTelephones() {
-        return telephones;
-    }
-
-    public void setTelephones(List<Telephone> telephones) {
-        this.telephones = telephones;
-    }
-
-    public void addTelephone(Telephone telephone) {
-        this.telephones.add(telephone);
-    }
-*/
     public List<Email> getEmails() {
         return emails;
     }

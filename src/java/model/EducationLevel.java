@@ -17,7 +17,6 @@ public class EducationLevel implements Comparable<EducationLevel>
     private int id, value;
     private String name;
 
-    
     public EducationLevel()
     {
         //NADA
