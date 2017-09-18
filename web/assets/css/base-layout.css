@@ -8,6 +8,7 @@ body {
  .titulo {
      font-size: 2.5em;
      color: #2980B9;
+     margin-top:5px;
  }
 
  .titulo-seccion {
@@ -21,6 +22,10 @@ body {
 nav.navigation-color
 {
     background: #eee;
+}
+
+a.navbar-brand{
+    padding: 2px;
 }
 
 .alert{
