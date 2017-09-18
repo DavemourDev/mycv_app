@@ -5,7 +5,9 @@
 
     <div class="container">
         <div class="navbar-header navbar-left">
-            <a class="navbar-brand" href="index.jsp"><%=Config.APP_NAME%></a>
+            <a class="navbar-brand" href="index.jsp">
+                <img width="95" src="/mycv_app/assets/img/logo_blanco.svg"/>
+            </a>
         </div>
         <form action="Login" method="POST" class="navbar-form navbar-right">
             <!--<div class="form-group">

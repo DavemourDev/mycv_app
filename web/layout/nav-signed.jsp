@@ -9,7 +9,7 @@
     <div class="container">
         <div class="navbar-header navbar-left">
             <a class="navbar-brand" href="index.jsp">
-                <img width="90" src="/mycv_app/assets/img/logo.svg"/>
+                <img width="95" src="/mycv_app/assets/img/logo_blanco.svg"/>
             </a>
         </div>
         <div class="navbar-header navbar-right">

@@ -31,7 +31,8 @@ public class Login extends HttpServlet {
             
             if(user.authentication())
             {
-                request.setAttribute("notification-success", "User successfully logged in");
+                //Si se activa esta linea salta un aviso cuando se realiza un login correcto
+                //request.setAttribute("notification-success", "User successfully logged in");
                  
                 user = User.findBy("email", email).get(0);
                 

@@ -14,9 +14,9 @@
     <div class="col-lg-12">
         <ul class="nav nav-tabs nav-tabs-hidden" id="control-panel">
             <!--<li class="active"><a href="#home">Principal</a></li>-->
-            <li><a class="panel-link" href="#curriculum">Mis curriculums</a></li>
             <li><a class="panel-link" href="#my-data">Mis datos</a></li>
             <li><a class="panel-link" href="#profiles">Crea un nuevo perfil</a></li>
+            <li><a class="panel-link" href="#curriculum">Mis curriculums</a></li>
         </ul>
     </div>
 </div>
