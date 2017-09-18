@@ -3,7 +3,7 @@
 <%@page import="helpers.ViewUtils"%>
 <%@page import="config.Config"%>
 
-<%ViewUtils.setStylesheets(request, "estilos-panel-principal");%>
+<%ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formulario");%>
 <%ViewUtils.setScripts(request, "panel-de-control");%>
 
 <%@include file="layout/upper.jsp"%>
@@ -26,9 +26,9 @@
             <div class="row">
                 <div class="col-lg-3"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-6">
-                        <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis Datos</a>
-                        <a class="boton-menu panel-link bg-btn-2" href="#profiles">Mis Plantillas</a>
-                        <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis CV</a>
+                    <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis Datos</a>
+                    <a class="boton-menu panel-link bg-btn-2" href="#profiles">Mis Plantillas</a>
+                    <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis CV</a>
                 </div>
 
                 <div class="col-lg-3"><!--COLUMNA vacia--></div>
@@ -58,7 +58,102 @@
             <div class="col-lg-3"><!--Columna vacía--></div>
         </div>
         <div id="profiles" class="panel-section">
-            Mis perfiles
+            <form action="Profiles" method="POST">
+                <div class="container">
+                    <h1 class="titulo page-title"> Ordena y filtra tus datos </h1>
+
+                    <br>
+
+                    <div class="row caixes">
+                        <div class="col-lg-6 campo">
+                            <label>DATOS PERSONALES</label>
+                            <select  name="orden">
+                                <option value="No">(No)</option>
+                                <option value="1"  disabled selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="row caixes">
+                        <div class="col-lg-6 campo">
+                            <label>FOTOGRAFÍA</label>
+                            <select  name="orden">
+                                <option value="No" disabled selected>(No)</option>
+                                <option value="der" >Derecha</option>
+                                <option value="izq">Izquierda</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row caixes">
+                        <div class="col-lg-6 campo">
+                            <label>EXPERIENCIA PROFESSIONAL</label>
+                            <select  name="orden">
+                                <option value="No" disabled selected>(No)</option>
+                                <option value="1" >1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="row caixes">
+                        <div class="col-lg-6 campo">
+                            <select  name="orden">
+                                <option value="No">(No)</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <label>EDUCACIÓN</label>
+                        </div>
+                        Aquí irían los tags
+                        <br>
+                    </div>
+                    <br>
+                    <div class="row caixes">
+                        <div class="col-lg-6 campo">
+                            <label>LENGUAS</label>
+                            <select  name="orden">
+                                <option value="No" disabled selected>(No)</option>
+                                <option value="1" >1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="row caixes">
+                        <div class="col-lg-6 campo">
+                            <label>OTROS</label>
+                            <select  name="orden">
+                                <option value="No" disabled selected>(No)</option>
+                                <option value="1" >1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        
+                        <%@include file="templates/tag-input.jsp"%>
+                        
+                        <br><br>
+                    </div>
+                    <div class="col-lg-3"><button>Siguiente</button></div>
+
+                </div>
+            </form>
         </div>
     </div>
 </div>
