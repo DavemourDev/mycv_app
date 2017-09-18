@@ -8,6 +8,8 @@ package helpers;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import model.Education;
+import model.Experience;
 import model.Personal;
 import model.User;
 
@@ -136,6 +138,53 @@ public class ValidationUtils
         if(!isValid)
         {
            throw new Exception(problems.toString());
+        }
+        
+        return isValid;
+    }
+    
+    public static boolean validateExperience(Experience experience) throws Exception
+    {
+        List<String> problems = new ArrayList<String>();
+        boolean isValid = true;
+        boolean validDates = ValidationUtils.isValidDate(experience.getStartdate()) 
+                && ValidationUtils.isValidDate(experience.getEnddate()) 
+                && DataUtils.compareDates(experience.getStartdate(), experience.getEnddate()) <= 0;
+        
+        if(!validDates)
+        {
+            
+            System.out.println("");
+            isValid = false;
+            problems.add("Fechas de inicio y/o fin incorrectas (deben estar en el formato válido y la fecha de inicio no puede ser más actual que la de fin...)");
+        }
+    
+        if(!isValid)
+        {
+            System.out.println("Experiencia no válida!!!!!!");
+        }
+        
+        return isValid;
+    }
+    
+    public static boolean validateEducation(Education education )throws Exception
+    {
+        List<String> problems = new ArrayList<String>();
+        boolean isValid = true;
+        boolean validDates = ValidationUtils.isValidDate(education.getStartdate()) 
+                && ValidationUtils.isValidDate(education.getEnddate()) 
+                && DataUtils.compareDates(education.getStartdate(), education.getEnddate()) <= 0;
+        
+        if(!validDates)
+        {
+            System.out.println("");
+            isValid = false;
+            problems.add("Fechas de inicio y/o fin incorrectas (deben estar en el formato válido y la fecha de inicio no puede ser más actual que la de fin...)");
+        }
+    
+        if(!isValid)
+        {
+            System.out.println("Experiencia no válida!!!!!!");
         }
         
         return isValid;

@@ -12,7 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Country;
+import model.EducationLevel;
 import model.Language;
+import model.LanguageLevel;
 import model.Sector;
 import model.User;
 
@@ -143,6 +145,13 @@ public class RequestUtils {
         return list;
     }
     
+    public static List<String> getEduTags(HttpServletRequest request)
+    {
+        List<String> list = new ArrayList<String>();
+        
+        return list;
+    }
+    
     /**
      * Almacena en sesión la lista de países de la aplicación si no lo ha hecho y la devuelve.
      * Esto presenta la ventaja de reducir notablemente el acceso a la base de datos por parte de la aplicación, haciéndola más eficiente.
@@ -173,6 +182,15 @@ public class RequestUtils {
         return (List<Language>) request.getSession().getAttribute("languages");
     }
     
+    public static List<LanguageLevel> getLanguageLevels(HttpServletRequest request)
+    {
+        if(request.getSession().getAttribute("languageLevels") == null)
+        {
+            request.getSession().setAttribute("languageLevels", LanguageLevel.findAll());
+        }
+        return (List<LanguageLevel>) request.getSession().getAttribute("languageLevels");
+    }
+    
     /**
      * Almacena en sesión la lista de sectores de la aplicación si no lo ha hecho y la devuelve.
      * Esto presenta la ventaja de reducir notablemente el acceso a la base de datos por parte de la aplicación, haciéndola más eficiente.
@@ -186,5 +204,14 @@ public class RequestUtils {
             request.getSession().setAttribute("sectors", Sector.findAll());
         }
         return (List<Sector>) request.getSession().getAttribute("sectors");
+    }
+    
+    public static List<EducationLevel> getEducationLevels(HttpServletRequest request)
+    {
+        if(request.getSession().getAttribute("educationLevels") == null)
+        {
+            request.getSession().setAttribute("educationLevels", EducationLevel.findAll());
+        }
+        return (List<EducationLevel>) request.getSession().getAttribute("educationLevels");
     }
 }

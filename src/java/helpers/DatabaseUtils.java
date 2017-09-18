@@ -7,6 +7,9 @@ package helpers;
 
 import core.Database;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -168,5 +171,92 @@ public class DatabaseUtils
             System.err.println("Error con la base de datos.... (rollback)");
         }
     }
+    
+    public static boolean insert(String table, HashMap<String, String> params) throws Exception
+    {
+        try
+        {
+            StringBuilder query = new StringBuilder();
+            StringBuilder queryValues = new StringBuilder();
+            
+            query.append("insert into `");
+            query.append(table);
+            query.append("`(");
+            
+            for(Map.Entry<String, String> entry : params.entrySet())
+            {
+                query.append('`');
+                query.append(entry.getKey());
+                query.append("`,");
+
+                queryValues.append('\'');
+                queryValues.append(entry.getValue());
+                queryValues.append("',");
+
+            }
+            //Como al iterar sobre un mapa no hay modo (que yo sepa) de saber si estamos en la última entrada, hay que eliminar la última coma.
+            query.deleteCharAt(query.length() - 1);
+            queryValues.deleteCharAt(queryValues.length() - 1);
+
+            query.append(") values (").append(queryValues.toString()).append(");");
+
+            return Database.getInstance().queryUpdate(query.toString()) > 0;
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+    }
+    
+    
+    public static boolean update(String table, HashMap<String, String> params) throws Exception
+    {
+        try
+        {
+            StringBuilder query = new StringBuilder();
+            int id = 0;
+            
+            query.append("update `");
+            query.append(table);
+            query.append("` set ");
+            
+            for(Map.Entry<String, String> entry : params.entrySet())
+            {
+                String key= entry.getKey();
+                String value= entry.getValue();
+                
+                if(key.equalsIgnoreCase("id"))
+                {
+                    id = Integer.parseInt(value);
+                    continue;
+                }
+                query.append('`');
+                query.append(key);
+                query.append("`=");
+                
+                query.append('\'');
+                query.append(value);
+                query.append("',");
+            }
+
+            query.deleteCharAt(query.length() - 1);
+
+            query.append(" where `id`='").append(id).append("';");
+
+            return Database.getInstance().queryUpdate(query.toString()) > 0;
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+        //"update `experience` set `enterprise`='%s', `description`='%s', `startdate`='%s', `enddate`='%s', `country_id`='%d', `city`='%s', `sector_id`='%d', `hours`='%d', `job`='%s', `tags`='%s' where `id`='%d')"
+    }
+    
+    public static boolean deleteById(String table, int id) throws Exception
+    {
+        String query = String.format("delete from `%s` where `id`='%d';", table, id);
+        return Database.getInstance().queryUpdate(query) > 0;
+    }
+    
     
 }

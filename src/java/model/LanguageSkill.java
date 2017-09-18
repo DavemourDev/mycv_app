@@ -5,10 +5,12 @@
  */
 package model;
 
+import helpers.DataUtils;
 import helpers.DatabaseUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,9 +19,30 @@ import java.util.List;
  */
 public class LanguageSkill 
 {
+    private static final String TABLE_NAME = "languageskill";
     private Language language;
-    private int speech, comprehension, writing;
+    private int id, user_id, speech, comprehension, writing;
     LanguageLevel level;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public int getUser_id()
+    {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id)
+    {
+        this.user_id = user_id;
+    }
 
     public Language getLanguage() {
         return language;
@@ -68,7 +91,7 @@ public class LanguageSkill
 
         try {
             
-            ResultSet rs = DatabaseUtils.selectById("languageskill", id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
             
             if (rs.next()) 
             {
@@ -89,7 +112,7 @@ public class LanguageSkill
         
         try 
         {
-            ResultSet rs = DatabaseUtils.selectAll("languageskill");
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
             
             while(rs.next())
             {
@@ -109,7 +132,7 @@ public class LanguageSkill
         List<LanguageSkill> list = new ArrayList<>();
         
         try {
-            ResultSet rs = DatabaseUtils.selectAllWhere("languageskill", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
             
             while(rs.next())
             {
@@ -135,5 +158,44 @@ public class LanguageSkill
         return ls;
     }
     
+    /**
+     * Traduce el objeto a un hashMap compatible con la base de datos.
+     * @return HashMap que asocia campos de tablas a valores.
+     */
+    public HashMap toHashMap()
+    {
+        HashMap<String, String> params = new HashMap<>();
+        if(this.getId()>0)
+        {
+            params.put("id", String.valueOf(this.getId()));
+        }
+        
+        if(this.getUser_id()>0)
+        {
+            params.put("user_id", String.valueOf(this.getUser_id()));
+        }
+        
+        params.put("language_id", String.valueOf(this.getLanguage().getId()));
+        params.put("speech", String.valueOf(this.getSpeech()));
+        params.put("comprehension", String.valueOf(this.getComprehension()));
+        params.put("writing", String.valueOf(this.getWriting()));
+        params.put("global_level", String.valueOf(this.getLevel().getId()));
+        
+        return params;
+    }    
     
+    public boolean insert() throws Exception
+    {
+        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
+    }
+    
+    public boolean update() throws Exception
+    {
+        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
+    }
+    
+    public boolean delete() throws Exception
+    {
+        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
+    }
 }

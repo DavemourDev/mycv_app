@@ -15,90 +15,133 @@
             </div>
         </div>
     </div>
-            
-            
-            
-            
-            
+
+
     <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=exp_id%>">
         <h2>Editar experiencia</h2>
-            <div class="form-group">
-        <div class="row">
-            <div class="col-lg-4 form-field">
-                <label>Nombre de la empresa</label>
-                <input class="form-control" name="enterprise" type="text" placeholder="Nombre de la empresa..." value="<%=exp.getEnterprise()%>" required>
-            </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-4 form-field">
+                    <label>Nombre de la empresa</label>
+                    <input class="form-control" name="enterprise" type="text" placeholder="Nombre de la empresa..." value="<%=exp.getEnterprise()%>" required>
+                </div>
 
-            <div class="col-lg-4 form-field">
-                <label>Puesto</label>
-                <input name="job" type="text" placeholder="Puesto..."  value="<%=exp.getJob()%>"class="form-control">
-            </div>
-            
-            <div class="col-lg-4">
-                <label>Sector</label>
-                <select class="form-control" name="sector">
-                    <option value="" disabled selected>(seleccionar)</option>
-                    <%for(Sector s : sectors){%>
-                        <option value="<%=s.getId()%>" <%=exp.getSector().getId() == s.getId()?" selected='selected'":""%>><%=s.getName()%></option>
-                    <%}%>
-                </select>
-            </div>
+                <div class="col-lg-4 form-field">
+                    <label>Puesto</label>
+                    <input name="job" type="text" placeholder="Puesto..."  value="<%=exp.getJob()%>"class="form-control">
+                </div>
 
+                <div class="col-lg-4">
+                    <label>Sector</label>
+                    <select class="form-control" name="sector">
+                        <option value="" disabled selected>(seleccionar)</option>
+                        <%for (Sector s : sectors)
+                        {%>
+                        <option value="<%=s.getId()%>" <%=exp.getSector().getId() == s.getId() ? " selected='selected'" : ""%>><%=s.getName()%></option>
+                        <%}%>
+                    </select>
+                </div>
+
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="row">   
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>País</label>
-                        <select class="form-control" name="country" required>
-                            <option value="" disabled>(seleccionar)</option>
-                            <%for(Country c : countries){%>
-                                <option value="<%=c.getId()%>"<%=c.getId() == user_country_id?" selected":""%>><%=c.getName()%></option>
-                            <%}%>
-                        </select>
+        <div class="form-group">
+            <div class="row">   
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>País</label>
+                            <select class="form-control" name="country" required>
+                                <option value="" disabled>(seleccionar)</option>
+                                <%for (Country c : countries)
+                                {%>
+                                <option value="<%=c.getId()%>"<%=c.getId() == user_country_id ? " selected" : ""%>><%=c.getName()%></option>
+                                <%}%>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-field">
+                        <label>Ciudad</label>
+                        <input class="form-control" name="city" type="text" placeholder="Ciudad..." value="<%=exp.getLocation().getCity()%>"/>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="form-field">
-                    <label>Ciudad</label>
-                    <input class="form-control" name="city" type="text" placeholder="Ciudad..." value="<%=exp.getLocation().getCity()%>"/>
+        </div>
+        <div class="form-group">
+            <div class="row">   
+                <div class="col-lg-6">
+                    <label>Fecha inicio</label>
+                    <input name="startdate" type="date" placeholder="Fecha inicio..." class="form-control" value="<%=startdate%>">
+                </div>
+                <div class="col-lg-6">
+                    <label>Fecha final</label>
+                    <input name="enddate" type="date" placeholder="Fecha final..." class="form-control" value="<%=enddate%>">  
                 </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="row">   
-            <div class="col-lg-6">
-                <label>Fecha inicio</label>
-                <input name="startdate" type="date" placeholder="Fecha inicio..." class="form-control" value="<%=startdate%>">
-            </div>
-            <div class="col-lg-6">
-                <label>Fecha final</label>
-                <input name="enddate" type="date" placeholder="Fecha final..." class="form-control" value="<%=enddate%>">  
+
+        <div class="form-group">  
+            <div class="row">
+                <div class="col-lg-12">
+                    <label>Descripción</label>
+                    <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"><%=exp.getDescription()%></textarea>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="form-group">  
-        <div class="row">
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-1 ">
+                    <label>Tags</label>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-field"><!--Inicio-->
+                        <input list="datalist<%=tagInputNS%>" id="current-tag<%=tagInputNS%>" data-toggle="tooltip" title="Una tag debe empezar con una letra y puede contener letras, números, guiones y guiones bajos.">
+                        <datalist id="datalist<%=tagInputNS%>">
+                            <%
+                                for(String tag: expTags){
+                                    //Consulta vista de tags para obtener las opciones
+                                    //Tag.
+                                }
+                            %>
+                        </datalist>
+                        <input id="tags<%=tagInputNS%>" type="hidden" name="tags"/>
+                        <button id="add-tag-btn<%=tagInputNS%>" type="button">AddTag</button>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div id="tag-list<%=tagInputNS%>" class="well"></div>
+                </div>
+                <script>
+                $(document).ready(function(){
+                    $("#formulario-etiquetas-script").ready(function(){
+                        tagInputs.push(new TagInput('<%=tagInputNS%>', [<%
+                            
+                            int i = 0;
+                            int n = tags.size();
+                            while(true){
+                                %>'<%=tags.get(i++)%>'<%
+                                if(i == n) break;
+                                %>, <%
+                            }
+                            %>
+                        ]));
+                    });
+                });
+                   
+                </script>
+            </div>
+        </div>        
+                
+        <input type="hidden" name="_action" value="edit">
+        <input type="hidden" name="id" value="<%=exp.getId()%>">
+        <input type="hidden" name="user_id" value="<%=exp.getUser_id()%>">
+        <div class="row text-center espaciador">
             <div class="col-lg-12">
-                <label>Descripción</label>
-                <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"><%=exp.getDescription()%></textarea>
+                <input class="btn btn-success btn-block" type="submit" value="Guardar"/>
             </div>
         </div>
-    </div>
-    <%//aquí irán las tags si lo arreglamos...%>
-    <input type="hidden" name="_action" value="edit">
-    <input type="hidden" name="user_id" value="<%=exp.getUser_id()%>">
-    <div class="row text-center espaciador">
-        <div class="col-lg-12">
-            <input class="btn btn-success btn-block" type="submit" value="Guardar"/>
-        </div>
-    </div>
-        <!--NOTA: Debido a un problema de diseño del sistema de etiquetas actual, por el momento no permitiremos la posibilidad de cambiar las etiquetas al editar un objeto, ya que deberíamos cambiar de raíz el javascript actual. Si alguien se atreve a hacerlo, adelante.-->
     </form>
 
 </article>

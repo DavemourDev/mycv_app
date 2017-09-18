@@ -5,13 +5,13 @@
  */
 package model;
 
-import core.Database;
 import helpers.DataUtils;
 import helpers.DatabaseUtils;
 import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -184,6 +184,33 @@ public class Experience extends TaggableItem
         return list;
     }
 
+    /**
+     * Traduce el objeto a un hashMap compatible con la base de datos.
+     * @return HashMap que asocia campos de tablas a valores.
+     */
+    public HashMap toHashMap()
+    {
+        HashMap<String, String> params = new HashMap<>();
+        if(this.getId()>0)
+        {
+        params.put("id", String.valueOf(this.getId()));
+        }
+        
+        params.put("user_id", String.valueOf(this.getUser_id()));
+        params.put("enterprise", this.getEnterprise());
+        params.put("description", this.getDescription());
+        params.put("startdate", this.getStartdate());
+        params.put("enddate", this.getEnddate());
+        params.put("country_id", String.valueOf(this.getLocation().getCountry().getId()));
+        params.put("city", this.getLocation().getCity());
+        params.put("sector_id", String.valueOf(this.getSector().getId()));
+        //params.put("hours", String.valueOf(this.getHours()));
+        params.put("job", String.valueOf(this.getJob()));
+        params.put("tags", DataUtils.joinBySpaces(this.tags));
+        System.out.println("HashMap creado");
+        return params;
+    }
+    
     public static Experience instantiateFromCurrentResult(ResultSet rs) throws SQLException
     {
         Experience experience = new Experience();
@@ -214,35 +241,28 @@ public class Experience extends TaggableItem
         experience.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
         experience.setHours(RequestUtils.getInt(request, "hours"));
         experience.setJob(request.getParameter("job"));
-        experience.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        
+        if(!RequestUtils.isNullParam(request, "tags"))
+        {
+            experience.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        }
         
         return experience;
     }
 
     public boolean insert() throws Exception
     {
-        String query = String.format("insert into `experience`(`user_id`,`enterprise`, `description`, `startdate`, `enddate`, `country_id`, `city`, `sector_id`, `hours`, `job`, `tags`) values ('%d', '%s', '%s','%s','%s', '%d', '%s', '%d','%d','%s','%s')",
-            this.getUser_id(),
-            this.getEnterprise(),    
-            this.getDescription(),    
-            this.getStartdate(),    
-            this.getEnddate(),    
-            this.getLocation().getCountry().getId(),    
-            this.getLocation().getCity(),
-            this.getSector().getId(),
-            this.getHours(),
-            this.getJob(),
-            DataUtils.joinBySpaces(this.getTags())
-                );
-            
-        return Database.getInstance().queryUpdate(query) > 0;
+        return DatabaseUtils.insert("experience", this.toHashMap());
     }
 
+    public boolean update() throws Exception
+    {
+        return DatabaseUtils.update("experience", this.toHashMap());
+    }
+    
     public boolean delete() throws Exception
     {
-        String query = String.format("delete from `experience` where `id`='%s';", this.getId());
-            
-        return Database.getInstance().queryUpdate(query) > 0;
+        return DatabaseUtils.deleteById("experience", this.getId());
     }
     
 }

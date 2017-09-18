@@ -10,8 +10,8 @@
     
     //Inicializar variables 
     
-    List<Sector> sectors = Sector.findAll();
-    List<Country> countries = Country.findAll();
+    List<Sector> sectors = RequestUtils.getSectors(request);
+    List<Country> countries = RequestUtils.getCountries(request);
     List<String> expTags = RequestUtils.getExpTags(request);
     List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
@@ -19,11 +19,8 @@
 
 <%@include file="layout/upper.jsp" %>
 
-
 <h1 class="page-header titulo text-center">Experiencia profesional</h1>
 
-
-<!--Es innecesario añadir una fila con una columna aquí...-->
 <a href="#new-item" class="btn btn-info new-item-btn">Añade una nueva experiencia laboral</a>
 
 <form class="form-hidden form-box" id="new-item" action="Experiences" method="POST">
@@ -121,6 +118,12 @@
             <div class="col-lg-8">
                 <div id="tag-listExp" class="well"></div>
             </div>
+            <script>
+                $(document).ready(function(){
+                    tagInputs.push(new TagInput('Exp'));
+                });
+                   
+            </script>
         </div>
     </div>
     <input type="hidden" name="_action" value="insert">
@@ -142,6 +145,8 @@
             int exp_id = exp.getId();
             String startdate = exp.getStartdate();
             String enddate = exp.getEnddate();
+            List<String> tags = exp.getTags();
+            String tagInputNS = "Edit-item-" + exp.getId();
         %>
         <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
         <%@include file="templates/experience_item.jsp"%>

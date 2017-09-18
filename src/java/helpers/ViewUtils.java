@@ -66,7 +66,9 @@ public class ViewUtils
     public static String createScriptTag(String script)
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("<script type=\"text/javascript\" src=\"")
+        sb.append("<script id=\"")
+                .append(script)
+                .append("-script\" type=\"text/javascript\" src=\"")
                 .append(JS_ROOT)
                 .append(script)
                 .append(".js\"></script>");
