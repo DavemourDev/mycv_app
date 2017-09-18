@@ -137,26 +137,6 @@
 
 <%@include file="layout/lower.jsp" %>
 
-    <script>
-        $(document).ready(function(){
-            tagInputs.push(new TagInput('<%=tagInputNS%>', [<%
-
-                i = 0;
-                n = tags.size();
-                while (true)
-                {
-            %>'<%=tags.get(i++)%>'<%
-                if (i == n)
-                {
-                    break;
-                }
-            %>, <%
-                }
-            %>
-            ]));
-        });
-
-    </script>
 
 
 <script>
