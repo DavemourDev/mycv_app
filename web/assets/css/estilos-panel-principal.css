@@ -91,18 +91,23 @@ David:
     background: #BFC9CA;
  }
  
- .panel-section
- {
-     display: none;
- }
+ .panel-section{
+    display: none;
+}
 
- /* Regla anulada: En base-layout se ha establecido un media query que cumple mejor su función
- footer{
-    position: fixed;
-    bottom: 0em;
- }
- */
- 
- .nav-tabs-hidden {
-     display: none;
- }
+.nav-tabs-hidden {
+    display: none;
+}
+
+a.mostratext:hover + div {
+    visibility: visible;
+}
+
+div.ocult {
+    visibility: hidden;
+}
+
+#text{
+    text-align: center;
+    color: DimGray;
+}

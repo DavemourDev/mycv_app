@@ -15,7 +15,7 @@
 %>
 <%@include file="layout/upper.jsp"%>
 
-<h1 class="page-header titulo text-center">Panel de control <%=Config.APP_NAME%></h1>
+<h1 class="page-header titulo text-center">Panel de control</h1>
 
 <div class="row">
     <div class="col-lg-12">
@@ -23,7 +23,7 @@
             <!--<li class="active"><a href="#home">Principal</a></li>-->
             <li><a class="panel-link" href="#my-data">Mis datos</a></li>
             <li><a class="panel-link" href="#profiles">Crea un nuevo perfil</a></li>
-            <li><a class="panel-link" href="#curriculum">Mis curriculums</a></li>
+            <li><a class="panel-link" href="#curriculum">Mis currículums</a></li>
         </ul>
     </div>
 </div>
@@ -33,11 +33,22 @@
             <div class="row">
                 <div class="col-lg-3"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-6">
-                    <a class="boton-menu panel-link bg-btn-1" href="#my-data">Mis datos</a>
-                    <a class="boton-menu panel-link bg-btn-2" href="#profiles">Crea un nuevo perfil</a>
-                    <a class="boton-menu panel-link bg-btn-3" href="#curriculum">Mis curriculums</a>
-                </div>
 
+                    <a class="boton-menu panel-link bg-btn-1 mostratext" href="#my-data " >Mis Datos</a>
+                    <div id="text" class="ocult">
+                        ¡Introduce toda tu información!
+                    </div>
+
+                    <a class="boton-menu panel-link bg-btn-2 mostratext" href="#profiles" >Crea un nuevo perfil</a>
+                    <div id="text" class="ocult">
+                        ¡Ordena y filtra tu información!
+                    </div>
+
+                    <a class="boton-menu panel-link bg-btn-3 mostratext" href="#curriculum">Mis currículums</a>
+                    <div id="text" class="ocult">
+                        ¡Accede a tus currículums!
+                    </div>
+                </div>
                 <div class="col-lg-3"><!--COLUMNA vacia--></div>
             </div>
         </div>
