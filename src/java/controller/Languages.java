@@ -5,13 +5,16 @@
  */
 package controller;
 
+import helpers.RequestUtils;
+import helpers.ValidationUtils;
+import helpers.ViewUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.LanguageSkill;
 
 /**
  *
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Languages", urlPatterns = {"/Languages"})
 public class Languages extends HttpServlet {
 
+   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,11 +34,48 @@ public class Languages extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        
-        
+            throws ServletException, IOException 
+    {
+        try
+        {
+            //Procesar atributos si hay form enviado
+            String action = request.getParameter("_action");
+
+            if(action != null)
+            {
+                switch(action)
+                {
+                    case "insert":
+                        //insertar
+                        if(this.insert(request))
+                        {
+                            ViewUtils.setNotificationSuccess(request, "Idioma añadido con éxito.");
+                        }
+                        break;
+                    case "edit":
+                        //editar
+                        if(this.update(request))
+                        {
+                            ViewUtils.setNotificationSuccess(request, "Idioma editado con éxito.");
+                        }
+                        break;
+                    case "delete":
+                        //Borrar
+                        if(this.delete(request))
+                        {
+                            ViewUtils.setNotificationSuccess(request, "Idioma eliminado con éxito.");
+                        }
+                        break;
+                    default:
+                        //La acción no existe
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+                ViewUtils.setNotificationError(request, "Ha ocurrido un error: "+ ex.getMessage());
+        }
+        RequestUtils.redirect(request, response, "languages");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,4 +117,67 @@ public class Languages extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /**
+     * Inserta un nuevo item de experiencia a la bd si los datos son correctos...
+     */
+    private boolean insert(HttpServletRequest request) throws Exception
+    {
+        try
+        {
+            LanguageSkill ls = LanguageSkill.instantiateFromRequest(request);
+            if(ValidationUtils.validateLanguageSkill(ls))
+            {
+                return ls.insert();
+            }
+            else
+            {
+                throw new Exception("Idioma no válido");
+            }
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+        
+    }
+
+    private boolean delete(HttpServletRequest request) throws Exception
+    {
+        try
+        {
+            LanguageSkill ls = LanguageSkill.findById(RequestUtils.getInt(request, "id"));
+            if(ls.getUser_id() != RequestUtils.getSessionUserId(request))
+            {
+                throw new Exception("Operación no autorizada.");
+            }
+            else
+            {
+                return ls.delete();
+            }
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+    }
+    
+    private boolean update(HttpServletRequest request) throws Exception
+    {
+        try
+        {
+            LanguageSkill ls = LanguageSkill.instantiateFromRequest(request);
+            if(ValidationUtils.validateLanguageSkill(ls))
+            {
+                return ls.update();
+            }
+            else
+            {
+                throw new Exception("Idioma no válido.");
+            }
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

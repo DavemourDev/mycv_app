@@ -57,8 +57,8 @@
                     <a href="PersonalData" class="boton-menu bg-btn-3">Datos personales</a>
                     <a href="Experiences" class="boton-menu bg-btn-3">Experiencia profesional</a>
                     <a href="Educations" class="boton-menu bg-btn-3">Formación y educación</a>
-                    <a class="boton-menu bg-btn-3">Lenguas</a>
-                    <a class="boton-menu bg-btn-3">Otros datos de interés</a>
+                    <a href="Languages" class="boton-menu bg-btn-3">Lenguas</a>
+                    <a href="OtherInfo" class="boton-menu bg-btn-3">Otros datos de interés</a>
                 </div>
             </div>
             <div class="col-lg-3"><!--Columna vacía--></div>

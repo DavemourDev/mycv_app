@@ -11,14 +11,14 @@
         <div class="col-lg-3">
             <div class="botonesedel">
                 <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=edu_id%>">EDITA</a>
-                <a class="boton-menu bg-btn-1" href="Experiences?_action=delete&id=<%=edu_id%>">ELIMINA</a>
+                <a class="boton-menu bg-btn-1" href="Educations?_action=delete&id=<%=edu_id%>">ELIMINA</a>
             </div>
         </div>
     </div>
 
 
-    <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=edu_id%>">
-        <h2>Editar edueriencia</h2>
+    <form class="form-hidden form-box" action="Educations" id="edit-item-<%=edu_id%>" method="POST">
+        <h2>Editar Educación/Formación</h2>
         <div class="form-group">
             <div class="row">
                 <div class="col-lg-4 form-field">
@@ -44,7 +44,7 @@
 
                 <div class="col-lg-4">
                     <label>Nivel</label>
-                    <select class="form-control" name="educationlevel">
+                    <select class="form-control" name="level">
                         <option value="" disabled selected>(seleccionar)</option>
                         <%for (EducationLevel el : educationLevels)
                         {%>
@@ -100,7 +100,9 @@
                 </div>
             </div>
         </div>
-        <%//aquí irán las tags si lo arreglamos...%>
+
+        <%@include file="tag-input.jsp"%>
+                
         <input type="hidden" name="_action" value="edit">
         <input type="hidden" name="id" value="<%=edu.getId()%>">
         <input type="hidden" name="user_id" value="<%=edu.getUser_id()%>">
@@ -109,7 +111,6 @@
                 <input class="btn btn-success btn-block" type="submit" value="Guardar"/>
             </div>
         </div>
-        <!--NOTA: Debido a un problema de diseño del sistema de etiquetas actual, por el momento no permitiremos la posibilidad de cambiar las etiquetas al editar un objeto, ya que deberíamos cambiar de raíz el javascript actual. Si alguien se atreve a hacerlo, adelante.-->
     </form>
 
 </article>

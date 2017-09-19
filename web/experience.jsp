@@ -12,7 +12,7 @@
     
     List<Sector> sectors = RequestUtils.getSectors(request);
     List<Country> countries = RequestUtils.getCountries(request);
-    List<String> tagsDatalist = RequestUtils.getExpTags(request);
+    List<String> tagsDatalist = new ArrayList<String>();//RequestUtils.getExpTags(request);
     List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
     
@@ -27,7 +27,7 @@
 
 <h1 class="page-header titulo text-center">Experiencia profesional</h1>
 
-<a href="#new-item" class="btn btn-info new-item-btn">Añade una nueva experiencia laboral</a>
+<a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade una nueva experiencia laboral</a>
 
 <form class="form-hidden form-box" id="new-item" action="Experiences" method="POST">
     <h2 class="text-center">Nueva experiencia</h2>

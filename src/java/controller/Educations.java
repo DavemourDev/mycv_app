@@ -9,13 +9,13 @@ import helpers.RequestUtils;
 import helpers.ValidationUtils;
 import helpers.ViewUtils;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Education;
-import model.Experience;
 
 /**
  *
@@ -73,7 +73,7 @@ public class Educations extends HttpServlet {
         }
         catch(Exception ex)
         {
-                ViewUtils.setNotificationError(request, "Ha ocurrido un error: "+ex.getMessage());
+                ViewUtils.setNotificationError(request, "Ha ocurrido un error: "+ ex.getMessage());
         }
         RequestUtils.redirect(request, response, "education");
     }

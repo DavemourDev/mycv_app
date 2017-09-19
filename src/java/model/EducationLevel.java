@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class EducationLevel implements Comparable<EducationLevel> 
 {
-
-    private int id, value;
+    private static final String TABLE_NAME = "education_level";
+    private int id;
     private String name;
 
     public EducationLevel()
@@ -28,15 +28,9 @@ public class EducationLevel implements Comparable<EducationLevel>
         this.setName(name);
     }
     
-    public EducationLevel(int id, String name, int value)
-    {
-        this(id, name);
-        this.setValue(value);
-    }
-    
     @Override
     public int compareTo(EducationLevel el) {
-        return this.getValue() - el.getValue();
+        return this.getId() - el.getId();
     }
 
     public int getId() {
@@ -45,14 +39,6 @@ public class EducationLevel implements Comparable<EducationLevel>
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
     }
 
     public String getName() {
@@ -69,7 +55,7 @@ public class EducationLevel implements Comparable<EducationLevel>
         
         try 
         {
-            ResultSet rs = DatabaseUtils.selectAll("el");
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
             
             while(rs.next())
             {
@@ -90,7 +76,7 @@ public class EducationLevel implements Comparable<EducationLevel>
         
         try 
         {
-            ResultSet rs = DatabaseUtils.selectAllWhere("education_level", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
             
             while(rs.next())
             {
@@ -116,7 +102,7 @@ public class EducationLevel implements Comparable<EducationLevel>
         
         try 
         {
-            ResultSet rs = DatabaseUtils.selectById("education_level", id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
             
             if(rs.next())
             {

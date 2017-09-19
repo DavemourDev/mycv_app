@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Experience extends TaggableItem
 {
+    private static final String TABLE_NAME = "experience";
     private int id, hours, user_id;
     private String job, enterprise, startdate, enddate, description;
     private List<String> tags = new ArrayList<String>();
@@ -128,7 +129,7 @@ public class Experience extends TaggableItem
 
         try {
             
-            ResultSet rs = DatabaseUtils.selectById("experience", id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
             
             if (rs.next()) 
             {
@@ -149,7 +150,7 @@ public class Experience extends TaggableItem
         
         try 
         {
-            ResultSet rs = DatabaseUtils.selectAll("experience");
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
             
             while(rs.next())
             {
@@ -169,7 +170,7 @@ public class Experience extends TaggableItem
         List<Experience> list = new ArrayList<>();
         
         try {
-            ResultSet rs = DatabaseUtils.selectAllWhere("experience", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
             
             while(rs.next())
             {
@@ -252,17 +253,17 @@ public class Experience extends TaggableItem
 
     public boolean insert() throws Exception
     {
-        return DatabaseUtils.insert("experience", this.toHashMap());
+        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
     }
 
     public boolean update() throws Exception
     {
-        return DatabaseUtils.update("experience", this.toHashMap());
+        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
     }
     
     public boolean delete() throws Exception
     {
-        return DatabaseUtils.deleteById("experience", this.getId());
+        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
     }
     
 }

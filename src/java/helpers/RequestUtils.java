@@ -6,7 +6,6 @@
 package helpers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import model.EducationLevel;
 import model.Language;
 import model.LanguageLevel;
 import model.Sector;
+import model.Tag;
 import model.User;
 
 /**
@@ -138,18 +138,19 @@ public class RequestUtils {
     }
     
     
-    public static List<String> getExpTags(HttpServletRequest request)
+    public static List<Tag> getExpTags(HttpServletRequest request)
     {
-        List<String> list = new ArrayList<String>();
-        
-        return list;
+        return Tag.findAllOfType(RequestUtils.getSessionUserId(request), "experience");
     }
     
-    public static List<String> getEduTags(HttpServletRequest request)
+    public static List<Tag> getEduTags(HttpServletRequest request)
     {
-        List<String> list = new ArrayList<String>();
-        
-        return list;
+        return Tag.findAllOfType(RequestUtils.getSessionUserId(request), "education");
+    }
+    
+    public static List<Tag> getOtherTags(HttpServletRequest request)
+    {
+        return Tag.findAllOfType(RequestUtils.getSessionUserId(request), "other");
     }
     
     /**
@@ -160,7 +161,7 @@ public class RequestUtils {
      */
     public static List<Country> getCountries(HttpServletRequest request)
     {
-        if(request.getSession().getAttribute("countries") == null)
+        if(request.getSession().getAttribute("countries") == null  || ((List<Country>) request.getSession().getAttribute("countries")).isEmpty())
         {
             request.getSession().setAttribute("countries", Country.findAll());
         }
@@ -175,20 +176,29 @@ public class RequestUtils {
      */
     public static List<Language> getLanguages(HttpServletRequest request)
     {
-        if(request.getSession().getAttribute("languages") == null)
+        if(request.getSession().getAttribute("languages") == null || ((List<Language>) request.getSession().getAttribute("languages")).isEmpty())
         {
             request.getSession().setAttribute("languages", Language.findAll());
         }
         return (List<Language>) request.getSession().getAttribute("languages");
     }
     
-    public static List<LanguageLevel> getLanguageLevels(HttpServletRequest request)
+    public static List<LanguageLevel> getLanguageLevelsPartial(HttpServletRequest request)
     {
-        if(request.getSession().getAttribute("languageLevels") == null)
+        if(request.getSession().getAttribute("languageLevelsPartial") == null || ((List<LanguageLevel>) request.getSession().getAttribute("languageLevelsPartial")).isEmpty())
         {
-            request.getSession().setAttribute("languageLevels", LanguageLevel.findAll());
+            request.getSession().setAttribute("languageLevelsPartial", LanguageLevel.findAll(LanguageLevel.LANGUAGE_LEVEL_PARTIAL));
         }
-        return (List<LanguageLevel>) request.getSession().getAttribute("languageLevels");
+        return (List<LanguageLevel>) request.getSession().getAttribute("languageLevelsPartial");
+    }
+    
+    public static List<LanguageLevel> getLanguageLevelsGlobal(HttpServletRequest request)
+    {
+        if(request.getSession().getAttribute("languageLevelsGlobal") == null || ((List<LanguageLevel>) request.getSession().getAttribute("languageLevelsGlobal")).isEmpty())
+        {
+            request.getSession().setAttribute("languageLevelsGlobal", LanguageLevel.findAll(LanguageLevel.LANGUAGE_LEVEL_GLOBAL));
+        }
+        return (List<LanguageLevel>) request.getSession().getAttribute("languageLevelsGlobal");
     }
     
     /**
@@ -199,7 +209,7 @@ public class RequestUtils {
      */
     public static List<Sector> getSectors(HttpServletRequest request)
     {
-        if(request.getSession().getAttribute("sectors") == null)
+        if(request.getSession().getAttribute("sectors") == null || ((List<Sector>) request.getSession().getAttribute("sectors")).isEmpty())
         {
             request.getSession().setAttribute("sectors", Sector.findAll());
         }
@@ -208,10 +218,11 @@ public class RequestUtils {
     
     public static List<EducationLevel> getEducationLevels(HttpServletRequest request)
     {
-        if(request.getSession().getAttribute("educationLevels") == null)
+        if(request.getSession().getAttribute("educationLevels") == null || ((List<EducationLevel>) request.getSession().getAttribute("educationLevels")).isEmpty())
         {
             request.getSession().setAttribute("educationLevels", EducationLevel.findAll());
         }
         return (List<EducationLevel>) request.getSession().getAttribute("educationLevels");
     }
+    
 }

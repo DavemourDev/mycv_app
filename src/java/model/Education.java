@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class Education extends TaggableItem
 {
+    private static final String TABLE_NAME = "education";
     private int id, hours, user_id;
     private String titlename, center, startdate, enddate, description;
     private Sector sector;
@@ -138,7 +139,7 @@ public class Education extends TaggableItem
 
         try 
         {
-            ResultSet rs = DatabaseUtils.selectById("education",id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
        
             if (rs.next()) 
             {
@@ -159,8 +160,7 @@ public class Education extends TaggableItem
         
         try 
         {
-            
-            ResultSet rs = DatabaseUtils.selectAll("education");
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
        
             while(rs.next())
             {
@@ -181,7 +181,7 @@ public class Education extends TaggableItem
         
         try {
             
-            ResultSet rs = DatabaseUtils.selectAllWhere("education", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
        
             while(rs.next())
             {
@@ -201,6 +201,7 @@ public class Education extends TaggableItem
         Education education = new Education();
         education.setId(rs.getInt("id"));
         education.setUser_id(rs.getInt("user_id"));
+        education.setTitlename(rs.getString("titlename"));
         education.setCenter(rs.getString("center"));
         education.setDescription(rs.getString("description"));
         education.setStartdate(rs.getString("startdate"));
@@ -209,6 +210,7 @@ public class Education extends TaggableItem
         education.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
         education.setSector(Sector.findById(rs.getInt("sector_id")));
         education.setHours(rs.getInt("hours"));
+        education.setTags(DataUtils.splitBySpaces(rs.getString("tags")));
         return education;
     }
     
@@ -227,7 +229,11 @@ public class Education extends TaggableItem
         education.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
         education.setHours(RequestUtils.getInt(request, "hours"));
         education.setTitlename(request.getParameter("titlename"));
-        education.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        
+        if(!RequestUtils.isNullParam(request, "tags"))
+        {
+            education.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        }
         
         return education;
     }
@@ -259,16 +265,16 @@ public class Education extends TaggableItem
     
     public boolean insert() throws Exception
     {
-        return DatabaseUtils.insert("education", this.toHashMap());
+        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
     }
 
     public boolean update() throws Exception
     {
-        return DatabaseUtils.update("education", this.toHashMap());
+        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
     }
     
     public boolean delete() throws Exception
     {
-        return DatabaseUtils.deleteById("experience", this.getId());
+        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
     }
 }

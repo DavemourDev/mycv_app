@@ -7,11 +7,13 @@ package model;
 
 import helpers.DataUtils;
 import helpers.DatabaseUtils;
+import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -19,9 +21,10 @@ import java.util.List;
  */
 public class LanguageSkill 
 {
-    private static final String TABLE_NAME = "languageskill";
+    private static final String TABLE_NAME = "language_skill";
     private Language language;
-    private int id, user_id, speech, comprehension, writing;
+    private int id=0, user_id, speech, comprehension, writing;
+    private String description;
     LanguageLevel level;
 
     public int getId()
@@ -83,7 +86,16 @@ public class LanguageSkill
     public void setLevel(LanguageLevel level) {
         this.level = level;
     }
-    
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
     
     public static LanguageSkill findById(int id) 
     {
@@ -150,11 +162,32 @@ public class LanguageSkill
     public static LanguageSkill instantiateFromCurrentResult(ResultSet rs) throws SQLException
     {
         LanguageSkill ls = new LanguageSkill();
+        ls.setId(rs.getInt("id"));
         ls.setLanguage(Language.findById(rs.getInt("language_id")));
+        ls.setUser_id(rs.getInt("user_id"));
         ls.setComprehension(rs.getInt("comprehension"));
         ls.setSpeech(rs.getInt("speech"));
         ls.setWriting(rs.getInt("writing"));
-        ls.setLevel(LanguageLevel.findById(rs.getInt("global_level")));
+        ls.setLevel(LanguageLevel.findById(rs.getInt("global_language_level_id"), LanguageLevel.LANGUAGE_LEVEL_PARTIAL));
+        
+        System.out.println("Instancia creada");
+        
+        return ls;
+    }
+    
+    public static LanguageSkill instantiateFromRequest(HttpServletRequest request)
+    {
+        LanguageSkill ls = new LanguageSkill();
+        
+        ls.setId(RequestUtils.getInt(request, "id"));
+        ls.setLanguage(Language.findById(RequestUtils.getInt(request, "language")));
+        ls.setUser_id(RequestUtils.getSessionUserId(request));
+        ls.setSpeech(RequestUtils.getInt(request, "speech"));
+        ls.setComprehension(RequestUtils.getInt(request, "comprehension"));
+        ls.setWriting(RequestUtils.getInt(request, "writing"));
+        ls.setLevel(LanguageLevel.findById(RequestUtils.getInt(request, "global_level"), LanguageLevel.LANGUAGE_LEVEL_PARTIAL));
+        ls.setDescription(request.getParameter("description"));
+        
         return ls;
     }
     
@@ -165,12 +198,13 @@ public class LanguageSkill
     public HashMap toHashMap()
     {
         HashMap<String, String> params = new HashMap<>();
-        if(this.getId()>0)
+        
+        if(this.getId() > 0)
         {
             params.put("id", String.valueOf(this.getId()));
         }
         
-        if(this.getUser_id()>0)
+        if(this.getUser_id() > 0)
         {
             params.put("user_id", String.valueOf(this.getUser_id()));
         }
@@ -179,7 +213,9 @@ public class LanguageSkill
         params.put("speech", String.valueOf(this.getSpeech()));
         params.put("comprehension", String.valueOf(this.getComprehension()));
         params.put("writing", String.valueOf(this.getWriting()));
-        params.put("global_level", String.valueOf(this.getLevel().getId()));
+        params.put("language_global_level_id", String.valueOf(this.getLevel().getId()));
+        params.put("description", this.getDescription());
+        
         
         return params;
     }    

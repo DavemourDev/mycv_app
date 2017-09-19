@@ -1,123 +1,86 @@
+<%@page import="model.LanguageSkill"%>
 <%@page import="model.LanguageLevel"%>
 <%@page import="model.Language"%>
-<!DOCTYPE html>
-<html lang="es-ES">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Idiomas</title>
-
-        <!--Bootstrap CSS-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
-        <!--Hoja de estilos CSS-->
-        <link rel="stylesheet" type="text/css" href="<%ViewUtils.CSS_ROOT;%>estilos-formulario.css">
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".nuevaExper").children("div").click(function () {
-                    $("form").slideToggle();
-                });
-            });
-        </script>
-
-    </head>
-
-    <body>
-
-        <div class="container">
-
-
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>       
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
-    </body>
-</html>
-
 <%
     ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
     ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
 
     //Inicializar variables 
     List<Language> languages = RequestUtils.getLanguages(request);
-    List<LanguageLevel> languageLevels = RequestUtils.getLanguageLevels(request);
-    List<LanguageSkills> languageLevels = RequestUtils.getLanguageSkills(request);
+    List<LanguageLevel> languageLevelsPartial = RequestUtils.getLanguageLevelsPartial(request);
+    //List<LanguageLevel> languageLevelsGlobal = RequestUtils.getLanguageLevelsGlobal(request);
+    
+    List<LanguageSkill> languageSkills = LanguageSkill.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
+    
+    System.out.println(languageSkills.toString());
+    
+    int user_id = RequestUtils.getSessionUserId(request);
 %>
 
 <%@include file="layout/upper.jsp" %>
 
 <h1 class="page-header titulo text-center">Idiomas</h1>
-<a href="#new-item" class="btn btn-info new-item-btn">Añade un nuevo idioma</a>
+<a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade un nuevo idioma</a>
 
-
-<div class="row nuevoItem">
-    <div class="col-lg-12">
-        <button><a href="#">Añade un nuevo idioma</a></button>
-    </div>
-</div><br>
-
-<form>
-    <div class="row">
-        <div class="col-lg-12 espaciador">
-            <label>Idioma</label>
-            <select name="idioma" class="form-control">
-                <option value="" disabled selected>(seleccionar)</option>
-                <option value="espanol">Español</option>
-                <option value="ingles">Inglés</option>
-                <option value="frances">Francés</option>
-                <option value="aleman">Alemán</option>
-                <option value="itaiano">Italiano</option>
-            </select>
+<form class="form-hidden form-box" id="new-item" action="Languages" method="POST">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-8">
+                <label>Idioma</label>
+                <select name="language" class="form-control">
+                    <option value="" disabled selected>(seleccionar)</option>
+                    <!--Obtener lista. No se permiten idiomas que ese usuario haya introducido, con lo cual éstos no aparecen. Deberá hacerse un filtro-->
+                    <%for(Language l : languages){%>
+                        <option value="<%=l.getId()%>"><%=l.getName()%></option>
+                    <%}%>
+                </select>
+            </div>
+            <div class="col-lg-4">
+                <label>Nivel global</label>
+                <select name="global_level" class="form-control">
+                    <%for(LanguageLevel ll : languageLevelsPartial){%>
+                        <option value="<%=ll.getId()%>"><%=ll.getName()%></option>
+                    <%}%>
+                </select>
+            </div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-4">
-            <label>Hablado</label>
-        </div>
-        <div class="col-lg-4">
-            <label>Escrito</label>
-        </div>
-        <div class="col-lg-4">
-            <label>Leído</label>
-        </div>
-    </div>
-
-    <div class="row espaciador">
-        <div class="col-lg-4">
-            <select name="nivelhablado" class="form-control">
-                <option value="" disabled selected>(seleccionar)</option>
-                <option value="1">Nulo</option>
-                <option value="2">Básico</option>
-                <option value="3">Intermedio</option>
-                <option value="4">Avanzado</option>
-                <option value="5">Excelente</option>
-            </select>
-        </div>
-
-        <div class="col-lg-4">
-            <select name="nivelescrito" class="form-control">
-                <option value="" disabled selected>(seleccionar)</option>
-                <option value="1">Nulo</option>
-                <option value="2">Básico</option>
-                <option value="3">Intermedio</option>
-                <option value="4">Avanzado</option>
-                <option value="5">Excelente</option>
-            </select>
-        </div>
-
-        <div class="col-lg-4">
-            <select name="nivelleido" class="form-control">
-                <option value="" disabled selected>(seleccionar)</option>
-                <option value="1">Nulo</option>
-                <option value="2">Básico</option>
-                <option value="3">Intermedio</option>
-                <option value="4">Avanzado</option>
-                <option value="5">Excelente</option>
-            </select>
+    
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-4">
+                <label>Hablado</label>
+                <select name="speech" class="form-control">
+                    <%for(LanguageLevel ll : languageLevelsPartial){%>
+                        <option value="<%=ll.getId()%>"><%=ll.getName()%></option>
+                    <%}%>
+                </select>
+            </div>
+            <div class="col-lg-4">
+                <label>Escrito</label>
+                <select name="writing" class="form-control">
+                    <%for(LanguageLevel ll : languageLevelsPartial){%>
+                        <option value="<%=ll.getId()%>"><%=ll.getName()%></option>
+                    <%}%>
+                </select>
+            </div>
+            <div class="col-lg-4">
+                <label>Leído</label>
+                <select name="comprehension" class="form-control">
+                    <%for(LanguageLevel ll : languageLevelsPartial){%>
+                        <option value="<%=ll.getId()%>"><%=ll.getName()%></option>
+                    <%}%>
+                </select>
+            </div>
         </div>
     </div>
+    <div class="form-group">
+        <label>Descripción</label>
+        <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"></textarea>
+    </div>
+
+                
+    <input type="hidden" name="_action" value="insert">
 
     <div class="row text-center">
         <div class="col-lg-12">
@@ -127,53 +90,32 @@
 
 </form>
 
-<hr><br>
-
-<div class="row">
-    <div class="col-lg-10">
-        <div class="campoyaintroducido">    
-            <h3>Idioma <small>Español</small></h3>
-            <p>Hablado: Nativo, Escrito: Nativo, Leído: Nativo</p>
-
-        </div>
+<%if(languageSkills.isEmpty()){%>
+    <h2>No tienes información relativa a idiomas</h2>
+<%}else{%>
+    <h2 class="text-center">Idiomas introducidos</h2>
+    <div class="container">
+        <%for(LanguageSkill ls : languageSkills){
+            int ls_id = ls.getId();
+            //Esto se puede hacer mejor
+            LanguageLevel speech = LanguageLevel.findBy("speech", String.valueOf(ls.getSpeech()), LanguageLevel.LANGUAGE_LEVEL_PARTIAL).get(0);
+            LanguageLevel writing = LanguageLevel.findBy("writing", String.valueOf(ls.getWriting()), LanguageLevel.LANGUAGE_LEVEL_PARTIAL).get(0);
+            LanguageLevel comprehension = LanguageLevel.findBy("comprehension", String.valueOf(ls.getComprehension()), LanguageLevel.LANGUAGE_LEVEL_PARTIAL).get(0);
+            LanguageLevel level = LanguageLevel.findBy("language_global_level_id", String.valueOf(ls.getComprehension()), LanguageLevel.LANGUAGE_LEVEL_GLOBAL).get(0);
+        %>
+        <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
+        <%@include file="templates/language_item.jsp"%>
+            <!--fin-->
+        <%}%>
     </div>
-    <div class="col-lg-2">
-        <div class="row botonesedel">
-            <div class="col-lg-12">
-                <button><a href="#">EDITA</a></button>
-            </div>
-            <div class="col-lg-12">
-                <button><a href="#">ELIMINA</a></button>
-            </div>
-        </div>
-    </div>
-</div>
+<%}%>
 
-<br><hr><br>
 
-<div class="row">
-    <div class="col-lg-10">
-        <div class="campoyaintroducido">    
-            <h3>Idioma <small>Inglés</small></h3>
-            <p>Hablado:Nativo, Escrito:Nativo, Leído:Nativo</p>
-        </div>
-    </div>
-    <div class="col-lg-2">
-        <div class="row botonesedel">
-            <div class="col-lg-12">
-                <button><a href="#">EDITA</a></button>
-            </div>
-            <div class="col-lg-12">
-                <button><a href="#">ELIMINA</a></button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <%@include file="layout/lower.jsp" %>
 <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
 </script>

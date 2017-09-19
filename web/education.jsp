@@ -14,16 +14,22 @@
     List<Sector> sectors = RequestUtils.getSectors(request);
     List<EducationLevel> educationLevels = RequestUtils.getEducationLevels(request);
     List<Country> countries = RequestUtils.getCountries(request);
-    List<String> eduTags = RequestUtils.getEduTags(request);
+    List<String> tagsDatalist = new ArrayList<String>();//RequestUtils.getEduTags(request);
     List<Education> educationList = Education.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
+
+    List<String> tags = new ArrayList<String>();
+    String tagInputNS ="New-exp";
+    
+    int i = 0;
+    int n = 0;
 %>
 
 <%@include file="layout/upper.jsp" %>
 
 <h1 class="page-header titulo text-center">Formación y educación</h1>
 
-<a href="#new-item" class="btn btn-info new-item-btn">Añade una nueva formación o educación</a>
+<a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade una nueva formación o educación</a>
 
 <form class="form-hidden form-box" id="new-item" action="Educations" method="POST">
     <h2 class="text-center">Nueva educación</h2>
@@ -99,43 +105,13 @@
         </div>
     </div>
     
-    <div class="form-group">  
-        <div class="row">
-            <div class="col-lg-12">
-                <label>Descripción</label>
-                <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"></textarea>
-            </div>
-        </div>
-    </div>
-        
     <div class="form-group">
-        <div class="row">
-            <div class="col-lg-1 ">
-                <label>Tags</label>
-            </div>
-            <div class="col-lg-3">
-                <div class="form-field"><!--Inicio-->
-                    <input list="datalistEdu" id="current-tagExp" data-toggle="tooltip" title="Una tag debe empezar con una letra y puede contener letras, números, guiones y guiones bajos.">
-                    <datalist id="datalistEdu">
-                        <%
-                            for(String tag: eduTags){
-                                //Consulta vista de tags para obtener las opciones
-                                //Tag.
-                            }
-                        %>
-                    </datalist>
-                    <input id="tagsEdu" type="hidden" name="tags"/>
-                    <button id="add-tag-btnEdu" type="button">AddTag</button>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div id="tag-listEdu" class="well"></div>
-            </div>
-            <script>
-                //Copiar de la de experiencias
-            </script>
-        </div>
+        <label>Descripción</label>
+        <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"></textarea>
     </div>
+
+    <%@include file="templates/tag-input.jsp"%>
+                        
     <input type="hidden" name="_action" value="insert">
     <div class="row text-center espaciador">
         <div class="col-lg-12">
@@ -155,8 +131,8 @@
             int edu_id = edu.getId();
             String startdate = edu.getStartdate();
             String enddate = edu.getEnddate();
-            List<String> tags = edu.getTags();
-            String tagInputNS = "Edit-item-" + edu.getId();
+            tags = edu.getTags();
+            tagInputNS = "Edit-item-" + edu.getId();
         %>
         <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
         <%@include file="templates/education_item.jsp"%>

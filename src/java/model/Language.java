@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class Language 
 {
+    private static final String TABLE_NAME = "language";
     private int id;
     private String name, iso1, iso2;
     
@@ -36,7 +37,7 @@ public class Language
         List<Language> list = new ArrayList<>();
 
         try {
-            ResultSet rs = DatabaseUtils.selectAll("language");
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
 
             while (rs.next()) {
                 list.add(instantiateFromCurrentResult(rs));
@@ -53,7 +54,7 @@ public class Language
         List<Language> list = new ArrayList<>();
 
         try {
-            ResultSet rs = DatabaseUtils.selectAllWhere("language", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
 
             while (rs.next()) {
                 list.add(instantiateFromCurrentResult(rs));
@@ -71,7 +72,7 @@ public class Language
         try 
         {
             
-            ResultSet rs = DatabaseUtils.selectById("language", id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
 
             if (rs.next()) 
             {
@@ -89,8 +90,8 @@ public class Language
         Language language = new Language();
         language.setId(rs.getInt("id"));
         language.setName(rs.getString(String.format("name_%s", Config.LANGUAGE)));
-        language.setIso1(rs.getString("iso1"));
-        language.setIso2(rs.getString("iso2"));
+        language.setIso1(rs.getString("cod_iso_1"));
+        language.setIso2(rs.getString("cod_iso_2"));
         return language;
     }
     
