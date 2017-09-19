@@ -4,7 +4,7 @@
 <%@page import="config.Config"%>
 <%
     ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
-    ViewUtils.setScripts(request, "panel-de-control");
+    ViewUtils.setScripts(request, "panel-de-control", "formulario-etiquetas");
     
     List<String> tagsDatalist = new ArrayList<String>();
     List<String> tags = new ArrayList<String>();
