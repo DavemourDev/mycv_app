@@ -16,7 +16,7 @@
             </datalist>
 
             <input id="tags<%=tagInputNS%>" type="hidden" name="tags"/>
-            <button id="add-tag-btn<%=tagInputNS%>" type="button">AddTag</button>
+            <button id="add-tag-btn<%=tagInputNS%>" type="button">Añadir etiqueta</button>
         </div>
     </div>
         
