@@ -9,7 +9,6 @@ import helpers.RequestUtils;
 import helpers.ValidationUtils;
 import helpers.ViewUtils;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -14,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Experience;
 import model.OtherInfoItem;
 
 /**
@@ -118,7 +117,7 @@ public class OtherInfo extends HttpServlet {
     }// </editor-fold>
 
     /**
-     * Inserta un nuevo item de experiencia a la bd si los datos son correctos...
+     * Inserta un nuevo item de otros a la bd si los datos son correctos...
      */
     private boolean insert(HttpServletRequest request) throws Exception
     {
@@ -145,14 +144,14 @@ public class OtherInfo extends HttpServlet {
     {
         try
         {
-            Experience exp = Experience.findById(RequestUtils.getInt(request, "id"));
-            if(exp.getUser_id() != RequestUtils.getSessionUserId(request))
+            OtherInfoItem other = OtherInfoItem.findById(RequestUtils.getInt(request, "id"));
+            if(other.getUser_id() != RequestUtils.getSessionUserId(request))
             {
                 throw new Exception("Operación no autorizada.");
             }
             else
             {
-                return exp.delete();
+                return other.delete();
             }
         }
         catch(Exception ex)
@@ -166,6 +165,7 @@ public class OtherInfo extends HttpServlet {
         try
         {
             OtherInfoItem other = OtherInfoItem.instantiateFromRequest(request);
+            
             if(ValidationUtils.validateOther(other))
             {
                 return other.update();

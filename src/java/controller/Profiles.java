@@ -5,8 +5,9 @@
  */
 package controller;
 
+import helpers.RequestUtils;
+import helpers.ViewUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,19 +32,43 @@ public class Profiles extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Profiles</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Profiles at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        
+        String action = request.getParameter("_action");
+        String pageUrl = "";
+        
+        try
+        {
+            if(action != null)
+            {
+                switch(action)
+                {
+                    case "insert":
+                        this.insert(request);
+                        break;
+                    case "edit":
+                        this.update(request);
+                        break;
+                    case "delete":
+                        this.delete(request);
+                        break;
+                    case "view":
+                        this.view(request);
+                        break;
+                    case "download":
+                        this.download(request);
+                        break;
+                    default:
+                        //Acción no existe
+                }
+            }
         }
+        catch(Exception ex)
+        {
+            ViewUtils.setNotificationError(request, "Error: " + ex.getMessage());
+        }
+        
+        RequestUtils.redirect(request, response, pageUrl);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -85,4 +110,31 @@ public class Profiles extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public boolean insert(HttpServletRequest request)
+    {
+        return true;
+    }
+
+    public boolean update(HttpServletRequest request)
+    {
+        return true;
+    }
+    
+    public boolean delete(HttpServletRequest request)
+    {
+        return true;
+    }
+    
+    public boolean view(HttpServletRequest request)
+    {
+        return true;
+    }
+    
+    public boolean download(HttpServletRequest request)
+    {
+        return true;
+    }
+    
+    
+    
 }

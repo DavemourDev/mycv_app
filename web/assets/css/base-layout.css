@@ -55,19 +55,17 @@ footer{
     background: #eee;
     padding: 1em;
     width: 100%;
+    height: 15vh;
+    position: relative;
+    bottom: -0.5em;
+    argin-top: 40px;
 }
 
 .layout-color-main{
     color: #32508E;
 }
 
-/*Preguntar*/
-@media screen and (max-height: 100%)
-{
-    /*Se aplica si el alto de la página no supera el tamaño de la ventana del navegador*/
-    
-    footer {
-        position: fixed;
-        bottom: 0em;
-    }
+.contenedor-global{
+    /*El contenedor global ocupa un procentaje de la altura del naavegador como mínimo*/
+    min-height: 90vh;
 }

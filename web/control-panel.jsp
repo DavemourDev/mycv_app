@@ -36,9 +36,6 @@
     </div>
 </div>
 
-
-
-
 <div class="box-principal">
     
     <div class="container">

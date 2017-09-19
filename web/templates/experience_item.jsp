@@ -7,6 +7,13 @@
             <p>Desde <time datetime="<%=startdate%>" class="text-info"><%=FormatUtils.formatDateMonthYear(startdate)%></time> hasta <time datetime="<%=enddate%>" class="text-info"><%=FormatUtils.formatDateMonthYear(enddate)%></time></p>
             <p><%=exp.getDescription()%> </p>
 
+            <dl class="dl-horizontal">
+                <dt>Tags: </dt>
+                <%for(String s : tags){%>
+                    <dd><%=s%></dd>
+                <%}%>
+            </dl>
+            
         </div>
         <div class="col-lg-3">
             <div class="botonesedel">
@@ -16,6 +23,7 @@
         </div>
     </div>
 
+            
 
     <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=exp_id%>">
         <h2>Editar experiencia</h2>
@@ -89,7 +97,6 @@
                 </div>
             </div>
         </div>
-
         <%@include file="tag-input.jsp" %>
         
         <input type="hidden" name="_action" value="edit">

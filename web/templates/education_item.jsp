@@ -6,7 +6,13 @@
             <p class="lead"><span class="text-primary"><%=edu.getTitlename()%></span> en <span class="text-muted"><%=edu.getCenter()%>, <%=edu.getLocation().getCity()%></span></p>
             <p>Desde <time datetime="<%=startdate%>" class="text-info"><%=FormatUtils.formatDateMonthYear(startdate)%></time> hasta <time datetime="<%=enddate%>" class="text-info"><%=FormatUtils.formatDateMonthYear(enddate)%></time></p>
             <p><%=edu.getDescription()%> </p>
-
+            
+            <dl class="dl-horizontal">
+                <dt>Tags: </dt>
+                <%for(String s : tags){%>
+                    <dd><%=s%></dd>
+                <%}%>
+            </dl>
         </div>
         <div class="col-lg-3">
             <div class="botonesedel">
@@ -100,7 +106,8 @@
                 </div>
             </div>
         </div>
-
+        
+        
         <%@include file="tag-input.jsp"%>
                 
         <input type="hidden" name="_action" value="edit">
