@@ -3,7 +3,7 @@
 <%@page import="helpers.ViewUtils"%>
 <%@page import="config.Config"%>
 <%
-    ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formulario");
+    ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
     ViewUtils.setScripts(request, "panel-de-control");
     
     List<String> tagsDatalist = new ArrayList<String>();
@@ -15,19 +15,32 @@
 %>
 <%@include file="layout/upper.jsp"%>
 
-<h1 class="page-header titulo text-center">Panel de control</h1>
-
-<div class="row">
-    <div class="col-lg-12">
-        <ul class="nav nav-tabs nav-tabs-hidden" id="control-panel">
-            <!--<li class="active"><a href="#home">Principal</a></li>-->
-            <li><a class="panel-link" href="#my-data">Mis datos</a></li>
-            <li><a class="panel-link" href="#profiles">Crea un nuevo perfil</a></li>
-            <li><a class="panel-link" href="#curriculum">Mis currículums</a></li>
-        </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header titulo text-center">Panel de control</h1>
+        </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs nav-tabs-hidden" id="control-panel">
+                <!--<li class="active"><a href="#home">Principal</a></li>-->
+                <li><a class="panel-link" href="#my-data">Mis datos</a></li>
+                <li><a class="panel-link" href="#profiles">Crea un nuevo perfil</a></li>
+                <li><a class="panel-link" href="#curriculum">Mis currículums</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="box-principal">
+    
     <div class="container">
         <div id="home" class="panel-section">
             <div class="row">
@@ -52,14 +65,41 @@
                 <div class="col-lg-3"><!--COLUMNA vacia--></div>
             </div>
         </div>
+        
+    </div>
+    
+    <div class="container">
+            
         <div id="curriculum" class="panel-section">
 
             <div class="row">
-
+                <div class="col-lg-1"><!--COLUMNA VACÍA--></div>
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="col-lg-12 cvthumb"><img width=100% src="/mycv_app/assets/img/cv_ej.jpg"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_EDITAR.png"/></a></div>
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_DESCARGAR.png"/></a></div>
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_ELIMINAR.png"/></a></div>
+                    </div>
+                </div>
+                <div class="col-lg-1"><!--COLUMNA VACÍA--></div>
+                <div class="col-lg-2">
+                    <img width="200" src="/mycv_app/assets/img/cv_ej.jpg"/>
+                </div>
+                <div class="col-lg-1"><!--COLUMNA VACÍA--></div>
+                <div class="col-lg-2">
+                    <img width="200" src="/mycv_app/assets/img/cv_ej.jpg"/>
+                </div>
+                <div class="col-lg-2"><!--COLUMNA VACÍA--></div>
             </div>
-
-
+            
         </div>
+            
+    </div>
+    <div class="container">
+            
         <div id="my-data" class="panel-section">
             <div class="col-lg-3"><!--Columna vacía--></div>
             <div class="col-lg-6">
@@ -68,7 +108,7 @@
                     <a href="PersonalData" class="boton-menu bg-btn-3">Datos personales</a>
                     <a href="Experiences" class="boton-menu bg-btn-3">Experiencia profesional</a>
                     <a href="Educations" class="boton-menu bg-btn-3">Formación y educación</a>
-                    <a href="Languages" class="boton-menu bg-btn-3">Lenguas</a>
+                    <a href="Languages" class="boton-menu bg-btn-3">Idiomas</a>
                     <a href="OtherInfo" class="boton-menu bg-btn-3">Otros datos de interés</a>
                 </div>
             </div>
@@ -76,7 +116,7 @@
         </div>
         <div id="profiles" class="panel-section">
             <form action="Profiles" method="POST">
-                <div class="container">
+                
                     <h1 class="titulo page-title"> Ordena y filtra tus datos </h1>
 
                     <br>
@@ -129,9 +169,10 @@
                             <div class="col-md-3">
                                 <label>EXPERIENCIA PROFESSIONAL</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                             <%@include file="templates/tag-input.jsp"%>
                             </div>
+                            <div class="col-md-1"><!--Columna vacia--></div>
                         </div>
                     </div>
                     
@@ -150,9 +191,10 @@
                             <div class="col-md-3">
                                 <label>EDUCACIÓN</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                             <%@include file="templates/tag-input.jsp"%>
                             </div>
+                            <div class="col-md-1"><!--Columna vacia--></div>
                         </div>
                     </div>
                     
@@ -189,14 +231,15 @@
                             <div class="col-md-3">
                                 <label>OTROS</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                             <%@include file="templates/tag-input.jsp"%>
                             </div>
+                            <div class="col-md-1"><!--Columna vacia temporal--></div>
                         </div>
                     </div>
                         
                     <div class="col-lg-3"><button>Siguiente</button></div>
-                </div>
+                
             </form>
         </div>
     </div>

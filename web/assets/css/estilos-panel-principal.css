@@ -24,8 +24,8 @@ David:
     border-width: 0px 1px 1px 1px;
     border-style: solid;
     border-color: #ddd;
-                  padding-top: 25px;
-                                    padding-bottom: 20px;
+    padding-top: 25px;
+    padding-bottom: 20px;
 
 
 
@@ -111,3 +111,18 @@ div.ocult {
     text-align: center;
     color: DimGray;
 }
+
+/*Apartado mis curriculums*/
+.cvthumb{
+    margin-bottom: 20px;
+}
+.boton-icon-cv {
+    transition: 0.2s ease;
+    opacity: 0.5;
+ }
+
+.boton-icon-cv:hover, .boton-icon-cv:focus, .boton-icon-cv:active {
+    transition: 0.8s ease;
+    opacity: 1;
+    transition: 0.2s ease;
+ }
