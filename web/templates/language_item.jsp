@@ -3,15 +3,15 @@
     <div class="campoyaintroducido row">
         <div class="col-lg-9">    
             <p class="lead"><span class="text-primary"><%=ls.getLanguage().getName()%></span> con nivel <span class="text-muted"><%=level.getName()%></span></p>
-            <dl>
+            <dl class="dl-horizontal">
                 <dt>Escrito</dt>
-                <dd><%=writing.getName()%></dd>
+                <dd class="text-muted"><%=writing.getName()%></dd>
                 <dt>Hablado</dt>
-                <dd><%=speech.getName()%></dd>
+                <dd class="text-muted"><%=speech.getName()%></dd>
                 <dt>Comprendido</dt>
-                <dd><%=comprehension.getName()%></dd>
+                <dd class="text-muted"><%=comprehension.getName()%></dd>
             </dl>
-
+            <p><%=description%></p>
         </div>
         <div class="col-lg-3">
             <div class="botonesedel">
@@ -32,13 +32,13 @@
                     <option value="" selected>(seleccionar)</option>
                     <!--Obtener lista. No se permiten idiomas que ese usuario haya introducido, con lo cual éstos no aparecen. Deberá hacerse un filtro-->
                     <%for(Language l : languages){%>
-                        <option value="<%=l.getId()%>" <%=l.getId() == ls.getLevel().getId()? "selected":""%>><%=l.getName()%></option>
+                        <option value="<%=l.getId()%>" <%=l.getId() == ls.getLevel()? "selected":""%>><%=l.getName()%></option>
                     <%}%>
                 </select>
             </div>
             <div class="col-lg-4">
                 <label>Nivel global</label>
-                <select name="global_level" class="form-control">
+                <select name="level" class="form-control">
                     <%for(LanguageLevel ll : languageLevelsPartial){%>
                         <option value="<%=ll.getId()%>"><%=ll.getName()%></option>
                     <%}%>
@@ -78,7 +78,7 @@
     </div>
     <div class="form-group">
         <label>Descripción</label>
-        <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"> <%=ls.getDescription()%></textarea>
+        <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"> <%=description%></textarea>
     </div>
 
                 

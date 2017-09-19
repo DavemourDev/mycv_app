@@ -1,3 +1,4 @@
+<%@page import="model.OtherInfoItem"%>
 <%@page import="helpers.RequestUtils"%>
 
 
@@ -51,15 +52,6 @@
                     </div>
                 </div>
                 
-                <div class="row espaciador">
-                    <div class="col-lg-3 ">
-                        <label>Categoría</label>
-                    </div>
-                    <div class="col-lg-12">
-                        <input name="categoria" type="text" class="form-control" required>
-                    </div>
-                </div>   
-           
                 <div class="row espaciador">
                     <div class="col-lg-3 ">
                         <label>Tags</label>
@@ -120,12 +112,86 @@
                 </div>
             </div>
             
-            <br><hr><br>
- 
+
+
+<%@page import="model.Education"%>
+<%@page import="model.EducationLevel"%>
+<%@page import="helpers.FormatUtils"%>
+<%@page import="helpers.DatabaseUtils"%>
+<%@page import="model.Country"%>
+<%@page import="model.Sector"%>
+
+<%
+    ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
+    ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
+    
+    //Inicializar variables 
+    
+    List<String> tagsDatalist = new ArrayList<String>();//RequestUtils.getEduTags(request);
+    List<OtherInfoItem> otherList = OtherInfoItem.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
+    
+    List<String> tags = new ArrayList<String>();
+    String tagInputNS ="New-exp";
+    
+    int i = 0;
+    int n = 0;
+%>
+
+<%@include file="layout/upper.jsp" %>
+
+<h1 class="page-header titulo text-center">Otra información</h1>
+
+<a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade una nueva información</a>
+
+<form class="form-hidden form-box" id="new-item" action="Educations" method="POST">
+    <h2 class="text-center">Nuevo ítem de otra información</h2>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-4 form-field">
+                <label>Nombre del ítem</label>
+                <input class="form-control" name="title" type="text" placeholder="Nombre del ítem" required>
+            </div>
         </div>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>       
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-        
-    </body>
-</html>
+    </div>
+    <div class="form-group">
+        <label>Descripción</label>
+        <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"></textarea>
+    </div>
+
+    <%@include file="templates/tag-input.jsp"%>
+                        
+    <input type="hidden" name="_action" value="insert">
+    <div class="row text-center espaciador">
+        <div class="col-lg-12">
+            <input class="btn btn-success btn-block" type="submit" value="Guardar"/>
+        </div>
+    </div>
+</form>
+
+<!--Fin de formulario nuevo-->
+
+<%if(otherList.isEmpty()){%>
+    <h2>No tienes educaciones o formaciones guardadas</h2>
+<%}else{%>
+    <h2 class="text-center">Educaciones y formaciones introducidas</h2>
+    <div class="container">
+        <%for(OtherInfoItem other : otherList){
+            int other_id = other.getId();
+            tags = other.getTags();
+            tagInputNS = "Edit-item-" + other.getId();
+        %>
+        <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
+        <%@include file="templates/other_item.jsp"%>
+            <!--fin-->
+        <%}%>
+    </div>
+<%}%>
+<!--Fin del item-->
+
+<%@include file="layout/lower.jsp" %>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+</script>
+

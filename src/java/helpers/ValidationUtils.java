@@ -11,6 +11,7 @@ import java.util.List;
 import model.Education;
 import model.Experience;
 import model.LanguageSkill;
+import model.OtherInfoItem;
 import model.Personal;
 import model.User;
 
@@ -26,6 +27,12 @@ public class ValidationUtils
     public static boolean validateLanguageSkill(LanguageSkill ls)
     {
         //Si hay que validar idiomas, aqui
+        return true;
+    }
+
+    public static boolean validateOther(OtherInfoItem other)
+    {
+        //Si hay que validar Otroos, aquí
         return true;
     }
     

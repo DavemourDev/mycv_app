@@ -16,13 +16,10 @@ import java.util.List;
  *
  * @author mati
  */
-public class LanguageLevel {
+public class LanguageLevel 
+{
     
-    
-    public static final int LANGUAGE_LEVEL_PARTIAL = 0;
-    public static final int LANGUAGE_LEVEL_GLOBAL = 1;
-    private static final String TABLE_NAME_PARTIAL = "language_level";
-    private static final String TABLE_NAME_GLOBAL = "language_global_level";
+    private static final String TABLE_NAME = "language_level";
     private int id;
     private String name; 
 
@@ -52,18 +49,14 @@ public class LanguageLevel {
         this.name = name;
     }
     
-    public static String getTableName(int type)
-    {
-        return type == LANGUAGE_LEVEL_PARTIAL ? TABLE_NAME_PARTIAL : TABLE_NAME_GLOBAL;
-    }
     
-    public static List<LanguageLevel> findAll(int type) 
+    public static List<LanguageLevel> findAll() 
     {
         List<LanguageLevel> list = new ArrayList<>();
 
         try 
         {
-            ResultSet rs = DatabaseUtils.selectAll(getTableName(type));
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
 
             while (rs.next()) {
                 list.add(instantiateFromCurrentResult(rs));
@@ -75,12 +68,12 @@ public class LanguageLevel {
         return list;
     }
 
-    public static List<LanguageLevel> findBy(String attr, String value, int type) 
+    public static List<LanguageLevel> findBy(String attr, String value) 
     {
         List<LanguageLevel> list = new ArrayList<>();
 
         try {
-            ResultSet rs = DatabaseUtils.selectAllWhere(getTableName(type), attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
 
             while (rs.next()) {
                 list.add(instantiateFromCurrentResult(rs));
@@ -92,12 +85,12 @@ public class LanguageLevel {
         return list;
     }
 
-    public static LanguageLevel findById(int id, int type) 
+    public static LanguageLevel findById(int id) 
     {
         LanguageLevel languageLevel = null;
         try 
         {
-            ResultSet rs = DatabaseUtils.selectById(getTableName(type), id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
 
             if (rs.next()) 
             {

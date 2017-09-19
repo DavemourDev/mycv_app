@@ -26,7 +26,6 @@
     
     <script>
         tagInputs.push(new TagInput('<%=tagInputNS%>', [<%
-
             i = 0;
             n = tags.size();
             while (!tags.isEmpty())
@@ -42,5 +41,3 @@
         ]));
     </script>
 </div>
-    
-    

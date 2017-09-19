@@ -5,11 +5,15 @@
  */
 package model;
 
+import helpers.DataUtils;
 import helpers.DatabaseUtils;
+import helpers.RequestUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -17,8 +21,12 @@ import java.util.List;
  */
 public class OtherInfoItem extends TaggableItem
 {
-    private String title, description, category;
-
+    private static final String TABLE_NAME = "otherinfo";
+    
+    private int id, user_id;
+    private String title, description;
+    private List<String> tags = new ArrayList<>();
+    
     public String getTitle() {
         return title;
     }
@@ -35,14 +43,38 @@ public class OtherInfoItem extends TaggableItem
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
+    public int getId()
+    {
+        return id;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public int getUser_id()
+    {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id)
+    {
+        this.user_id = user_id;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags)
+    {
+        this.tags=tags;
     }
     
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
     
     public static OtherInfoItem findById(int id) 
     {
@@ -50,7 +82,7 @@ public class OtherInfoItem extends TaggableItem
 
         try 
         {
-            ResultSet rs = DatabaseUtils.selectById("otherinfo", id);
+            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
        
             if (rs.next()) 
             {
@@ -72,7 +104,7 @@ public class OtherInfoItem extends TaggableItem
         try 
         {
             
-            ResultSet rs = DatabaseUtils.selectAll("otherinfo");
+            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
        
             while(rs.next())
             {
@@ -93,7 +125,7 @@ public class OtherInfoItem extends TaggableItem
         
         try {
             
-            ResultSet rs = DatabaseUtils.selectAllWhere("otherinfo", attr, value);
+            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
        
             while(rs.next())
             {
@@ -111,9 +143,64 @@ public class OtherInfoItem extends TaggableItem
     public static OtherInfoItem instantiateFromCurrentResult(ResultSet rs) throws SQLException
     {
         OtherInfoItem info = new OtherInfoItem();
-        info.setCategory(rs.getString("category"));
+        info.setId(rs.getInt("id"));
+        info.setUser_id(rs.getInt("user_id"));
         info.setTitle(rs.getString("title"));
         info.setDescription(rs.getString("description"));
+        info.setTags(DataUtils.splitBySpaces(rs.getString("tags")));
         return info;
+    }
+        
+    public static OtherInfoItem instantiateFromRequest(HttpServletRequest request)
+    {
+        OtherInfoItem item = new OtherInfoItem();
+        item.setUser_id(RequestUtils.getSessionUserId(request));
+        item.setId(RequestUtils.getInt(request, "id"));
+        item.setTitle(RequestUtils.getString(request, "title"));
+        item.setDescription(RequestUtils.getString(request, "description"));
+        
+        if(!RequestUtils.isNullParam(request, "tags"))
+        {
+            item.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+        }
+        
+        return item;
+    }
+
+    public HashMap toHashMap()
+    {
+        HashMap<String, String> params = new HashMap<>();
+        
+        if(this.getId()>0)
+        {
+            params.put("id", String.valueOf(this.getId()));
+        }
+        if(this.getUser_id()>0)
+        {
+            params.put("user_id", String.valueOf(this.getUser_id()));
+        }
+        params.put("title", this.getTitle());
+        params.put("description", this.getDescription());
+        
+        params.put("tags", DataUtils.joinBySpaces(this.getTags()));
+        
+        System.out.println("HashMap creado");
+        
+        return params;
+    }
+    
+    public boolean insert() throws Exception
+    {
+        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
+    }
+
+    public boolean update() throws Exception
+    {
+        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
+    }
+    
+    public boolean delete() throws Exception
+    {
+        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
     }
 }

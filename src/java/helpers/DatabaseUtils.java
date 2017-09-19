@@ -108,7 +108,7 @@ public class DatabaseUtils
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "` where `id`=" + String.valueOf(id) +";"); 
+            rs = Database.getInstance().query("select * from `" + table + "` where `id`='" + String.valueOf(id) +"';"); 
         }
         catch(Exception ex)
         {

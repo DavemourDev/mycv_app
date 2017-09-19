@@ -37,7 +37,7 @@
             </div>
             <div class="col-lg-4">
                 <label>Nivel global</label>
-                <select name="global_level" class="form-control">
+                <select name="level" class="form-control">
                     <%for(LanguageLevel ll : languageLevelsPartial){%>
                         <option value="<%=ll.getId()%>"><%=ll.getName()%></option>
                     <%}%>
@@ -98,10 +98,11 @@
         <%for(LanguageSkill ls : languageSkills){
             int ls_id = ls.getId();
             //Esto se puede hacer mejor
-            LanguageLevel speech = LanguageLevel.findBy("speech", String.valueOf(ls.getSpeech()), LanguageLevel.LANGUAGE_LEVEL_PARTIAL).get(0);
-            LanguageLevel writing = LanguageLevel.findBy("writing", String.valueOf(ls.getWriting()), LanguageLevel.LANGUAGE_LEVEL_PARTIAL).get(0);
-            LanguageLevel comprehension = LanguageLevel.findBy("comprehension", String.valueOf(ls.getComprehension()), LanguageLevel.LANGUAGE_LEVEL_PARTIAL).get(0);
-            LanguageLevel level = LanguageLevel.findBy("language_global_level_id", String.valueOf(ls.getComprehension()), LanguageLevel.LANGUAGE_LEVEL_GLOBAL).get(0);
+            LanguageLevel speech = LanguageLevel.findBy("id", String.valueOf(ls.getSpeech())).get(0);
+            LanguageLevel writing = LanguageLevel.findBy("id", String.valueOf(ls.getWriting())).get(0);
+            LanguageLevel comprehension = LanguageLevel.findBy("id", String.valueOf(ls.getComprehension())).get(0);
+            LanguageLevel level = LanguageLevel.findById(ls.getLevel());
+            String description = ls.getDescription();
         %>
         <!--Importa la plantilla de item por cada iteración y la rellena con los datos actuales-->
         <%@include file="templates/language_item.jsp"%>

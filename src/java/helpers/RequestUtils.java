@@ -187,18 +187,9 @@ public class RequestUtils {
     {
         if(request.getSession().getAttribute("languageLevelsPartial") == null || ((List<LanguageLevel>) request.getSession().getAttribute("languageLevelsPartial")).isEmpty())
         {
-            request.getSession().setAttribute("languageLevelsPartial", LanguageLevel.findAll(LanguageLevel.LANGUAGE_LEVEL_PARTIAL));
+            request.getSession().setAttribute("languageLevelsPartial", LanguageLevel.findAll());
         }
         return (List<LanguageLevel>) request.getSession().getAttribute("languageLevelsPartial");
-    }
-    
-    public static List<LanguageLevel> getLanguageLevelsGlobal(HttpServletRequest request)
-    {
-        if(request.getSession().getAttribute("languageLevelsGlobal") == null || ((List<LanguageLevel>) request.getSession().getAttribute("languageLevelsGlobal")).isEmpty())
-        {
-            request.getSession().setAttribute("languageLevelsGlobal", LanguageLevel.findAll(LanguageLevel.LANGUAGE_LEVEL_GLOBAL));
-        }
-        return (List<LanguageLevel>) request.getSession().getAttribute("languageLevelsGlobal");
     }
     
     /**

@@ -23,9 +23,8 @@ public class LanguageSkill
 {
     private static final String TABLE_NAME = "language_skill";
     private Language language;
-    private int id=0, user_id, speech, comprehension, writing;
+    private int id=0, user_id, speech, comprehension, writing, level;
     private String description;
-    LanguageLevel level;
 
     public int getId()
     {
@@ -79,11 +78,11 @@ public class LanguageSkill
         this.writing = writing;
     }
 
-    public LanguageLevel getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(LanguageLevel level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
@@ -168,7 +167,8 @@ public class LanguageSkill
         ls.setComprehension(rs.getInt("comprehension"));
         ls.setSpeech(rs.getInt("speech"));
         ls.setWriting(rs.getInt("writing"));
-        ls.setLevel(LanguageLevel.findById(rs.getInt("global_language_level_id"), LanguageLevel.LANGUAGE_LEVEL_PARTIAL));
+        ls.setLevel(rs.getInt("language_global_level_id"));
+        ls.setDescription(rs.getString("description"));
         
         System.out.println("Instancia creada");
         
@@ -185,7 +185,7 @@ public class LanguageSkill
         ls.setSpeech(RequestUtils.getInt(request, "speech"));
         ls.setComprehension(RequestUtils.getInt(request, "comprehension"));
         ls.setWriting(RequestUtils.getInt(request, "writing"));
-        ls.setLevel(LanguageLevel.findById(RequestUtils.getInt(request, "global_level"), LanguageLevel.LANGUAGE_LEVEL_PARTIAL));
+        ls.setLevel(RequestUtils.getInt(request, "level"));
         ls.setDescription(request.getParameter("description"));
         
         return ls;
@@ -213,7 +213,7 @@ public class LanguageSkill
         params.put("speech", String.valueOf(this.getSpeech()));
         params.put("comprehension", String.valueOf(this.getComprehension()));
         params.put("writing", String.valueOf(this.getWriting()));
-        params.put("language_global_level_id", String.valueOf(this.getLevel().getId()));
+        params.put("language_global_level_id", String.valueOf(this.getLevel()));
         params.put("description", this.getDescription());
         
         
