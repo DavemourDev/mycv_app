@@ -86,11 +86,25 @@
                 </div>
                 <div class="col-lg-1"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-2">
-                    <img width="200" src="/mycv_app/assets/img/cv_ej.jpg"/>
+                    <div class="row">
+                        <div class="col-lg-12 cvthumb"><img width=100% src="/mycv_app/assets/img/cv_ej.jpg"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_EDITAR.png"/></a></div>
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_DESCARGAR.png"/></a></div>
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_ELIMINAR.png"/></a></div>
+                    </div>
                 </div>
                 <div class="col-lg-1"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-2">
-                    <img width="200" src="/mycv_app/assets/img/cv_ej.jpg"/>
+                    <div class="row">
+                        <div class="col-lg-12 cvthumb"><img width=100% src="/mycv_app/assets/img/cv_ej.jpg"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_EDITAR.png"/></a></div>
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_DESCARGAR.png"/></a></div>
+                        <div class="col-lg-4 boton-icon-cv"><a href="#"><img width=100% src="/mycv_app/assets/img/icon_ELIMINAR.png"/></a></div>
+                    </div>
                 </div>
                 <div class="col-lg-2"><!--COLUMNA VACÍA--></div>
             </div>
@@ -167,7 +181,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label>EXPERIENCIA PROFESSIONAL</label>
+                                <label>EXPERIENCIA PROFESIONAL</label>
                             </div>
                             <div class="col-md-7">
                             <%@include file="templates/tag-input.jsp"%>

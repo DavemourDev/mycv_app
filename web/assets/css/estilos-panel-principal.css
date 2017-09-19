@@ -114,7 +114,7 @@ div.ocult {
 
 /*Apartado mis curriculums*/
 .cvthumb{
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .boton-icon-cv {
     transition: 0.2s ease;
@@ -125,4 +125,10 @@ div.ocult {
     transition: 0.8s ease;
     opacity: 1;
     transition: 0.2s ease;
+ }
+
+ .buttons-cv{
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
  }
