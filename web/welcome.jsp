@@ -13,15 +13,16 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="jumbotron text-center">
-                            <h1 class="page-header layout-color-main">Haz tu propio CV fácilmente</h1>
+                            <img width="250" src="/mycv_app/assets/img/cv_ej.jpg"/>
+                            <h1 class="page-header layout-color-main">¡Crea tu propio CV fácilmente!</h1>
                             <p>
-                                ¡Deja de perder el tiempo en gestionar tus diferentes CV para diferentes perfiles!
-                                Con nuestra aplicación podrás mantener actualizada tu información y tus perfiles en pocos minutos.
+                                ¡Deja de perder el tiempo gestionando tus varios currículums!<br>
+                                Con MyCV podrás mantener actualizada tu información y tus perfiles en pocos minutos.
                             </p>
 
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 subtitle-welcome">
                         <h2>No tienes cuenta? Regístrate</h2>
                         <form action="Register" method="POST">
                             <div class="form-group">
