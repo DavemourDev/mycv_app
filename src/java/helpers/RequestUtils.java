@@ -25,7 +25,7 @@ import model.User;
 public class RequestUtils {
 
     private static final String NOT_LOGGED_URL = "welcome";
-
+    
     public static int getSessionUserId(HttpServletRequest request)
     {
        return userSessionExists(request) ? getSessionUser(request).getId() : 0; 

@@ -14,34 +14,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import model.interfaces.TaggableUserEntity;
 
 /**
  *
  * @author mati
  */
-public class Experience extends TaggableItem
+public class Experience extends TaggableItem implements TaggableUserEntity
 {
-    private static final String TABLE_NAME = "experience";
-    private int id, hours, user_id;
+    public static final String TABLE_NAME = "experience";
+    private int id, user_id;
     private String job, enterprise, startdate, enddate, description;
-    private List<String> tags = new ArrayList<String>();
+    private List<Tag> tags = new ArrayList<>();
     private Sector sector;
     private Location location;
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
     }
 
     public String getJob() {
@@ -100,24 +95,24 @@ public class Experience extends TaggableItem
         this.location = location;
     }
 
-    public List<String> getTags() {
+    @Override
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags)
+    @Override
+    public void setTags(List<Tag> tags)
     {
         this.tags=tags;
     }
     
-    public void addTag(String tag) {
-        this.tags.add(tag);
-    }
-
+    @Override
     public int getUser_id()
     {
         return user_id;
     }
 
+    @Override
     public void setUser_id(int user_id)
     {
         this.user_id = user_id;
@@ -185,16 +180,14 @@ public class Experience extends TaggableItem
         return list;
     }
 
-    /**
-     * Traduce el objeto a un hashMap compatible con la base de datos.
-     * @return HashMap que asocia campos de tablas a valores.
-     */
+    @Override
     public HashMap toHashMap()
     {
         HashMap<String, String> params = new HashMap<>();
+        
         if(this.getId()>0)
         {
-        params.put("id", String.valueOf(this.getId()));
+            params.put("id", String.valueOf(this.getId()));
         }
         
         params.put("user_id", String.valueOf(this.getUser_id()));
@@ -205,9 +198,11 @@ public class Experience extends TaggableItem
         params.put("country_id", String.valueOf(this.getLocation().getCountry().getId()));
         params.put("city", this.getLocation().getCity());
         params.put("sector_id", String.valueOf(this.getSector().getId()));
-        //params.put("hours", String.valueOf(this.getHours()));
         params.put("job", String.valueOf(this.getJob()));
-        params.put("tags", DataUtils.joinBySpaces(this.tags));
+        
+        //Ver cómo introducimos las tags. Seguramente no irá aquí
+        //params.put("tags", DataUtils.joinBySpaces(this.tags));
+        
         System.out.println("HashMap creado");
         return params;
     }
@@ -223,9 +218,10 @@ public class Experience extends TaggableItem
         experience.setEnddate(rs.getString("enddate"));
         experience.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
         experience.setSector(Sector.findById(rs.getInt("sector_id")));
-        experience.setHours(rs.getInt("hours"));
         experience.setJob(rs.getString("job"));
-        experience.setTags(DataUtils.splitBySpaces(rs.getString("tags")));
+        
+        experience.setTags(Tag.findOfType(experience.getId(), experience.getTableName()));
+        //experience.setTags(DataUtils.createTagListFromSpacedString(rs.getString("tags")));
         return experience;
     }
     
@@ -240,30 +236,19 @@ public class Experience extends TaggableItem
         experience.setEnddate(request.getParameter("enddate"));
         experience.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
         experience.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
-        experience.setHours(RequestUtils.getInt(request, "hours"));
         experience.setJob(request.getParameter("job"));
         
         if(!RequestUtils.isNullParam(request, "tags"))
         {
-            experience.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+            experience.setTags(DataUtils.createTagListFromSpacedString(request.getParameter("tags")));
         }
         
         return experience;
     }
 
-    public boolean insert() throws Exception
+    @Override
+    public String getTableName()
     {
-        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
+        return "experience";//TABLE_NAME;
     }
-
-    public boolean update() throws Exception
-    {
-        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
-    }
-    
-    public boolean delete() throws Exception
-    {
-        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
-    }
-    
 }

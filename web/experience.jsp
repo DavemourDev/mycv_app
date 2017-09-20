@@ -1,3 +1,4 @@
+<%@page import="model.Tag"%>
 <%@page import="helpers.FormatUtils"%>
 <%@page import="model.Experience"%>
 <%@page import="helpers.DatabaseUtils"%>
@@ -16,7 +17,7 @@
     List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
     
-    List<String> tags = new ArrayList<String>();
+    List<Tag> tags = new ArrayList<Tag>();
     String tagInputNS ="New-exp";
     
     int i = 0;

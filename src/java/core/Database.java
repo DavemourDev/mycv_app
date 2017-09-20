@@ -69,7 +69,6 @@ public class Database {
         this.connect();
         System.out.println("Consulta: " + q);
         ResultSet rs = this.stm.executeQuery(q);
-        //this.close();
         return rs;
     }
     

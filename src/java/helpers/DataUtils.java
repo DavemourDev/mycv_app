@@ -1,7 +1,9 @@
 package helpers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import model.Tag;
 
 /**
  * Métodos para conversiones útiles de un tipo de datos a otro.
@@ -69,5 +71,24 @@ public class DataUtils
         }
         
         return sb.toString();
+    }
+    
+    public static List<Tag> createTagListFromStringList(List<String> tagTexts)
+    {
+        List<Tag> tags = new ArrayList<Tag>();
+        
+        for(String tagText : tagTexts)
+        {
+            Tag tag = new Tag();
+            tag.setTagtext(tagText);
+            tags.add(tag);
+        }
+        
+        return tags;
+    }
+    
+    public static List<Tag> createTagListFromSpacedString(String tagString)
+    {
+        return createTagListFromStringList(splitBySpaces(tagString));
     }
 }

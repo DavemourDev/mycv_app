@@ -7,7 +7,6 @@ package helpers;
 
 import core.Database;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import java.util.Map;
  */
 public class DatabaseUtils 
 {
+    
     private DatabaseUtils(){};
     
     /**
@@ -185,14 +185,19 @@ public class DatabaseUtils
             
             for(Map.Entry<String, String> entry : params.entrySet())
             {
-                query.append('`');
-                query.append(entry.getKey());
-                query.append("`,");
+                String key = entry.getKey();
+                String value = entry.getValue();
+                
+                if(!key.equalsIgnoreCase("id"))
+                {
+                    query.append('`');
+                    query.append(key);
+                    query.append("`,");
 
-                queryValues.append('\'');
-                queryValues.append(entry.getValue());
-                queryValues.append("',");
-
+                    queryValues.append('\'');
+                    queryValues.append(value);
+                    queryValues.append("',");
+                }
             }
             //Como al iterar sobre un mapa no hay modo (que yo sepa) de saber si estamos en la última entrada, hay que eliminar la última coma.
             query.deleteCharAt(query.length() - 1);
@@ -258,5 +263,14 @@ public class DatabaseUtils
         return Database.getInstance().queryUpdate(query) > 0;
     }
     
+    public static int getLastId(String table) throws Exception
+    {
+        String query = String.format("select max(`id`) id from `%s`;", table);
+        ResultSet rs = Database.getInstance().query(query);
+        rs.next();
+        System.out.println(rs.getInt("id"));
+        
+        return rs.getInt("id");
+    }
     
 }
