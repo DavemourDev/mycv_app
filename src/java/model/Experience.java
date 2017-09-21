@@ -20,7 +20,7 @@ import model.interfaces.TaggableUserEntity;
  *
  * @author mati
  */
-public class Experience extends TaggableItem implements TaggableUserEntity
+public class Experience implements TaggableUserEntity
 {
     public static final String TABLE_NAME = "experience";
     private int id, user_id;
@@ -200,9 +200,6 @@ public class Experience extends TaggableItem implements TaggableUserEntity
         params.put("sector_id", String.valueOf(this.getSector().getId()));
         params.put("job", String.valueOf(this.getJob()));
         
-        //Ver cómo introducimos las tags. Seguramente no irá aquí
-        //params.put("tags", DataUtils.joinBySpaces(this.tags));
-        
         System.out.println("HashMap creado");
         return params;
     }
@@ -221,7 +218,7 @@ public class Experience extends TaggableItem implements TaggableUserEntity
         experience.setJob(rs.getString("job"));
         
         experience.setTags(Tag.findOfType(experience.getId(), experience.getTableName()));
-        //experience.setTags(DataUtils.createTagListFromSpacedString(rs.getString("tags")));
+        
         return experience;
     }
     
@@ -246,9 +243,5 @@ public class Experience extends TaggableItem implements TaggableUserEntity
         return experience;
     }
 
-    @Override
-    public String getTableName()
-    {
-        return "experience";//TABLE_NAME;
-    }
+    
 }

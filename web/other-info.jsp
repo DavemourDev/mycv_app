@@ -1,3 +1,4 @@
+<%@page import="model.Tag"%>
 <%@page import="model.OtherInfoItem"%>
 <%@page import="helpers.DatabaseUtils"%>
 
@@ -10,8 +11,8 @@
     List<String> tagsDatalist = new ArrayList<String>();//RequestUtils.getEduTags(request);
     List<OtherInfoItem> otherList = OtherInfoItem.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     
-    List<String> tags = new ArrayList<String>();
-    String tagInputNS ="New-exp";
+    List<Tag> tags = new ArrayList<Tag>();
+    String tagInputNS ="New-other";
     
     int i = 0;
     int n = 0;

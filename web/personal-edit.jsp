@@ -38,7 +38,7 @@
                 <div class="row espaciador">
                     <div class="col-lg-6">
                         <label>Fecha de nacimiento</label>
-                        <input name="birthdate" type="date" placeholder="Tu fecha de nacimiento..." class="form-control" value="<%=personal.getBirthdate()%>">
+                        <input name="birthdate" type="date" pattern="\d{4}-\d{2}-\d{2}" placeholder="Tu fecha de nacimiento..." class="form-control" value="<%=personal.getBirthdate()%>">
                     </div>
                     <div class="col-lg-6">
                         <label>Fotografía (opcional)</label>

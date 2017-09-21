@@ -41,16 +41,17 @@ public interface Entity
     public int getId();
     
     /**
-     * Obtiene el valor de la constante TABLE_NAME de la tabla de entidad que lo implementa.
+     * Obtiene el nombre de la tabla de entidad.
      * 
-     * Se admite sobrecarga de este método para obtener de otro modo el nombre de la tabla.
-     * En caso de hacerlo, la constante estática TABLE_NAME es opcional.
+     * Por defecto, el nombre obtenido es el de la clase que lo llama en minúscula.
+     * 
+     * Si fuera necesaria otra implementación, sobrecarga el método.
      * 
      * @return 
      */
     public default String getTableName()
     {
-        return TABLE_NAME;
+        return this.getClass().getSimpleName().toLowerCase();
     }
     
     /**

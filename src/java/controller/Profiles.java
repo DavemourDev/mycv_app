@@ -13,29 +13,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Profile;
 
 /**
  *
  * @author mati
  */
 @WebServlet(name = "Profiles", urlPatterns = {"/Profiles"})
-public class Profiles extends HttpServlet {
+public class Profiles extends HttpServlet 
+{
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         
         String action = request.getParameter("_action");
-        String pageUrl = "";
+        String pageUrl = "profile-restrictions-form";
         
         try
         {
@@ -45,6 +38,7 @@ public class Profiles extends HttpServlet {
                 {
                     case "insert":
                         this.insert(request);
+                        pageUrl = "profile-restrictions-form";
                         break;
                     case "edit":
                         this.update(request);
@@ -53,7 +47,8 @@ public class Profiles extends HttpServlet {
                         this.delete(request);
                         break;
                     case "view":
-                        this.view(request);
+                        //this.view(request);
+                        pageUrl = "profile-viewer";
                         break;
                     case "download":
                         this.download(request);
@@ -110,9 +105,11 @@ public class Profiles extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public boolean insert(HttpServletRequest request)
+    public boolean insert(HttpServletRequest request) throws Exception
     {
-        return true;
+        Profile profile = Profile.instantiateFromRequest(request);
+        
+        return profile.insert();
     }
 
     public boolean update(HttpServletRequest request)

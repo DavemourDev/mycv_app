@@ -21,7 +21,14 @@ import model.interfaces.TaggableUserEntity;
 public class Tag implements Entity
 {
     private int id;
-    private String tagtext;
+    private String tagtext, tablename;
+    
+    public Tag(){}
+    
+    public Tag(String tablename)
+    {
+        this.tablename = tablename;
+    }
     
     @Override
     public int getId()
@@ -44,6 +51,16 @@ public class Tag implements Entity
     {
         this.tagtext = tagtext;
     }
+
+    public String getTablename()
+    {
+        return tablename;
+    }
+
+    public void setTablename(String tablename)
+    {
+        this.tablename = tablename;
+    }
     
     public static List<Tag> findOfType(int id, String type) 
     {
@@ -55,7 +72,9 @@ public class Tag implements Entity
             
             while(rs.next())
             {
-                list.add(instantiateFromCurrentResult(rs));
+                Tag tag = instantiateFromCurrentResult(rs);
+                
+                list.add(tag);
             }
         } 
         catch (Exception ex) 
@@ -76,7 +95,20 @@ public class Tag implements Entity
             
             while(rs.next())
             {
-                list.add(instantiateFromCurrentResult(rs));
+                Tag tag = instantiateFromCurrentResult(rs);
+                boolean tagExists = false;
+                for(Tag t : list)
+                {
+                    if(tagExists = tag.getTagtext().equals(t.getTagtext()))
+                    {
+                        break;
+                    }
+                }
+                
+                if(!tagExists)
+                {
+                    list.add(tag);
+                }
             }
         } 
         catch (Exception ex) 
@@ -91,11 +123,7 @@ public class Tag implements Entity
     {
         Tag tag = new Tag();
         
-        if(tag.getId() > 0)
-        {
-            tag.setId(rs.getInt("id"));
-        }
-        
+        tag.setId(rs.getInt("id"));
         tag.setTagtext(rs.getString("tagtext"));
 
         return tag;
@@ -136,12 +164,15 @@ public class Tag implements Entity
      */
     public static boolean deleteAllForItem(TaggableUserEntity item)
     { 
+        String type = item.getTableName();
+        
         try
         {
             //No hagáis esto en casa
-            List<Tag> tags = Tag.findAllOfType(item.getUser_id(), item.getTableName());
+            List<Tag> tags = Tag.findOfType(item.getUser_id(), type);
             for(Tag t : tags)
             {
+                t.setTablename(type);
                 t.delete();
             }
             
@@ -153,6 +184,13 @@ public class Tag implements Entity
         }
     }
     
+    @Override
+    public String getTableName()
+    {
+        return this.tablename + "_tag";
+    }
+    
+    @Override
     public String toString()
     {
         return this.getTagtext();

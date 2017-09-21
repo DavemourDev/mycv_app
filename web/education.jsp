@@ -1,3 +1,4 @@
+<%@page import="model.Tag"%>
 <%@page import="model.Education"%>
 <%@page import="model.EducationLevel"%>
 <%@page import="helpers.FormatUtils"%>
@@ -18,8 +19,8 @@
     List<Education> educationList = Education.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
     int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
 
-    List<String> tags = new ArrayList<String>();
-    String tagInputNS ="New-exp";
+    List<Tag> tags = new ArrayList<Tag>();
+    String tagInputNS ="New-edu";
     
     int i = 0;
     int n = 0;
@@ -96,11 +97,11 @@
         <div class="row">   
             <div class="col-lg-6">
                 <label>Fecha inicio</label>
-                <input name="startdate" type="date" placeholder="Fecha inicio..." class="form-control">
+                <input name="startdate" pattern="\d{4}-\d{2}-\d{2}" type="date" placeholder="Fecha inicio..." class="form-control">
             </div>
             <div class="col-lg-6">
                 <label>Fecha final</label>
-                <input name="enddate" type="date" placeholder="Fecha final..." class="form-control">  
+                <input name="enddate" pattern="\d{4}-\d{2}-\d{2}" type="date" placeholder="Fecha final..." class="form-control">  
             </div>
         </div>
     </div>
@@ -129,6 +130,7 @@
     <div class="container">
         <%for(Education edu : educationList){
             int edu_id = edu.getId();
+            String educationLevel = edu.getLevel().getName();
             String startdate = edu.getStartdate();
             String enddate = edu.getEnddate();
             tags = edu.getTags();

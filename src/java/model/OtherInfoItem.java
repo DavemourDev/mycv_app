@@ -14,20 +14,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import model.interfaces.TaggableUserEntity;
 
 /**
  *
- * @author mati
+ * @author David
  */
-public class OtherInfoItem extends TaggableItem
+public class OtherInfoItem implements TaggableUserEntity
 {
     private static final String TABLE_NAME = "otherinfo";
     
     private int id, user_id;
     private String title, description;
-    private List<String> tags = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
     
-    public String getTitle() {
+    public String getTitle() 
+    {
         return title;
     }
 
@@ -43,38 +45,41 @@ public class OtherInfoItem extends TaggableItem
         this.description = description;
     }
 
+    @Override
     public int getId()
     {
         return id;
     }
 
+    @Override
     public void setId(int id)
     {
         this.id = id;
     }
 
+    @Override
     public int getUser_id()
     {
         return user_id;
     }
 
+    @Override
     public void setUser_id(int user_id)
     {
         this.user_id = user_id;
     }
 
-    public List<String> getTags() {
+    @Override
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags)
+    @Override
+    public void setTags(List<Tag> tags)
     {
         this.tags=tags;
     }
     
-    public void addTag(String tag) {
-        this.tags.add(tag);
-    }
     
     public static OtherInfoItem findById(int id) 
     {
@@ -147,7 +152,9 @@ public class OtherInfoItem extends TaggableItem
         info.setUser_id(rs.getInt("user_id"));
         info.setTitle(rs.getString("title"));
         info.setDescription(rs.getString("description"));
-        info.setTags(DataUtils.splitBySpaces(rs.getString("tags")));
+        
+        info.setTags(Tag.findOfType(info.getId(), info.getTableName()));
+        
         return info;
     }
         
@@ -161,12 +168,13 @@ public class OtherInfoItem extends TaggableItem
         
         if(!RequestUtils.isNullParam(request, "tags"))
         {
-            item.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+            item.setTags(DataUtils.createTagListFromSpacedString(request.getParameter("tags")));
         }
         
         return item;
     }
 
+    @Override
     public HashMap toHashMap()
     {
         HashMap<String, String> params = new HashMap<>();
@@ -182,25 +190,13 @@ public class OtherInfoItem extends TaggableItem
         params.put("title", this.getTitle());
         params.put("description", this.getDescription());
         
-        params.put("tags", DataUtils.joinBySpaces(this.getTags()));
-        
-        System.out.println("HashMap creado");
-        
         return params;
     }
     
-    public boolean insert() throws Exception
-    {
-        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
-    }
-
-    public boolean update() throws Exception
-    {
-        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
-    }
     
-    public boolean delete() throws Exception
+    @Override
+    public String getTableName()
     {
-        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
+        return "otherinfo";
     }
 }

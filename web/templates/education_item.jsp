@@ -2,15 +2,16 @@
 
 <article class="cv-section-item">
     <div class="campoyaintroducido row">
-        <div class="col-lg-9">    
+        <div class="col-lg-9">
+            <h3><%=educationLevel%></h3>
             <p class="lead"><span class="text-primary"><%=edu.getTitlename()%></span> en <span class="text-muted"><%=edu.getCenter()%>, <%=edu.getLocation().getCity()%></span></p>
             <p>Desde <time datetime="<%=startdate%>" class="text-info"><%=FormatUtils.formatDateMonthYear(startdate)%></time> hasta <time datetime="<%=enddate%>" class="text-info"><%=FormatUtils.formatDateMonthYear(enddate)%></time></p>
             <p><%=edu.getDescription()%> </p>
             
             <dl class="dl-horizontal">
                 <dt>Tags: </dt>
-                <%for(String s : tags){%>
-                    <dd><%=s%></dd>
+                <%for(Tag t : tags){%>
+                    <dd><%=t.getTagtext()%></dd>
                 <%}%>
             </dl>
         </div>
@@ -89,11 +90,11 @@
             <div class="row">   
                 <div class="col-lg-6">
                     <label>Fecha inicio</label>
-                    <input name="startdate" type="date" placeholder="Fecha inicio..." class="form-control" value="<%=startdate%>">
+                    <input name="startdate" pattern="\d{4}-\d{2}-\d{2}" type="date" placeholder="Fecha inicio..." class="form-control" value="<%=startdate%>">
                 </div>
                 <div class="col-lg-6">
                     <label>Fecha final</label>
-                    <input name="enddate" type="date" placeholder="Fecha final..." class="form-control" value="<%=enddate%>">  
+                    <input name="enddate" type="date" pattern="\d{4}-\d{2}-\d{2}" placeholder="Fecha final..." class="form-control" value="<%=enddate%>">  
                 </div>
             </div>
         </div>

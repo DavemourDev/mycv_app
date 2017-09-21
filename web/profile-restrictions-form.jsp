@@ -1,9 +1,3 @@
-<%-- 
-    Document   : profile-restrictions-form
-    Created on : 10-sep-2017, 23:19:46
-    Author     : OSCAR
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +6,31 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <%if(request.getParameter("experience-tags") != null){%>
+        <p>Etiquetas de experiencia:</p>
+        <ul>
+            <%for(String tagtext : (String[]) request.getParameterValues("experience-tags")){%>
+            <li><%=tagtext%></li>
+            <%}%>
+        </ul>
+        <%}%>
+        <%if(request.getParameter("education-tags") != null){%>
+        <p>Etiquetas de educación:</p>
+        <ul>
+            <%for(String tagtext : (String[]) request.getParameterValues("education-tags")){%>
+            <li><%=tagtext%></li>
+            <%}%>
+        </ul>
+        <%}%>
+        <%if(request.getParameter("otherinfo-tags") != null){%>
+        <p>Etiquetas de otros:</p>
+        <ul>
+            <%for(String tagtext : (String[]) request.getParameterValues("otherinfo-tags")){%>
+            <li><%=tagtext%></li>
+            <%}%>
+        </ul>
+        <%}%>
+        <h1>Próximamente...</h1>
+        <a href="index.jsp">Volver</a>
     </body>
 </html>

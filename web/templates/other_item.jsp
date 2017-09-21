@@ -15,8 +15,8 @@
         </div>
         <dl class="dl-horizontal">
             <dt>Tags: </dt>
-            <%for(String s : tags){%>
-                <dd><%=s%></dd>
+            <%for(Tag t : tags){%>
+                <dd><%=t%></dd>
             <%}%>
         </dl>
     </div>

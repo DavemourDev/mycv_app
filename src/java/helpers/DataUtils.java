@@ -91,4 +91,9 @@ public class DataUtils
     {
         return createTagListFromStringList(splitBySpaces(tagString));
     }
+    
+    public static List<Tag> createTagListFromStringArray(String[] tagTexts)
+    {
+        return createTagListFromStringList(Arrays.asList(tagTexts));
+    }
 }

@@ -5,7 +5,6 @@
  */
 package model;
 
-import core.Database;
 import helpers.DataUtils;
 import helpers.DatabaseUtils;
 import helpers.RequestUtils;
@@ -15,12 +14,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import model.interfaces.TaggableUserEntity;
 
 /**
  *
  * @author mati
  */
-public class Education extends TaggableItem
+public class Education implements TaggableUserEntity
 {
     private static final String TABLE_NAME = "education";
     private int id, hours, user_id;
@@ -28,12 +28,14 @@ public class Education extends TaggableItem
     private Sector sector;
     private Location location;
     private EducationLevel level;
-    private List<String> tags;
+    private List<Tag> tags;
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -110,26 +112,31 @@ public class Education extends TaggableItem
         this.level = level;
     }
 
+    @Override
     public int getUser_id() {
         return user_id;
     }
 
+    @Override
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
     
     
-    public List<String> getTags() {
-        return tags;
+    @Override
+    public List<Tag> getTags() {
+        return this.tags;
     }
 
-    public void setTags(List<String> tags)
+    @Override
+    public void setTags(List<Tag> tags)
     {
         this.tags=tags;
     }
     
-    public void addTag(String tag) {
-        this.tags.add(tag);
+    @Override
+    public boolean addTag(Tag tag) {
+        return this.getTags().add(tag);
     }
 
     
@@ -209,8 +216,9 @@ public class Education extends TaggableItem
         education.setLevel(EducationLevel.findById(rs.getInt("education_level_id")));
         education.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
         education.setSector(Sector.findById(rs.getInt("sector_id")));
-        education.setHours(rs.getInt("hours"));
-        education.setTags(DataUtils.splitBySpaces(rs.getString("tags")));
+        
+        education.setTags(Tag.findOfType(education.getId(), education.getTableName()));
+        
         return education;
     }
     
@@ -227,17 +235,17 @@ public class Education extends TaggableItem
         education.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
         education.setLevel(EducationLevel.findById(RequestUtils.getInt(request, "level")));
         education.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
-        education.setHours(RequestUtils.getInt(request, "hours"));
         education.setTitlename(request.getParameter("titlename"));
         
         if(!RequestUtils.isNullParam(request, "tags"))
         {
-            education.setTags(DataUtils.splitBySpaces(request.getParameter("tags")));
+            education.setTags(DataUtils.createTagListFromSpacedString(request.getParameter("tags")));
         }
         
         return education;
     }
 
+    @Override
     public HashMap toHashMap()
     {
         HashMap<String, String> params = new HashMap<>();
@@ -255,26 +263,10 @@ public class Education extends TaggableItem
         params.put("country_id", String.valueOf(this.getLocation().getCountry().getId()));
         params.put("city", this.getLocation().getCity());
         params.put("sector_id", String.valueOf(this.getSector().getId()));
-        //params.put("hours", String.valueOf(this.getHours()));
         params.put("titlename", String.valueOf(this.getTitlename()));
         params.put("education_level_id", String.valueOf(this.getLevel().getId()));
-        params.put("tags", DataUtils.joinBySpaces(this.tags));
-        System.out.println("HashMap creado");
+        
         return params;
     }
-    
-    public boolean insert() throws Exception
-    {
-        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
-    }
-
-    public boolean update() throws Exception
-    {
-        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
-    }
-    
-    public boolean delete() throws Exception
-    {
-        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
-    }
+ 
 }

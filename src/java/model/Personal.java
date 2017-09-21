@@ -88,6 +88,8 @@ public class Personal
         personal.setBirthdate(rs.getString("birthdate"));
         personal.setGender(Gender.findById(rs.getInt("gender_id")));
         personal.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
+        personal.setTelephone1(rs.getString("telephone1") == null? "" : rs.getString("telephone1"));
+        personal.setTelephone2(rs.getString("telephone2") == null? "" : rs.getString("telephone2"));
         return personal;       
     }
     
@@ -254,6 +256,9 @@ public class Personal
         return true;
     }
     
-    
+    public String getFullName()
+    {
+        return this.getName() + " " + this.getLastname();
+    }
     
 }

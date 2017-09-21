@@ -80,11 +80,11 @@
             <div class="row">   
                 <div class="col-lg-6">
                     <label>Fecha inicio</label>
-                    <input name="startdate" type="date" placeholder="Fecha inicio..." class="form-control" value="<%=startdate%>">
+                    <input name="startdate" pattern="\d{4}-\d{2}-\d{2}" type="date" placeholder="Fecha inicio..." class="form-control" value="<%=startdate%>">
                 </div>
                 <div class="col-lg-6">
                     <label>Fecha final</label>
-                    <input name="enddate" type="date" placeholder="Fecha final..." class="form-control" value="<%=enddate%>">  
+                    <input name="enddate" pattern="\d{4}-\d{2}-\d{2}" type="date" placeholder="Fecha final..." class="form-control" value="<%=enddate%>">  
                 </div>
             </div>
         </div>
