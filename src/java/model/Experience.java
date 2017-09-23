@@ -20,24 +20,12 @@ import model.interfaces.TaggableUserEntity;
  *
  * @author mati
  */
-public class Experience implements TaggableUserEntity
+public class Experience extends TaggableUserEntity
 {
     public static final String TABLE_NAME = "experience";
-    private int id, user_id;
     private String job, enterprise, startdate, enddate, description;
-    private List<Tag> tags = new ArrayList<>();
     private Sector sector;
     private Location location;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getJob() {
         return job;
@@ -93,29 +81,6 @@ public class Experience implements TaggableUserEntity
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    @Override
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    @Override
-    public void setTags(List<Tag> tags)
-    {
-        this.tags=tags;
-    }
-    
-    @Override
-    public int getUser_id()
-    {
-        return user_id;
-    }
-
-    @Override
-    public void setUser_id(int user_id)
-    {
-        this.user_id = user_id;
     }
     
     public static Experience findById(int id) 

@@ -20,13 +20,11 @@ import model.interfaces.TaggableUserEntity;
  *
  * @author David
  */
-public class OtherInfoItem implements TaggableUserEntity
+public class OtherInfoItem extends TaggableUserEntity
 {
     private static final String TABLE_NAME = "otherinfo";
     
-    private int id, user_id;
     private String title, description;
-    private List<Tag> tags = new ArrayList<>();
     
     public String getTitle() 
     {
@@ -44,42 +42,6 @@ public class OtherInfoItem implements TaggableUserEntity
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override
-    public int getId()
-    {
-        return id;
-    }
-
-    @Override
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    @Override
-    public int getUser_id()
-    {
-        return user_id;
-    }
-
-    @Override
-    public void setUser_id(int user_id)
-    {
-        this.user_id = user_id;
-    }
-
-    @Override
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    @Override
-    public void setTags(List<Tag> tags)
-    {
-        this.tags=tags;
-    }
-    
     
     public static OtherInfoItem findById(int id) 
     {

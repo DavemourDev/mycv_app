@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import helpers.DatabaseUtils;
@@ -18,10 +13,17 @@ import model.interfaces.TaggableUserEntity;
  *
  * @author JuanRamón
  */
-public class Tag implements Entity
+public class Tag extends Entity
 {
-    private int id;
-    private String tagtext, tablename;
+    private String tagtext;
+    
+    /**
+     * Nombre de la tabla anexada a la instancia de tag. Puesto que esta clase por el momento se utiliza para objetos etiqueta de los tipos experience, 
+     * education y otherinfo, este campo es el que distingue un tipo de otro.
+     * 
+     * Si fuere necesario, en un futuro se crearán clases individuales para cada tipo de tag.
+     */
+    private String tablename;
     
     public Tag(){}
     
@@ -29,19 +31,7 @@ public class Tag implements Entity
     {
         this.tablename = tablename;
     }
-    
-    @Override
-    public int getId()
-    {
-        return id;
-    }
-
-    @Override
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
+ 
     public String getTagtext()
     {
         return tagtext;
@@ -141,19 +131,20 @@ public class Tag implements Entity
     
     public boolean insert(TaggableUserEntity item) throws Exception
     {
-        String tablename = item.getTableName();
+        String table = item.getTableName();
         HashMap<String, String> params = this.toHashMap();
         
-        int item_id = item.getId() == 0 ? DatabaseUtils.getLastId(tablename): item.getId();
+        int item_id = item.getId() == 0 ? DatabaseUtils.getLastId(table): item.getId();
         
-        params.put(tablename + "_id", String.valueOf(item_id));
+        params.put(table + "_id", String.valueOf(item_id));
         
-        return DatabaseUtils.insert(tablename + "_tag", params);
+        return DatabaseUtils.insert(table + "_tag", params);
     }
     
     @Override
     public boolean update()
     {
+        //Los elementos de las tablas Tag no se actualizan, por tanto este método en esta clase no se utiliza por el momento.
         return true;
     }
     

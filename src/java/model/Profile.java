@@ -9,7 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import model.interfaces.UserEntity;
 
-public class Profile implements UserEntity
+public class Profile extends UserEntity
 {
 
     private int id, user_id, personalOrder, picture_display, experienceOrder, educationOrder, languageOrder, otherinfoOrder;

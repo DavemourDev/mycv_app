@@ -1,9 +1,12 @@
-package helpers;
+package model.factory;
 
+import helpers.DatabaseUtils;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import model.OtherInfoItem;
+import static model.OtherInfoItem.instantiateFromCurrentResult;
 import model.interfaces.Entity;
 
 /**
@@ -19,6 +22,18 @@ import model.interfaces.Entity;
  */
 public abstract class EntityFactory
 {
+    private String table;
+    
+    public String getTable()
+    {
+        return this.table;
+    }
+    
+    public void setTable(String tablename)
+    {
+        this.table = tablename;
+    }
+    
     /**
      * Instancia una implementación de Entity a partir del resultado actual de un ResultSet.
      * 
@@ -65,6 +80,28 @@ public abstract class EntityFactory
         catch(Exception ex)
         {
             list = null;
+        }
+        
+        return list;
+    }
+
+    public List<Entity> findAll() 
+    {
+        List<Entity> list = new ArrayList<>();
+        
+        try 
+        {
+            
+            ResultSet rs = DatabaseUtils.selectAll(this.getTable());
+       
+            while(rs.next())
+            {
+                list.add(createEntityFromCurrentResult(rs));
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println("Error de conexión con la base de datos.");
         }
         
         return list;

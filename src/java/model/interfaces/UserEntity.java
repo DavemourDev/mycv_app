@@ -8,10 +8,17 @@ package model.interfaces;
  * 
  * @author David
  */
-public interface UserEntity extends Entity
+public abstract class UserEntity extends Entity
 {
-    public static final String TABLE_NAME = "userentity";
+    public int user_id;
     
-    public void setUser_id(int id);
-    public int getUser_id();
+    public void setUser_id(int id)
+    {
+        this.user_id = id;
+    }
+    
+    public int getUser_id()
+    {
+        return this.user_id;
+    }
 }

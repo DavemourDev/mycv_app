@@ -20,33 +20,14 @@ import model.interfaces.TaggableUserEntity;
  *
  * @author mati
  */
-public class Education implements TaggableUserEntity
+public class Education extends TaggableUserEntity
 {
     private static final String TABLE_NAME = "education";
-    private int id, hours, user_id;
     private String titlename, center, startdate, enddate, description;
     private Sector sector;
     private Location location;
     private EducationLevel level;
     private List<Tag> tags;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
 
     public String getTitlename() {
         return titlename;

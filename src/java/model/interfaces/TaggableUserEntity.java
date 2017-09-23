@@ -1,6 +1,7 @@
 package model.interfaces;
 
 import helpers.DatabaseUtils;
+import java.util.ArrayList;
 import java.util.List;
 import model.Tag;
 
@@ -12,24 +13,26 @@ import model.Tag;
  * 
  * @author David
  */
-public interface TaggableUserEntity extends UserEntity
+public abstract class TaggableUserEntity extends UserEntity
 {
-    public static final String TABLE_NAME = "taggable";
     
-    @Override
-    public int getId();
+    private List<Tag> tags = new ArrayList<Tag>();
+    
     /**
      * Obtiene una lista con todas las tags asociadas a ese objeto.
      * @return 
      */
-    public List<Tag> getTags();
+    public List<Tag> getTags()
+    {
+        return this.tags;
+    }
     
     /**
      * Asigna un objeto tag al objeto etiquetable.
      * @param tag 
      * @return  
      */
-    public default boolean addTag(Tag tag)
+    public boolean addTag(Tag tag)
     {
         if(!this.hasTag(tag.getTagtext()))
         {
@@ -44,7 +47,7 @@ public interface TaggableUserEntity extends UserEntity
      * @param tag
      * @return 
      */
-    public default boolean removeTag(Tag tag)
+    public boolean removeTag(Tag tag)
     {
         for(Tag t : this.getTags())
         {
@@ -60,14 +63,17 @@ public interface TaggableUserEntity extends UserEntity
      * Asigna una lista de etiquetas como lista de etiquetas del objeto implementador.
      * @param tags 
      */
-    public void setTags(List<Tag> tags);
+    public void setTags(List<Tag> tags)
+    {
+        this.tags = tags;
+    }
     
     /**
      * Verifica si existe una etiqueta con el texto pasado como atributo en la lista de etiquetas del objeto.
      * @param tagText
      * @return 
      */
-    public default boolean hasTag(String tagText)
+    public boolean hasTag(String tagText)
     {
         return this.getTags().stream().anyMatch( tag -> tag.getTagtext().equals(tagText));
     }
@@ -81,7 +87,7 @@ public interface TaggableUserEntity extends UserEntity
      * @throws Exception 
      */
     @Override
-    public default boolean insert() throws Exception
+    public boolean insert() throws Exception
     {
         return DatabaseUtils.insert(this.getTableName(), this.toHashMap()) && this.updateTags(false);
     }
@@ -97,7 +103,7 @@ public interface TaggableUserEntity extends UserEntity
      * @throws Exception 
      */
     @Override
-    public default boolean update() throws Exception
+    public boolean update() throws Exception
     {
         return DatabaseUtils.update(this.getTableName(), this.toHashMap()) && this.updateTags(true);
     }
@@ -107,11 +113,11 @@ public interface TaggableUserEntity extends UserEntity
      * @param replace
      * @return 
      */
-    public default boolean updateTags(boolean replace)
+    public boolean updateTags(boolean replace)
     {
         try
         {
-            List<Tag> tags = this.getTags();
+            List<Tag> list = this.getTags();
 
             if(replace)
             {
@@ -120,7 +126,7 @@ public interface TaggableUserEntity extends UserEntity
             }
             
             //Y ahora las reasocia
-            for(Tag t: tags)
+            for(Tag t: list)
             {
                 t.insert(this);
             }
