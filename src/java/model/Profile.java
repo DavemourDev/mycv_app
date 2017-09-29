@@ -7,12 +7,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import model.interfaces.UserEntity;
+import model.abstraction.UserEntity;
 
 public class Profile extends UserEntity
 {
 
-    private int id, user_id, personalOrder, picture_display, experienceOrder, educationOrder, languageOrder, otherinfoOrder;
+//    protected static EntityFactory factory = new ProfileFactory();
+    private int personalOrder, 
+            picture_display, 
+            experienceOrder, 
+            educationOrder, 
+            languageOrder, 
+            otherinfoOrder;
     private List<Tag> experienceTags, educationTags, otherinfoTags; 
     private String personalMark;
     
@@ -136,17 +142,6 @@ public class Profile extends UserEntity
         return params;
     }
 
-    @Override
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    @Override
-    public int getId()
-    {
-        return this.id;
-    }
     
     public static Profile instantiateFromRequest(HttpServletRequest request)
     {
@@ -203,5 +198,11 @@ public class Profile extends UserEntity
         
         return list;
     }
-    //Listas para las demás
+    
+    
+    @Override
+    public boolean validate()
+    {
+        return true;
+    }
 }

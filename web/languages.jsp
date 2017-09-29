@@ -5,16 +5,16 @@
     ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
     ViewUtils.setScripts(request, "form-slides", "formulario-etiquetas");
 
+    User user = RequestUtils.getSessionUser(request);
+    
     //Inicializar variables 
     List<Language> languages = RequestUtils.getLanguages(request);
     List<LanguageLevel> languageLevelsPartial = RequestUtils.getLanguageLevelsPartial(request);
     //List<LanguageLevel> languageLevelsGlobal = RequestUtils.getLanguageLevelsGlobal(request);
     
-    List<LanguageSkill> languageSkills = LanguageSkill.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
+    List<LanguageSkill> languageSkills = user.getLanguageSkills();
     
-    System.out.println(languageSkills.toString());
-    
-    int user_id = RequestUtils.getSessionUserId(request);
+    int user_id = user.getId();
 %>
 
 <%@include file="layout/upper.jsp" %>
@@ -22,7 +22,7 @@
 <h1 class="page-header titulo text-center">Idiomas</h1>
 <a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade un nuevo idioma</a>
 
-<form class="form-hidden form-box" id="new-item" action="Languages" method="POST">
+<form class="form-hidden form-box" id="new-item" action="languages" method="POST">
     <div class="form-group">
         <div class="row">
             <div class="col-lg-8">
@@ -79,7 +79,7 @@
         <textarea name="description" class="form-control" rows="3" placeholder="Breve descripción..." class="form-control"></textarea>
     </div>
 
-                
+    <input type="hidden" name="user_id" value="<%=user_id%>">
     <input type="hidden" name="_action" value="insert">
 
     <div class="row text-center">

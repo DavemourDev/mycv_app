@@ -18,14 +18,14 @@
         <div class="col-lg-3">
             <div class="botonesedel">
                 <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=exp_id%>">EDITA</a>
-                <a class="boton-menu bg-btn-1" href="Experiences?_action=delete&id=<%=exp_id%>">ELIMINA</a>
+                <a class="boton-menu bg-btn-1" href="experience?_action=delete&id=<%=exp_id%>">ELIMINA</a>
             </div>
         </div>
     </div>
 
             
 
-    <form class="form-hidden form-box" action="Experiences" id="edit-item-<%=exp_id%>">
+    <form class="form-hidden form-box" action="experience" id="edit-item-<%=exp_id%>">
         <h2>Editar experiencia</h2>
         <div class="form-group">
             <div class="row">

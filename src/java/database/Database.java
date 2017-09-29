@@ -1,4 +1,4 @@
-package core;
+package database;
 
 import java.sql.Statement;
 import java.sql.Connection;
@@ -64,11 +64,11 @@ public class Database {
      * @return ResultSet con los resultados de la consulta
      * @throws Exception 
      */
-    public ResultSet query(String q) throws Exception
+    public ResultSet query(QueryBuilder q) throws Exception
     {
         this.connect();
         System.out.println("Consulta: " + q);
-        ResultSet rs = this.stm.executeQuery(q);
+        ResultSet rs = this.stm.executeQuery(q.toString());
         return rs;
     }
     
@@ -82,11 +82,11 @@ public class Database {
      * @return int Número de registros insertados/afectados.
      * @throws Exception 
      */
-    public int queryUpdate(String q) throws Exception
+    public int queryUpdate(QueryBuilder q) throws Exception
     {
         this.connect();
         System.out.println("Consulta: " + q);
-        return this.stm.executeUpdate(q);
+        return this.stm.executeUpdate(q.toString());
     }
     
     public static Database getInstance() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, Exception

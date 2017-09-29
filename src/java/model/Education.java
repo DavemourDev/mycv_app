@@ -5,30 +5,32 @@
  */
 package model;
 
-import helpers.DataUtils;
-import helpers.DatabaseUtils;
-import helpers.RequestUtils;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import helpers.ValidationUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import model.interfaces.TaggableUserEntity;
+import model.abstraction.TaggableUserEntity;
+import model.factory.EducationFactory;
+import model.factory.abstraction.UserEntityFactory;
 
 /**
  *
- * @author mati
+ * @author David
  */
 public class Education extends TaggableUserEntity
 {
-    private static final String TABLE_NAME = "education";
+    
+    protected static UserEntityFactory factory = new EducationFactory();
     private String titlename, center, startdate, enddate, description;
     private Sector sector;
     private Location location;
     private EducationLevel level;
-    private List<Tag> tags;
-
+    
+    public static UserEntityFactory getFactory()
+    {
+        return Education.factory;
+    }
+    
     public String getTitlename() {
         return titlename;
     }
@@ -93,139 +95,50 @@ public class Education extends TaggableUserEntity
         this.level = level;
     }
 
-    @Override
-    public int getUser_id() {
-        return user_id;
-    }
-
-    @Override
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-    
-    
-    @Override
-    public List<Tag> getTags() {
-        return this.tags;
-    }
-
-    @Override
-    public void setTags(List<Tag> tags)
+    public static Education withId(int id) 
     {
-        this.tags=tags;
-    }
-    
-    @Override
-    public boolean addTag(Tag tag) {
-        return this.getTags().add(tag);
+        return (Education) getFactory().findById(id);
     }
 
-    
-    public static Education findById(int id) 
-    {
-        Education education = null;
-
-        try 
-        {
-            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
-       
-            if (rs.next()) 
-            {
-                education = instantiateFromCurrentResult(rs);
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
-
-        return education;
-    }
-
-    public static List<Education> findAll() 
+    public static List<Education> all() 
     {
         List<Education> list = new ArrayList<>();
         
-        try 
-        {
-            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
-       
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
+        getFactory().findAll().forEach(
+            (e) -> list.add((Education) e)
+        );
         
         return list;
     }
 
-    public static List<Education> findBy(String attr, String value) 
+    public static List<Education> allWhere(String attr, String value) 
     {
         List<Education> list = new ArrayList<>();
         
-        try {
-            
-            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
-       
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
+        getFactory().findBy(attr, value).forEach(
+            (e) -> list.add((Education) e)
+        );
         
         return list;
     }
 
-    public static Education instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    public static Education oneWhere(String attr, String value) 
     {
-        Education education = new Education();
-        education.setId(rs.getInt("id"));
-        education.setUser_id(rs.getInt("user_id"));
-        education.setTitlename(rs.getString("titlename"));
-        education.setCenter(rs.getString("center"));
-        education.setDescription(rs.getString("description"));
-        education.setStartdate(rs.getString("startdate"));
-        education.setEnddate(rs.getString("enddate"));
-        education.setLevel(EducationLevel.findById(rs.getInt("education_level_id")));
-        education.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
-        education.setSector(Sector.findById(rs.getInt("sector_id")));
-        
-        education.setTags(Tag.findOfType(education.getId(), education.getTableName()));
-        
-        return education;
+        return (Education) getFactory().findOneBy(attr, value);
     }
     
-        
-    public static Education instantiateFromRequest(HttpServletRequest request)
-    {
-        Education education = new Education();
-        education.setUser_id(RequestUtils.getSessionUserId(request));
-        education.setId(RequestUtils.getInt(request, "id"));
-        education.setCenter(request.getParameter("center"));
-        education.setDescription(request.getParameter("description"));
-        education.setStartdate(request.getParameter("startdate"));
-        education.setEnddate(request.getParameter("enddate"));
-        education.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
-        education.setLevel(EducationLevel.findById(RequestUtils.getInt(request, "level")));
-        education.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
-        education.setTitlename(request.getParameter("titlename"));
-        
-        if(!RequestUtils.isNullParam(request, "tags"))
-        {
-            education.setTags(DataUtils.createTagListFromSpacedString(request.getParameter("tags")));
-        }
-        
-        return education;
-    }
 
+    public static List<Education> whereUserId(int user_id) 
+    {
+        List<Education> list = new ArrayList<>();
+        
+        getFactory().findByUserId(user_id).forEach(
+            (e) -> list.add((Education) e)
+        );
+        
+        return list;
+    }
+    
     @Override
     public HashMap toHashMap()
     {
@@ -250,4 +163,28 @@ public class Education extends TaggableUserEntity
         return params;
     }
  
+    
+    @Override
+    public boolean validate()
+    {
+        try
+        {
+            return ValidationUtils.validateEducation(this);
+        } 
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+    
+    public static void main(String[] args)
+    {
+        int user_id = 1;
+        
+        User user = User.withId(user_id);
+        
+        List<Education> educations = user.getEducations();
+        System.out.println(user.getEducations().size());
+    }
+    
 }

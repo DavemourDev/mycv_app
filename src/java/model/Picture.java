@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author mati
+ *NOTA: No se implementa en esta versión
+ * @author David
  */
 class Picture 
 {

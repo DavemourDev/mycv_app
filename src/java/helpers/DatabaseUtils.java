@@ -5,10 +5,10 @@
  */
 package helpers;
 
-import core.Database;
+import database.Database;
+import database.QueryBuilder;
 import java.sql.ResultSet;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -33,7 +33,11 @@ public class DatabaseUtils
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "`;"); 
+            QueryBuilder query = new QueryBuilder()
+                    .select(table);
+                    
+            
+            rs = Database.getInstance().query(query); 
         }
         catch(Exception ex)
         {
@@ -45,7 +49,11 @@ public class DatabaseUtils
   
     /**
      * Ver implementación con String como value.
-     * */
+     *
+     * @param table
+     * @param attr
+     * @param value
+     * @return  */
     public static ResultSet selectAllWhere(String table, String attr, int value)
     {
         return selectAllWhere(table, attr, String.valueOf(value));
@@ -53,7 +61,12 @@ public class DatabaseUtils
     
     /**
      * Ver implementación con String como value.
-     * */
+     *
+     * @param table
+     * @param attr
+     * @param value
+     * @return  
+     */
     public static ResultSet selectAllWhere(String table, String attr, double value)
     {
         return selectAllWhere(table, attr, String.valueOf(value));
@@ -61,7 +74,12 @@ public class DatabaseUtils
     
     /**
      * Ver implementación con String como value.
-     * */
+     *
+     * @param table
+     * @param attr
+     * @param value
+     * @return  
+     */
     public static ResultSet selectAllWhere(String table, String attr, boolean value)
     {
         return selectAllWhere(table, attr, String.valueOf(value));
@@ -81,8 +99,12 @@ public class DatabaseUtils
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "` where `" + attr + "`='" + value + "';"); 
-        
+            QueryBuilder query = new QueryBuilder()
+                    .select(table)
+                    .where(attr, value);
+            
+            rs = Database.getInstance().query(query);
+            
         }
         catch(Exception ex)
         {
@@ -108,7 +130,11 @@ public class DatabaseUtils
         
         try
         {
-            rs = Database.getInstance().query("select * from `" + table + "` where `id`='" + String.valueOf(id) +"';"); 
+            QueryBuilder query = new QueryBuilder()
+                    .select(table)
+                    .where("id", id);
+            
+            rs = Database.getInstance().query(query);
         }
         catch(Exception ex)
         {
@@ -119,158 +145,113 @@ public class DatabaseUtils
         
     }
     
-    /**
-     * Inicia una transacción en la base de datos. 
-     * Todas las sentencias ejecutadas en una transacción solamente tendrán 
-     * efecto definitivo una vez se confirme la misma.
-     */
-    public static void startTransaction()
-    {
-        try
-        {
-            Database.getInstance().query("start transaction;");
-    
-        }
-        catch(Exception ex)
-        {
-            System.err.println("Error con la base de datos.... (start transaction)");
-        }
-    }
     
     /**
-     * Confirma una transaccción en la base de datos.
-     * Al confirmar una transacción se pone fin y los cambios son irreversibles.
+     * Inserta un registro en la tabla indicada con los campos y valores incluidos en el
+     * HashMap.
+     * 
+     * Devuelve true si al menos se ha logrado insertar un registro.
+     * 
+     * @param table
+     * @param params
+     * @return
+     * @throws Exception 
      */
-    public static void commitTransaction()
-    {
-        try
-        {
-            Database.getInstance().query("commit;");
-    
-        }
-        catch(Exception ex)
-        {
-            System.err.println("Error con la base de datos.... (commit)");
-        }
-    }
-    
-    /**
-     * Cancela la transacción actual en la base de datos.
-     * Todas las instrucciones ejecutadas en una transacción al cancelarse quedan
-     * anuladas.
-     */
-    public static void cancelTransaction()
-    {
-        try
-        {
-            Database.getInstance().query("rollback;");
-    
-        }
-        catch(Exception ex)
-        {
-            System.err.println("Error con la base de datos.... (rollback)");
-        }
-    }
-    
     public static boolean insert(String table, HashMap<String, String> params) throws Exception
     {
+        
         try
         {
-            StringBuilder query = new StringBuilder();
-            StringBuilder queryValues = new StringBuilder();
+            QueryBuilder query = new QueryBuilder()
+                    .insertInto(table)
+                    .fields(params.keySet().toArray())
+                    .values(params.values().toArray());
             
-            query.append("insert into `");
-            query.append(table);
-            query.append("`(");
-            
-            for(Map.Entry<String, String> entry : params.entrySet())
-            {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                
-                if(!key.equalsIgnoreCase("id"))
-                {
-                    query.append('`');
-                    query.append(key);
-                    query.append("`,");
-
-                    queryValues.append('\'');
-                    queryValues.append(value);
-                    queryValues.append("',");
-                }
-            }
-            //Como al iterar sobre un mapa no hay modo (que yo sepa) de saber si estamos en la última entrada, hay que eliminar la última coma.
-            query.deleteCharAt(query.length() - 1);
-            queryValues.deleteCharAt(queryValues.length() - 1);
-
-            query.append(") values (").append(queryValues.toString()).append(");");
-
-            return Database.getInstance().queryUpdate(query.toString()) > 0;
+            return Database.getInstance().queryUpdate(query) > 0;
         }
         catch(Exception ex)
         {
-            throw ex;
+            System.out.println(ex.getMessage());
+            return false;
         }
     }
     
-    
+    /**
+     * Actualiza un registro de la base de datos. 
+     * Es necesario incluir una referencia a la clave primaria en los parámetros.
+     * Si no se incluye, siempre se devolverá false.
+     * 
+     * @param table
+     * @param params
+     * @return
+     * @throws Exception 
+     */
     public static boolean update(String table, HashMap<String, String> params) throws Exception
     {
         try
         {
-            StringBuilder query = new StringBuilder();
-            int id = 0;
+            QueryBuilder query = new QueryBuilder()
+                    .update(table)
+                    .fields(params.keySet().toArray())
+                    .values(params.values().toArray())
+                    .where("id", params.get("id"));
             
-            query.append("update `");
-            query.append(table);
-            query.append("` set ");
-            
-            for(Map.Entry<String, String> entry : params.entrySet())
-            {
-                String key= entry.getKey();
-                String value= entry.getValue();
-                
-                if(key.equalsIgnoreCase("id"))
-                {
-                    id = Integer.parseInt(value);
-                    continue;
-                }
-                query.append('`');
-                query.append(key);
-                query.append("`=");
-                
-                query.append('\'');
-                query.append(value);
-                query.append("',");
-            }
-
-            query.deleteCharAt(query.length() - 1);
-
-            query.append(" where `id`='").append(id).append("';");
-
-            return Database.getInstance().queryUpdate(query.toString()) > 0;
+            return Database.getInstance().queryUpdate(query) > 0;
         }
         catch(Exception ex)
         {
             throw ex;
         }
-        //"update `experience` set `enterprise`='%s', `description`='%s', `startdate`='%s', `enddate`='%s', `country_id`='%d', `city`='%s', `sector_id`='%d', `hours`='%d', `job`='%s', `tags`='%s' where `id`='%d')"
     }
     
+    /**
+     * Elimina el registro de la tabla indicada con el id indicado.
+     * Devuelve true si se ha eliminado con éxito al menos un registro.
+     * @param table
+     * @param id
+     * @return
+     * @throws Exception 
+     */
     public static boolean deleteById(String table, int id) throws Exception
     {
-        String query = String.format("delete from `%s` where `id`='%d';", table, id);
+        QueryBuilder query = new QueryBuilder()
+                .delete(table)
+                .where("id", id);
+                
         return Database.getInstance().queryUpdate(query) > 0;
     }
     
+    /**
+     * Obtiene la id del último registro insertado en la tabla.
+     * NOTA: En realidad devuelve la id más alta, pero para la base de datos utilizada,
+     *       el último elemento insertado siempre tiene la id más alta.
+     * 
+     * @param table
+     * @return
+     * @throws Exception 
+     */
     public static int getLastId(String table) throws Exception
     {
-        String query = String.format("select max(`id`) id from `%s`;", table);
+        QueryBuilder query = new QueryBuilder()
+                .select(table)
+                .fields("id")
+                .orderBy("id", true);
+        
         ResultSet rs = Database.getInstance().query(query);
         rs.next();
         System.out.println(rs.getInt("id"));
         
         return rs.getInt("id");
+    }
+    
+    public static ResultSet getUserRegister(String email, String password) throws Exception
+    {
+        QueryBuilder query = new QueryBuilder()
+                .select("user")
+                .where("email", email)
+                .and("password", password);
+        
+        return Database.getInstance().query(query);
     }
     
 }

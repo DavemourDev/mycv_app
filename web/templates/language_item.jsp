@@ -16,19 +16,19 @@
         <div class="col-lg-3">
             <div class="botonesedel">
                 <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=ls_id%>">EDITA</a>
-                <a class="boton-menu bg-btn-1" href="Languages?_action=delete&id=<%=ls_id%>">ELIMINA</a>
+                <a class="boton-menu bg-btn-1" href="languages?_action=delete&id=<%=ls_id%>">ELIMINA</a>
             </div>
         </div>
     </div>
 
 
-    <form class="form-hidden form-box" action="Languages" id="edit-item-<%=ls_id%>" method="POST">
+    <form class="form-hidden form-box" action="languages" id="edit-item-<%=ls_id%>" method="POST">
         <h2>Editar Idioma</h2>
         <div class="form-group">
         <div class="row">
             <div class="col-lg-8">
                 <label>Idioma</label>
-                <select name="language" class="form-control" readonly="readonly">
+                <select name="language" class="form-control" readonly="readonly" disabled>
                     <option value="" selected>(seleccionar)</option>
                     <!--Obtener lista. No se permiten idiomas que ese usuario haya introducido, con lo cual éstos no aparecen. Deberá hacerse un filtro-->
                     <%for(Language l : languages){%>

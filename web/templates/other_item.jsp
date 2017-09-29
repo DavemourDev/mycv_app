@@ -9,7 +9,7 @@
             <div class="col-lg-3">
                 <div class="botonesedel">
                     <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=other_id%>">EDITA</a>
-                    <a class="boton-menu bg-btn-1" href="OtherInfo?_action=delete&id=<%=other_id%>">ELIMINA</a>
+                    <a class="boton-menu bg-btn-1" href="otherinfo?_action=delete&id=<%=other_id%>">ELIMINA</a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
     </div>
 
 
-    <form class="form-hidden form-box" action="OtherInfo" id="edit-item-<%=other_id%>" method="POST">
+    <form class="form-hidden form-box" action="otherinfo" id="edit-item-<%=other_id%>" method="POST">
         <h2>Editar otra información</h2>
         <div class="form-group">
             <div class="row">

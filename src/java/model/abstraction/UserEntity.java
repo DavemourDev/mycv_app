@@ -1,4 +1,8 @@
-package model.interfaces;
+package model.abstraction;
+
+import java.util.List;
+import static model.abstraction.Entity.getFactory;
+import model.factory.abstraction.UserEntityFactory;
 
 /**
  * Una entidad de usuario es como una entidad base, 
@@ -21,4 +25,6 @@ public abstract class UserEntity extends Entity
     {
         return this.user_id;
     }
+    
+  
 }

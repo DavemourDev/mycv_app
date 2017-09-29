@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import model.interfaces.Entity;
-import model.interfaces.TaggableUserEntity;
+import model.abstraction.Entity;
+import model.abstraction.TaggableUserEntity;
 
 /**
  *
@@ -176,6 +176,16 @@ public class Tag extends Entity
     }
     
     @Override
+    /**
+     * Obtiene el nombre de la tabla de etiquetas para esta etiqueta.
+     * 
+     * Las etiquetas para cada tipo de ítem se guardan en tablas distintas,
+     * y al usarse una misma clase para todas, no puede obtenerse el nombre
+     * de la tabla de entidad de la misma manera que para otras entidades.
+     * 
+     * Se prevee que en futuras ediciones existan implementaciones para cada
+     * tipo de etiqueta.
+     */
     public String getTableName()
     {
         return this.tablename + "_tag";
@@ -185,5 +195,11 @@ public class Tag extends Entity
     public String toString()
     {
         return this.getTagtext();
+    }
+
+    @Override
+    public boolean validate()
+    {
+        return true;
     }
 }

@@ -1,6 +1,6 @@
 package model;
 
-import core.Database;
+import database.Database;
 import helpers.DatabaseUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;

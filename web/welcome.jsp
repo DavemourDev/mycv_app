@@ -24,36 +24,36 @@
                     </div>
                     <div class="col-md-4 subtitle-welcome">
                         <h2>No tienes cuenta? Regístrate</h2>
-                        <form action="Register" method="POST">
+                        <form action="home" method="POST">
                             <div class="form-group">
-                                <label class="control-label">Email</label>
+                                <label class="control-label"><%=Dictionary.vocab("email-form-label")%></label>
                                 <input type="email" class="form-control"  name="email"  placeholder="email" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Password</label>
+                                <label class="control-label"><%=Dictionary.vocab("password-form-label")%></label>
                                 <input pattern="\w{6,50}" type="password" class="form-control" name="password"  placeholder="password (mínimo: 6 caracteres)" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Nombre</label>
+                                <label class="control-label"><%=Dictionary.vocab("name-form-label")%></label>
                                 <input class="form-control" name="name"  placeholder="nombre" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Apellidos</label>
+                                <label class="control-label"><%=Dictionary.vocab("lastname-form-label")%></label>
                                 <input class="form-control" name="lastname"  placeholder="apellidos" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Género</label>
+                                <label class="control-label"><%=Dictionary.vocab("gender-form-label")%></label>
                                 <div class="radio-group">
                                     <label class="radio-inline"><input type="radio" name="gender" value="1" checked="true">Hombre</label>
                                     <label class="radio-inline"><input type="radio" name="gender" value="2">Mujer</label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Fecha de nacimiento</label>
+                                <label class="control-label"><%=Dictionary.vocab("birthdate-form-label")%></label>
                                 <input class="form-control" type="date" pattern="\d{4}-\d{2}-\d{2}" name="birthdate" placeholder="Fecha de nacimiento(aaaa-mm-dd)" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">País</label>
+                                <label class="control-label"><%=Dictionary.vocab("country-form-label")%></label>
                                 <select class="form-control" name="country">
                                     <option value="">(seleccione una opción)</option>
                                     <%for(Country c : countryList){%>
@@ -62,9 +62,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Ciudad</label>
+                                <label class="control-label"><%=Dictionary.vocab("province-form-label")%></label>
                                 <input class="form-control" name="city"  placeholder="Ciudad" required>
                             </div>
+                            <input type="hidden" name="_action" value="register"/>
                             <div class="button-group">    
                                 <input type="submit" name="register" value="Register" class="btn btn-success">
                             </div>

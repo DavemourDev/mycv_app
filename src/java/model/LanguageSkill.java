@@ -1,51 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import helpers.DataUtils;
-import helpers.DatabaseUtils;
-import helpers.RequestUtils;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import helpers.ValidationUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+import model.abstraction.UserEntity;
+import model.factory.LanguageSkillFactory;
+import model.factory.abstraction.UserEntityFactory;
 
 /**
  *
- * @author mati
+ * @author David
  */
-public class LanguageSkill 
+public class LanguageSkill extends UserEntity
 {
-    private static final String TABLE_NAME = "language_skill";
+    
+    protected static UserEntityFactory factory = new LanguageSkillFactory();
     private Language language;
-    private int id=0, user_id, speech, comprehension, writing, level;
+    private int speech, comprehension, writing, level;
     private String description;
 
-    public int getId()
+    public static UserEntityFactory getFactory()
     {
-        return id;
+        return LanguageSkill.factory;
     }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    public int getUser_id()
-    {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id)
-    {
-        this.user_id = user_id;
-    }
-
+    
     public Language getLanguage() {
         return language;
     }
@@ -96,105 +75,51 @@ public class LanguageSkill
         this.description = description;
     }
     
-    public static LanguageSkill findById(int id) 
+    
+    public static LanguageSkill withId(int id) 
     {
-        LanguageSkill ls = null;
-
-        try {
-            
-            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
-            
-            if (rs.next()) 
-            {
-                ls = instantiateFromCurrentResult(rs);
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
-
-        return ls;
+        return (LanguageSkill) getFactory().findById(id);
     }
 
-    public static List<LanguageSkill> findAll() 
+    public static List<LanguageSkill> all() 
     {
         List<LanguageSkill> list = new ArrayList<>();
         
-        try 
-        {
-            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
-            
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
+        getFactory().findAll().forEach(
+            (e) -> list.add((LanguageSkill) e)
+        );
         
         return list;
     }
 
-    public static List<LanguageSkill> findBy(String attr, String value) 
+    public static LanguageSkill oneWhere(String key, String value) 
+    {
+        return (LanguageSkill) getFactory().findOneBy(key, value);
+    }
+    
+    public static List<LanguageSkill> allWhere(String attr, String value) 
     {
         List<LanguageSkill> list = new ArrayList<>();
         
-        try {
-            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
-            
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
+        getFactory().findBy(attr, value).forEach(
+            (e) -> list.add((LanguageSkill) e)
+        );
         
         return list;
     }
 
-    public static LanguageSkill instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    public static List<LanguageSkill> whereUserId(int user_id) 
     {
-        LanguageSkill ls = new LanguageSkill();
-        ls.setId(rs.getInt("id"));
-        ls.setLanguage(Language.findById(rs.getInt("language_id")));
-        ls.setUser_id(rs.getInt("user_id"));
-        ls.setComprehension(rs.getInt("comprehension"));
-        ls.setSpeech(rs.getInt("speech"));
-        ls.setWriting(rs.getInt("writing"));
-        ls.setLevel(rs.getInt("language_global_level_id"));
-        ls.setDescription(rs.getString("description"));
+        List<LanguageSkill> list = new ArrayList<>();
         
-        System.out.println("Instancia creada");
+        getFactory().findByUserId(user_id).forEach(
+            (e) -> list.add((LanguageSkill) e)
+        );
         
-        return ls;
+        return list;
     }
     
-    public static LanguageSkill instantiateFromRequest(HttpServletRequest request)
-    {
-        LanguageSkill ls = new LanguageSkill();
-        
-        ls.setId(RequestUtils.getInt(request, "id"));
-        ls.setLanguage(Language.findById(RequestUtils.getInt(request, "language")));
-        ls.setUser_id(RequestUtils.getSessionUserId(request));
-        ls.setSpeech(RequestUtils.getInt(request, "speech"));
-        ls.setComprehension(RequestUtils.getInt(request, "comprehension"));
-        ls.setWriting(RequestUtils.getInt(request, "writing"));
-        ls.setLevel(RequestUtils.getInt(request, "level"));
-        ls.setDescription(request.getParameter("description"));
-        
-        return ls;
-    }
-    
-    /**
-     * Traduce el objeto a un hashMap compatible con la base de datos.
-     * @return HashMap que asocia campos de tablas a valores.
-     */
+    @Override
     public HashMap toHashMap()
     {
         HashMap<String, String> params = new HashMap<>();
@@ -219,19 +144,11 @@ public class LanguageSkill
         
         return params;
     }    
-    
-    public boolean insert() throws Exception
+
+    @Override
+    public boolean validate()
     {
-        return DatabaseUtils.insert(TABLE_NAME, this.toHashMap());
+        return ValidationUtils.validateLanguageSkill(this);
     }
     
-    public boolean update() throws Exception
-    {
-        return DatabaseUtils.update(TABLE_NAME, this.toHashMap());
-    }
-    
-    public boolean delete() throws Exception
-    {
-        return DatabaseUtils.deleteById(TABLE_NAME, this.getId());
-    }
 }

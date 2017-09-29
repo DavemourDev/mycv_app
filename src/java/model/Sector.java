@@ -14,11 +14,10 @@ import java.util.List;
 
 /**
  *
- * @author mati
+ * @author David
  */
 public class Sector 
 {
-    
     private int id;
     private String name;
     

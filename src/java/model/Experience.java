@@ -1,32 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import helpers.DataUtils;
-import helpers.DatabaseUtils;
-import helpers.RequestUtils;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import helpers.ValidationUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import model.interfaces.TaggableUserEntity;
+import model.factory.ExperienceFactory;
+import model.abstraction.TaggableUserEntity;
+import model.factory.abstraction.UserEntityFactory;
 
 /**
  *
- * @author mati
+ * @author David
  */
 public class Experience extends TaggableUserEntity
 {
-    public static final String TABLE_NAME = "experience";
+    
+    protected static UserEntityFactory factory = new ExperienceFactory();
     private String job, enterprise, startdate, enddate, description;
     private Sector sector;
     private Location location;
 
+    public static UserEntityFactory getFactory()
+    {
+        return Experience.factory;
+    }
+    
     public String getJob() {
         return job;
     }
@@ -83,68 +81,50 @@ public class Experience extends TaggableUserEntity
         this.location = location;
     }
     
-    public static Experience findById(int id) 
+    public static Experience withId(int id) 
     {
-        Experience experience = null;
-
-        try {
-            
-            ResultSet rs = DatabaseUtils.selectById(TABLE_NAME, id);
-            
-            if (rs.next()) 
-            {
-                experience = instantiateFromCurrentResult(rs);
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
-
-        return experience;
+        return (Experience) getFactory().findById(id);
     }
 
-    public static List<Experience> findAll() 
+    public static List<Experience> all() 
     {
         List<Experience> list = new ArrayList<>();
         
-        try 
-        {
-            ResultSet rs = DatabaseUtils.selectAll(TABLE_NAME);
-            
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
+        getFactory().findAll().forEach(
+            (e) -> list.add((Experience) e)
+        );
         
         return list;
     }
 
-    public static List<Experience> findBy(String attr, String value) 
+    public static Experience oneWhere(String key, String value) 
+    {
+        return (Experience) getFactory().findOneBy(key, value);
+    }
+    
+    public static List<Experience> allWhere(String attr, String value) 
     {
         List<Experience> list = new ArrayList<>();
         
-        try {
-            ResultSet rs = DatabaseUtils.selectAllWhere(TABLE_NAME, attr, value);
-            
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
+        getFactory().findBy(attr, value).forEach(
+            (e) -> list.add((Experience) e)
+        );
         
         return list;
     }
 
+    public static List<Experience> whereUserId(int user_id) 
+    {
+        List<Experience> list = new ArrayList<>();
+        
+        getFactory().findByUserId(user_id).forEach(
+            (e) -> list.add((Experience) e)
+        );
+        
+        return list;
+    }
+    
+    
     @Override
     public HashMap toHashMap()
     {
@@ -169,44 +149,17 @@ public class Experience extends TaggableUserEntity
         return params;
     }
     
-    public static Experience instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    @Override
+    public boolean validate()
     {
-        Experience experience = new Experience();
-        experience.setId(rs.getInt("id"));
-        experience.setUser_id(rs.getInt("user_id"));
-        experience.setEnterprise(rs.getString("enterprise"));
-        experience.setDescription(rs.getString("description"));
-        experience.setStartdate(rs.getString("startdate"));
-        experience.setEnddate(rs.getString("enddate"));
-        experience.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
-        experience.setSector(Sector.findById(rs.getInt("sector_id")));
-        experience.setJob(rs.getString("job"));
-        
-        experience.setTags(Tag.findOfType(experience.getId(), experience.getTableName()));
-        
-        return experience;
-    }
-    
-    public static Experience instantiateFromRequest(HttpServletRequest request)
-    {
-        Experience experience = new Experience();
-        experience.setId(RequestUtils.getInt(request, "id"));
-        experience.setUser_id(RequestUtils.getSessionUserId(request));
-        experience.setEnterprise(request.getParameter("enterprise"));
-        experience.setDescription(request.getParameter("description"));
-        experience.setStartdate(request.getParameter("startdate"));
-        experience.setEnddate(request.getParameter("enddate"));
-        experience.setLocation(Location.create(request.getParameter("country"), request.getParameter("city")));
-        experience.setSector(Sector.findById(RequestUtils.getInt(request, "sector")));
-        experience.setJob(request.getParameter("job"));
-        
-        if(!RequestUtils.isNullParam(request, "tags"))
+        try
         {
-            experience.setTags(DataUtils.createTagListFromSpacedString(request.getParameter("tags")));
+            return ValidationUtils.validateExperience(this);
+        } 
+        catch (Exception ex)
+        {
+            return false;
         }
-        
-        return experience;
     }
-
     
 }

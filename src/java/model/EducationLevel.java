@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author mati
+ * @author David
  */
 public class EducationLevel implements Comparable<EducationLevel> 
 {

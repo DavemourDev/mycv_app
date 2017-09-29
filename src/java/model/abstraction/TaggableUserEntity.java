@@ -1,4 +1,4 @@
-package model.interfaces;
+package model.abstraction;
 
 import helpers.DatabaseUtils;
 import java.util.ArrayList;

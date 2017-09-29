@@ -11,13 +11,17 @@ import java.util.List;
 import model.Education;
 import model.Experience;
 import model.LanguageSkill;
-import model.OtherInfoItem;
+import model.OtherInfo;
 import model.Personal;
 import model.User;
 
 /**
  *
- * @author mati
+ * Clase utilitaria con métodos para tareas de validación. 
+ * 
+ * Valida tanto patrones de datos como objetos entidad.
+ * 
+ * @author David
  */
 public class ValidationUtils 
 {
@@ -30,9 +34,10 @@ public class ValidationUtils
         return true;
     }
 
-    public static boolean validateOther(OtherInfoItem other)
+
+    public static boolean validateOtherInfo(OtherInfo other)
     {
-        //Si hay que validar Otroos, aquí
+        //Si hay que validad otherInfo, aqui
         return true;
     }
     
@@ -139,7 +144,7 @@ public class ValidationUtils
         
         if(!ValidationUtils.isEmail(user.getEmail()))
         {
-            isValid=false;
+            isValid = false;
             problems.add("Formato de email no válido");
         }
 

@@ -1,8 +1,9 @@
-package model.interfaces;
+package model.abstraction;
 
 import helpers.DatabaseUtils;
 import java.util.HashMap;
-import model.factory.EntityFactory;
+import javax.servlet.http.HttpServletRequest;
+import model.factory.abstraction.EntityFactory;
 
 /**
  * Una entidad es una clase de modelo que representan al menos parcialmente una
@@ -10,13 +11,16 @@ import model.factory.EntityFactory;
  * 
  * Las operaciones están relacionadas con la inserción, visualización, edición y el borrado de datos.
  * 
- * 
  * @author David
  */
+@SuppressWarnings("EqualsAndHashcode")
 public abstract class Entity
 {
+    
+    protected static EntityFactory factory;
+    
     private int id;
-    private static EntityFactory factory;
+    protected static String tablename;
     
     /**
      * Crea un hashMap a partir de una instancia de entidad, el cual guarda los valores de la entidad
@@ -45,18 +49,6 @@ public abstract class Entity
     public int getId()
     {
         return this.id;
-    }
-    
-    /**
-     * Fija el objeto "fábrica de entidades" para dicho tipo de entidad.
-     * 
-     * Una fábrica de entidades almacena la lógica de creación de instancias de
-     * entidad a partir de diversas fuentes de datos.
-     * 
-     */
-    public static void setFactory(EntityFactory f)
-    {
-        factory = f;
     }
     
     public static EntityFactory getFactory()
@@ -88,6 +80,8 @@ public abstract class Entity
      */
     public boolean insert() throws Exception
     {
+        System.out.println("Nombre de la tabla a insertar: " + (this.getTableName() != null? this.getTableName() : "null"));
+        
         return DatabaseUtils.insert(this.getTableName(), this.toHashMap());
     }
 
@@ -116,4 +110,61 @@ public abstract class Entity
     {
         return DatabaseUtils.deleteById(this.getTableName(), this.getId());
     }
+    
+    /**
+     * Compara esta entidad con otra. Cada entidad responde a una serie de comprobaciones para determinar su igualdad con otra.
+     * 
+     * En principio este método no debería sobrecargarse mientras no fuera estrictamente necesario.
+     * 
+     * @param e
+     * @return 
+     */
+    public boolean equals(Entity e) 
+    {
+        if (this == e)
+        {
+            //Si es una referencia al mismo objeto, es verdadero.
+            return true;
+        }
+        
+        if (e == null || (getClass() != e.getClass()))
+        {
+            //Si es nulo o pertenece a otra clase, se considera falso sin comprobar nada.
+            return false;
+        }
+        
+        //Si llegamos a este punto, se consideran equivalentes si el hashcode de ambos coincide (Esto pasa si los atributos que distinguen un objeto de otro son iguales)...
+        return this.hashCode() == e.hashCode();
+    }
+
+    /**
+     * Genera un código identificador de la entidad.
+     * 
+     * Este código sirve para identificar al objeto al compararlo con otro, principalmente.
+     * Cada subclase de Entity tendrá su propio criterio para definirlo.
+     * 
+     * Por defecto solamente tiene en cuenta la id. Si esto fuera suficiente, no es necesario sobrecargar.
+     * 
+     * @return 
+     */
+    @Override
+    public int hashCode()
+    {
+        int hash = 5;
+        hash = 97 * hash + this.getId();
+        return hash;
+    }
+    
+    /**
+     *
+     * @param request
+     * @return
+     */
+    public static Entity instantiateFromRequest(HttpServletRequest request)
+    {
+        return getFactory().createEntityFromRequest(request);
+    }
+    
+    public abstract boolean validate();
+
 }

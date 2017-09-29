@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Country;
 import model.EducationLevel;
 import model.Language;
@@ -25,10 +26,29 @@ import model.User;
 public class RequestUtils {
 
     private static final String NOT_LOGGED_URL = "welcome";
+    private static HttpServletRequest request;
+    private static HttpServletResponse response;
+    
+    public static void setRequest(HttpServletRequest r)
+    {
+        request = r;
+    }
+    
+    public static void setResponse(HttpServletResponse r)
+    {
+        response = r;
+    }
     
     public static int getSessionUserId(HttpServletRequest request)
     {
        return userSessionExists(request) ? getSessionUser(request).getId() : 0; 
+    }
+
+    public static void createUserSession(HttpServletRequest request, User user)
+    {
+        HttpSession session = request.getSession(true);
+        session.setMaxInactiveInterval(0); //No caduca mientras la sesión del cliente está activa
+        session.setAttribute("user", user);
     }
     
     private RequestUtils(){}

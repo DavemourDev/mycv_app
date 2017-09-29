@@ -5,146 +5,67 @@
  */
 package model;
 
-import core.Database;
-import helpers.DatabaseUtils;
-import helpers.RequestUtils;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import helpers.ValidationUtils;
+import java.util.HashMap;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
+import model.factory.PersonalFactory;
+import model.abstraction.Entity;
+import model.factory.abstraction.EntityFactory;
 
 /**
  *
- * @author mati
+ * @author David
  */
-public class Personal 
+public class Personal extends Entity
 {
-    private int user_id;
-    private String name, lastname, birthdate, telephone1, telephone2;
+    
+    protected static EntityFactory factory = new PersonalFactory();
+    private String name, lastname, birthdate, telephone1, telephone2, picture;
     private Gender gender;
-    //private List<Telephone> telephones = new ArrayList<>();
-    private List<Email> emails = new ArrayList<>();
-    private List<Picture> pictures = new ArrayList<>();
     private Location location;
 
-    public Personal()
+    public static EntityFactory getFactory()
     {
-        
-    }
-    
-    public Personal(int userId)
-    {
-        this.setUser_id(userId);
-    }
-    
-    public static Personal findById(int id)
-    {
-        Personal personal = null;        
-                
-        try {
-            ResultSet rs = DatabaseUtils.selectAllWhere("personal", "user_id", id);
-            
-            if(rs.next())
-            {
-                personal = instantiateFromCurrentResult(rs);
-            }
-        } 
-        catch (Exception ex) 
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
-        
-        return personal;
+        return Personal.factory;   
     }
     
     
-    public static List<Personal> findBy(String attr, String value)
+    public static Personal withId(int id)
     {
-        List<Personal> list = new ArrayList<>();        
-                
-        try {
-            ResultSet rs = DatabaseUtils.selectAllWhere("personal", attr, value);
-            
-            while(rs.next())
-            {
-                list.add(instantiateFromCurrentResult(rs));
-            }
-        } 
-        catch (Exception ex)
-        {
-            System.err.println("Error de conexión con la base de datos.");
-        }
-        
-        return list;
+        return (Personal) getFactory().findById(id);
     }
     
-    public static Personal instantiateFromCurrentResult(ResultSet rs) throws SQLException
+    public static Personal oneWhere(String attr, String value)
     {
-        Personal personal = new Personal();
-        personal.setName(rs.getString("name"));
-        personal.setLastname(rs.getString("lastname"));
-        personal.setBirthdate(rs.getString("birthdate"));
-        personal.setGender(Gender.findById(rs.getInt("gender_id")));
-        personal.setLocation(Location.create(rs.getInt("country_id"), rs.getString("city")));
-        personal.setTelephone1(rs.getString("telephone1") == null? "" : rs.getString("telephone1"));
-        personal.setTelephone2(rs.getString("telephone2") == null? "" : rs.getString("telephone2"));
-        return personal;       
-    }
-    
-    public static Personal instantiateFromRequest(HttpServletRequest request, int id)
-    {
-        Personal p = new Personal(id);
-        p.setName(request.getParameter("name"));
-        p.setLastname(request.getParameter("lastname"));
-        p.setGender(Gender.findById(RequestUtils.getInt(request, "gender")));
-        p.setBirthdate(request.getParameter("birthdate"));
-        p.setLocation(Location.create(RequestUtils.getInt(request,"country"), request.getParameter("city")));
-        p.setTelephone1(request.getParameter("telephone1") == null? "" : request.getParameter("telephone1"));
-        p.setTelephone2(request.getParameter("telephone2") == null? "" : request.getParameter("telephone2"));
-        return p;
+        return (Personal) getFactory().findOneBy(attr, value);
     }
     
     public boolean exists()
     {
-        return findById(this.getUser_id()) != null;
+        return getFactory().findById(this.getId()) != null;
     }
+  
     
-    public boolean insert() throws Exception
+    public boolean insertOrUpdate()
     {
-        int affected;
-        String query;
-        
-        //TODO utilizar métodos de HashMap para hacer estas operaciones.
-        
         try{
             if(this.exists())
             {
-                query = String.format("update `personal` set `name`='%s', `lastname`='%s', `birthdate`='%s', `gender_id`='%d', `country_id`='%d', `city`='%s', `telephone1`='%s', `telephone2`='%s' where `user_id`='%d';", this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2(), this.getUser_id());
+                //Si existe un registro con la misma id de usuario, lo modifica
+                return this.update();
             }
             else
             {
-                query = String.format("insert into `personal`(`user_id`, `name`, `lastname`, `birthdate`, `gender_id`, `country_id`, `city`, `telephone1`, `telephone2`) values (%d, '%s','%s','%s', %d, %d,'%s','%s','%s')", this.getUser_id(), this.getName(), this.getLastname(), this.getBirthdate(), this.getGender().getId(), this.getLocation().getCountry().getId(), this.getLocation().getCity(), this.getTelephone1(), this.getTelephone2());
+                //De lo contrario, crea uno nuevo usando la implementación de Entity para insert
+                return super.insert();
             }
-            
-            affected = Database.getInstance().queryUpdate(query); 
-            
         }
         catch(Exception ex)
         {
             System.err.println("Error al insertar/modificar info personal");
-            affected = 0;
+            return false;
         }
-        return affected > 0;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
     }
     
     public String getName() {
@@ -171,7 +92,8 @@ public class Personal
         this.birthdate = birthdate;
     }
 
-    public Gender getGender() {
+    public Gender getGender() 
+    {
         return gender;
     }
 
@@ -195,29 +117,6 @@ public class Personal
         this.telephone2 = telephone2;
     }
     
-    public List<Email> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(List<Email> emails) {
-        this.emails = emails;
-    }
-
-    public void addEmail(Email email) {
-        this.emails.add(email);
-    }
-    
-    public List<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
-    }
-    
-    public void addPicture(Picture picture) {
-        this.pictures.add(picture);
-    }
 
     public Location getLocation() {
         return location;
@@ -227,10 +126,20 @@ public class Personal
         this.location = location;
     }
 
+    public String getPicture()
+    {
+        return picture;
+    }
+
+    public void setPicture(String picture)
+    {
+        this.picture = picture;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + this.user_id;
+        hash = 41 * hash + this.getId();
         hash = 41 * hash + Objects.hashCode(this.name);
         hash = 41 * hash + Objects.hashCode(this.lastname);
         hash = 41 * hash + Objects.hashCode(this.birthdate);
@@ -238,27 +147,54 @@ public class Personal
         return hash;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Personal other = (Personal) obj;
-        if (this.user_id != other.user_id) {
-            return false;
-        }
-        return true;
-    }
-    
     public String getFullName()
     {
         return this.getName() + " " + this.getLastname();
+    }
+
+    @Override
+    public HashMap toHashMap()
+    {
+        HashMap<String, String> params = new HashMap<>();
+            
+        if(this.getId()>0)
+        {
+            params.put("id", String.valueOf(this.getId()));
+        }
+    
+        params.put("name", this.getName());
+        params.put("lastname", this.getLastname());
+        
+        if(this.getGender() != null)
+        {
+            params.put("gender_id", String.valueOf(this.getGender().getId()));
+        }
+        
+        params.put("country_id", String.valueOf(this.getLocation().getCountry().getId()));
+        params.put("city", this.getLocation().getCity());
+        params.put("telephone1", this.getTelephone1());
+        params.put("telephone2", this.getTelephone2());
+        params.put("birthdate", this.getBirthdate());
+        
+        return params;
+    }
+    
+    public static Personal instantiateFromRequest(HttpServletRequest request)
+    {
+        return (Personal) getFactory().createEntityFromRequest(request);
+    }
+    
+    @Override
+    public boolean validate()
+    {
+        try
+        {
+            return ValidationUtils.validatePersonal(this);
+        } 
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
     
 }

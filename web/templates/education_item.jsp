@@ -1,4 +1,4 @@
-<%//No os preocupéis si abrís esto y salen cosas en rojo. Es normal. De hecho, no toquéis este archivo si no sabéis lo que estáis haciendo%>
+<%--No os preocupéis si abrís esto y salen cosas en rojo. Es normal: usa variables que se inicializan en otro archivo, pero está probado y funciona. De hecho, no toquéis este archivo si no sabéis lo que estáis haciendo--%>
 
 <article class="cv-section-item">
     <div class="campoyaintroducido row">
@@ -18,13 +18,13 @@
         <div class="col-lg-3">
             <div class="botonesedel">
                 <a class="boton-menu bg-btn-1 btn-edit-item" href="#edit-item-<%=edu_id%>">EDITA</a>
-                <a class="boton-menu bg-btn-1" href="Educations?_action=delete&id=<%=edu_id%>">ELIMINA</a>
+                <a class="boton-menu bg-btn-1" href="education?_action=delete&id=<%=edu_id%>">ELIMINA</a>
             </div>
         </div>
     </div>
 
 
-    <form class="form-hidden form-box" action="Educations" id="edit-item-<%=edu_id%>" method="POST">
+    <form class="form-hidden form-box" action="education" id="edit-item-<%=edu_id%>" method="POST">
         <h2>Editar Educación/Formación</h2>
         <div class="form-group">
             <div class="row">

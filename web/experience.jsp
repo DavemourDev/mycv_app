@@ -11,11 +11,15 @@
     
     //Inicializar variables 
     
+    User user = RequestUtils.getSessionUser(request);
+    
     List<Sector> sectors = RequestUtils.getSectors(request);
     List<Country> countries = RequestUtils.getCountries(request);
+    
     List<String> tagsDatalist = new ArrayList<String>();//RequestUtils.getExpTags(request);
-    List<Experience> experienceList = Experience.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
-    int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
+    
+    List<Experience> experienceList = user.getExperiences();
+    int user_country_id = user.getPersonal().getLocation().getCountry().getId();
     
     List<Tag> tags = new ArrayList<Tag>();
     String tagInputNS ="New-exp";
@@ -30,7 +34,7 @@
 
 <a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade una nueva experiencia laboral</a>
 
-<form class="form-hidden form-box" id="new-item" action="Experiences" method="POST">
+<form class="form-hidden form-box" id="new-item" action="experience" method="POST">
     <h2 class="text-center">Nueva experiencia</h2>
     <div class="form-group">
         <div class="row">

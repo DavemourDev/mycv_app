@@ -14,8 +14,7 @@
 %>
 <%@include file="layout/upper.jsp"%>
         
-        <!--Este es el bueno-->
-          <form action="PersonalData" method="POST">
+          <form action="personal" method="POST">
             
             <div class="container form-box">
                 <div class="row">
@@ -72,16 +71,8 @@
                         <input name="telephone2" type="text" placeholder="Tu segundo teléfono..." class="form-control"  value="<%=personal.getTelephone2()%>">
                     </div>
                 </div>
-        <!--        
-                <div class="row espaciador">
-                    <div class="col-lg-12">
-                        <label>E-mail</label>
-                        <input name="email" type="email" placeholder="Tu e-mail..." class="form-control">
-                    </div>
-                </div>
-            -->    
             
-            
+                <input type="hidden" name="id" value="<%=personal.getId()%>"
                 <input type="hidden" name="u-token" value="<%=user.hashCode()%>"/>
                 <input type="hidden" name="_action" value="edit"/>
                 <div class="row text-center">
@@ -90,7 +81,7 @@
                         <button type="submit">GUARDAR</button>
                     </div>
                     <div class="col-lg-3">
-                        <button type="button" id="buttoncancel"><a href="#" class="cancel">CANCELAR</a></button>
+                        <button type="button" id="buttoncancel"><a href="personal" class="cancel">CANCELAR</a></button>
                     </div>
                     <div class="col-lg-3"></div>
                 </div>

@@ -12,12 +12,16 @@
     
     //Inicializar variables 
     
+    User user = RequestUtils.getSessionUser(request);
+    
     List<Sector> sectors = RequestUtils.getSectors(request);
     List<EducationLevel> educationLevels = RequestUtils.getEducationLevels(request);
     List<Country> countries = RequestUtils.getCountries(request);
+    
     List<String> tagsDatalist = new ArrayList<String>();//RequestUtils.getEduTags(request);
-    List<Education> educationList = Education.findBy("user_id", String.valueOf(RequestUtils.getSessionUserId(request)));
-    int user_country_id = RequestUtils.getSessionUser(request).getPersonal().getLocation().getCountry().getId();
+    
+    List<Education> educationList = user.getEducations();
+    int user_country_id = user.getPersonal().getLocation().getCountry().getId();
 
     List<Tag> tags = new ArrayList<Tag>();
     String tagInputNS ="New-edu";
@@ -32,7 +36,7 @@
 
 <a href="#new-item" class="btn btn-info new-item-btn btn-block">Añade una nueva formación o educación</a>
 
-<form class="form-hidden form-box" id="new-item" action="Educations" method="POST">
+<form class="form-hidden form-box" id="new-item" action="education" method="POST">
     <h2 class="text-center">Nueva educación</h2>
     <div class="form-group">
         <div class="row">

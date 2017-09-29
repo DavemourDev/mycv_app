@@ -7,7 +7,9 @@
     ViewUtils.setStylesheets(request, "estilos-panel-principal", "estilos-formularios");
     ViewUtils.setScripts(request, "panel-de-control", "formulario-etiquetas");
 
-    int user_id = RequestUtils.getSessionUserId(request);
+    User user = RequestUtils.getSessionUser(request);
+    
+    int user_id = user.getId();
     
 %>
 
@@ -42,21 +44,21 @@
                 <div class="col-lg-3"><!--COLUMNA VACÍA--></div>
                 <div class="col-lg-6">
 
-                                        <a class="boton-menu panel-link bg-btn-1 mostratext" href="#my-data " >Mis Datos</a>
-                                        <div id="text" class="ocult">
-                                                ¡Introduce toda tu información!
-                                            </div>
+                    <a class="boton-menu panel-link bg-btn-1 mostratext" href="#my-data " >Mis Datos</a>
+                    <div id="text" class="ocult">
+                            ¡Introduce toda tu información!
+                        </div>
 
-                                        <a class="boton-menu panel-link bg-btn-2 mostratext" href="#profiles" >Crea un nuevo perfil</a>
-                                        <div id="text" class="ocult">
-                                                ¡Ordena y filtra tu información!
-                                            </div>
+                    <a class="boton-menu panel-link bg-btn-2 mostratext" href="#profiles" >Crea un nuevo perfil</a>
+                    <div id="text" class="ocult">
+                            ¡Ordena y filtra tu información!
+                        </div>
 
-                                        <a class="boton-menu panel-link bg-btn-3 mostratext" href="#curriculum">Mis currículums</a>
-                                        <div id="text" class="ocult">
-                                                ¡Accede a tus currículums!
-                                            </div>
-                                    </div>
+                    <a class="boton-menu panel-link bg-btn-3 mostratext" href="#curriculum">Mis currículums</a>
+                    <div id="text" class="ocult">
+                            ¡Accede a tus currículums!
+                        </div>
+                </div>
                 <div class="col-lg-3"><!--COLUMNA vacia--></div>
             </div>
         </div>
@@ -114,11 +116,11 @@
             <div class="col-lg-6">
                 <h2 class="titulo-seccion">MIS DATOS</h2>
                 <div class="well well-lg">
-                    <a href="PersonalData" class="boton-menu bg-btn-3">Datos personales</a>
-                    <a href="Experiences" class="boton-menu bg-btn-3">Experiencia profesional</a>
-                    <a href="Educations" class="boton-menu bg-btn-3">Formación y educación</a>
-                    <a href="Languages" class="boton-menu bg-btn-3">Idiomas</a>
-                    <a href="OtherInfo" class="boton-menu bg-btn-3">Otros datos de interés</a>
+                    <a href="personal" class="boton-menu bg-btn-3">Datos personales</a>
+                    <a href="experience" class="boton-menu bg-btn-3">Experiencia profesional</a>
+                    <a href="education" class="boton-menu bg-btn-3">Formación y educación</a>
+                    <a href="languages" class="boton-menu bg-btn-3">Idiomas</a>
+                    <a href="otherinfo" class="boton-menu bg-btn-3">Otros datos de interés</a>
                 </div>
             </div>
             <div class="col-lg-3"><!--Columna vacía--></div>

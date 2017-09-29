@@ -2,9 +2,9 @@
 <%@page import="java.util.List"%>
 
 <%
-    List<Tag> experienceTags = Tag.findAllOfType(user_id, "experience");
-    List<Tag> educationTags = Tag.findAllOfType(user_id, "education");
-    List<Tag> otherinfoTags = Tag.findAllOfType(user_id, "otherinfo");
+    List<Tag> experienceTags = user.getExperienceTags();
+    List<Tag> educationTags = user.getEducationTags();
+    List<Tag> otherinfoTags = user.getOtherInfoTags();
 %>
 
 <form action="Profiles" method="POST">

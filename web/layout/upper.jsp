@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="model.User"%>
 <%@page import="helpers.RequestUtils"%>
-
+<%@page import="config.Dictionary"%>
 <!DOCTYPE html>
 <html lang="<%=Config.LANGUAGE%>">
     <head>
